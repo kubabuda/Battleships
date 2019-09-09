@@ -13,8 +13,8 @@ namespace Battleships
 
             using (var scope = Container.BeginLifetimeScope())
             {
-                // var svc = scope.Resolve<ISvcType>();
-                // svc.Start();
+                var console = scope.Resolve<IConsole>();
+                console.WriteLine("Hello");
             }
         }
 
@@ -22,7 +22,7 @@ namespace Battleships
         {
             var builder = new ContainerBuilder();
 
-            // builder.RegisterType<Service>().As<ISvcInterface>();
+            builder.RegisterType<Battleships.Services.Console>().As<IConsole>();
             
             return builder.Build();
         }
