@@ -1,12 +1,30 @@
-﻿using System;
+﻿using Autofac;
+using System;
 
 namespace Battleships
 {
     class Program
     {
+        private static IContainer Container { get; set; }
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Container = GetContainer();
+
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                // var svc = scope.Resolve<ISvcType>();
+                // svc.Start();
+            }
+        }
+
+        private static IContainer GetContainer()
+        {
+            var builder = new ContainerBuilder();
+
+            // builder.RegisterType<Service>().As<ISvcInterface>();
+            
+            return builder.Build();
         }
     }
 }
