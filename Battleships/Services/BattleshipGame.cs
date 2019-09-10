@@ -35,14 +35,14 @@ namespace Battleships.Services
             _console.WriteLine("  1 2 3 4 5 6 7 8 9 10");
             for(int i = 0; i < _gridSize; ++i)
             {
-                _console.WriteLine($"{Convert.ToChar(_ASCI_A + i)}                     |");
+                _console.WriteLine($"{GetLetter(i)}                     |");
             }
             _console.WriteLine("  - - - - - - - - - - ");
         }
 
         public char GetLetter(int i)
         {
-            throw new NotImplementedException();
+            return Convert.ToChar(_ASCI_A + i);
         }
 
         public void Play(string guess)
