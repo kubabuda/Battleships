@@ -23,5 +23,10 @@ namespace Battleships.Services
             }
             _console.WriteLine("  - - - - - - - - - - ");
         }
+
+        public void Play(string guess)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
