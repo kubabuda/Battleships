@@ -1,5 +1,8 @@
-public interface IConsole
+namespace Battleships.Interfaces
 {
-    void WriteLine(string line);
-    string ReadLine();
+    public interface IConsole
+    {
+        void WriteLine(string line);
+        string ReadLine();
+    }
 }

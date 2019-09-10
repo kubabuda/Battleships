@@ -1,23 +1,29 @@
+using Battleships.Interfaces;
+using Battleships.Services;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Battleshp.Services.IntegrationTests
+namespace Battleship.Services.IntegrationTests
 {
     public class BattleshipGameTests
     {
         private IConsole _console;
+        private IBattleshipGame _game;
         private string consoleOut;
 
         [SetUp]
         public void SetUp()
         {
+            consoleOut = "";
             _console = Substitute.For<IConsole>();
-            _console.When(c => c.WriteLine(Arg.Any<string>()))
+            _console
+                .When(c => c.WriteLine(Arg.Any<string>()))
                 .Do(callinfo => { 
                     var line = callinfo.ArgAt<string>(0);
                     consoleOut = $"{consoleOut}{line}\r\n";
                 });
-            consoleOut = "";
+
+            _game = new BattleshipGame(_console);
         }
 
         [Test]
@@ -37,8 +43,9 @@ namespace Battleshp.Services.IntegrationTests
             "I                     |\r\n" +
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
+            
             // act
-            // game.Show()
+            _game.Show();
 
             // assert
             Assert.AreEqual(expectedFirstScreen, consoleOut);

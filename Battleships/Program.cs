@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Battleships.Interfaces;
 using System;
 
 namespace Battleships
