@@ -22,8 +22,9 @@ namespace Battleship.Services.IntegrationTests
                     var line = callinfo.ArgAt<string>(0);
                     consoleOut = $"{consoleOut}{line}\r\n";
                 });
+            var charSvc = new ConvertCharService();
 
-            _game = new BattleshipGame(_console);
+            _game = new BattleshipGame(_console, charSvc);
         }
 
         [Test]

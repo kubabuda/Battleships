@@ -9,13 +9,28 @@ namespace Battleship.Services.UnitTests
     {
         private IConsole _console;
         private BattleshipGame _game;
+        private IConvertCharService _charSvc;
         private string consoleOut;
 
         [SetUp]
         public void SetUp()
         {
             _console = Substitute.For<IConsole>();
-            _game = new BattleshipGame(_console);
+            _charSvc = Substitute.For<IConvertCharService>();
+            _game = new BattleshipGame(_console, _charSvc);
+        }
+    }
+
+    public class ConvertCharServiceTests
+    {
+        private IConsole _console;
+        private ConvertCharService _serviceUnderTests;
+        private string consoleOut;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _serviceUnderTests = new ConvertCharService();
         }
 
         [TestCase(0, 'A')]
@@ -25,7 +40,7 @@ namespace Battleship.Services.UnitTests
             // arrange
 
             // act
-            var result = _game.GetLetter(n);
+            var result = _serviceUnderTests.GetLetter(n);
 
             // assert
             Assert.AreEqual(expected, result);
@@ -38,7 +53,7 @@ namespace Battleship.Services.UnitTests
             // arrange
 
             // act
-            var result = _game.GetLine(guess);
+            var result = _serviceUnderTests.GetLine(guess);
 
             // assert
             Assert.AreEqual(expected, result);
@@ -52,7 +67,7 @@ namespace Battleship.Services.UnitTests
             // arrange
 
             // act
-            var result = _game.GetColumn(guess);
+            var result = _serviceUnderTests.GetColumn(guess);
 
             // assert
 

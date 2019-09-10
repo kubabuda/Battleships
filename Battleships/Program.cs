@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Battleships.Interfaces;
+using Battleships.Services;
 using System;
 
 namespace Battleships
@@ -23,6 +24,8 @@ namespace Battleships
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterType<BattleshipGame>().As<IBattleshipGame>();
+            builder.RegisterType<ConvertCharService>().As<IConvertCharService>();
             builder.RegisterType<Battleships.Services.Console>().As<IConsole>();
             
             return builder.Build();

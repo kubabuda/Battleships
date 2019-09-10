@@ -7,13 +7,14 @@ namespace Battleships.Services
 {
 
     public class BattleshipGame: IBattleshipGame {
-        private const int _ASCI_A = 65;
         private const int _gridSize = 10;
         private IConsole _console { get; }
+        private IConvertCharService _charSvc { get; }
         private BattleshipGameState _gameState;
 
-        public BattleshipGame(IConsole console)
+        public BattleshipGame(IConsole console, IConvertCharService charSvc)
         {
+            _charSvc = charSvc;
             _console = console;
             _gameState = NewGame();
         }
@@ -41,28 +42,17 @@ namespace Battleships.Services
             int i = 0;
             foreach (var line in state.Grid)
             {
-                _console.WriteLine($"{GetLetter(i++)} {string.Join(' ', line)} |");
+                _console.WriteLine($"{_charSvc.GetLetter(i++)} {string.Join(' ', line)} |");
             }
-            _console.WriteLine($" {string.Join(' ', Enumerable.Range(0, _gridSize)).Select(_ => '-')} ");
+            _console.WriteLine($"  {string.Join(' ', Enumerable.Range(0, _gridSize).Select(_ => "-")) } ");
         }
 
-        public char GetLetter(int i)
-        {
-            return Convert.ToChar(_ASCI_A + i);
-        }
 
         public void Play(string guess)
         {
             var lineNo = Convert.ToInt32(guess[0]);
             var colNo = guess[1];
             _gameState.Grid[lineNo][colNo] = 'x';
-        }
-
-        public int GetLine(string guess) {
-            return Convert.ToInt32(guess[0]) - _ASCI_A;
-        }
-        public int GetColumn(string guess) {
-            return int.Parse(guess.Substring(1, 1)) - 1;
         }
 
         public class BattleshipGameState {
