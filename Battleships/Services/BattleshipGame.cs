@@ -32,12 +32,18 @@ namespace Battleships.Services
 
         public void Show()
         {
-            _console.WriteLine("  1 2 3 4 5 6 7 8 9 10");
-            for(int i = 0; i < _gridSize; ++i)
+            Show(_gameState);
+        }
+
+        private void Show(BattleshipGameState state)
+        {
+            _console.WriteLine($"  {string.Join(' ', Enumerable.Range(1, _gridSize))}");
+            int i = 0;
+            foreach (var line in state.Grid)
             {
-                _console.WriteLine($"{GetLetter(i)}                     |");
+                _console.WriteLine($"{GetLetter(i++)} {string.Join(' ', line)} |");
             }
-            _console.WriteLine("  - - - - - - - - - - ");
+            _console.WriteLine($" {string.Join(' ', Enumerable.Range(0, _gridSize)).Select(_ => '-')} ");
         }
 
         public char GetLetter(int i)
