@@ -50,8 +50,8 @@ namespace Battleships.Services
 
         public void Play(string guess)
         {
-            var lineNo = Convert.ToInt32(guess[0]);
-            var colNo = guess[1];
+            var lineNo = _charSvc.GetLine(guess);
+            var colNo = _charSvc.GetColumn(guess);
             _gameState.Grid[lineNo][colNo] = 'x';
         }
 
