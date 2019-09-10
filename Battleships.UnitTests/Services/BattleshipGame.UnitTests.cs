@@ -30,5 +30,32 @@ namespace Battleship.Services.UnitTests
             // assert
             Assert.AreEqual(expected, result);
         }
+
+        [TestCase("A1", 0)]
+        [TestCase("C3", 3)]
+        public void GetLine_ShouldReturnExpectedCoulumn_GivenGuess(string guess, int expected)
+        {
+            // arrange
+
+            // act
+            var result = _game.GetLine(guess);
+
+            // assert
+            Assert.AreEqual(expected, result);
+        }
+
+
+        [TestCase("A1", 0)]
+        [TestCase("C3", 3)]
+        public void GetColumn_ShouldReturnExpectedCoulumn_GivenGuess(string guess, int expected)
+        {
+            // arrange
+
+            // act
+            var result = _game.GetColumn(guess);
+
+            // assert
+            Assert.AreEqual(expected, result);
+        }
     }
 }

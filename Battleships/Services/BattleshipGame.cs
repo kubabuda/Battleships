@@ -23,7 +23,7 @@ namespace Battleships.Services
             return new BattleshipGameState
             {
                 GridSize = _gridSize,
-                Grid = new List<IEnumerable<char>>(Enumerable.Range(0, _gridSize)
+                Grid = new List<List<char>>(Enumerable.Range(0, _gridSize)
                     .Select(_ => new List<char>(
                         Enumerable.Range(0, _gridSize).Select(__ => ' ').ToList())
                     ).ToList())
@@ -53,12 +53,21 @@ namespace Battleships.Services
 
         public void Play(string guess)
         {
+            var lineNo = Convert.ToInt32(guess[0]);
+            var colNo = guess[1];
+            _gameState.Grid[lineNo][colNo] = 'x';
+        }
+
+        public int GetLine(string guess) {
+            throw new NotImplementedException();
+        }
+        public int GetColumn(string guess) {
             throw new NotImplementedException();
         }
 
         public class BattleshipGameState {
             public int GridSize { get; set; }
-            public IEnumerable<IEnumerable<char>> Grid { get; set; }
+            public List<List<char>> Grid { get; set; }
         }
     }
 }
