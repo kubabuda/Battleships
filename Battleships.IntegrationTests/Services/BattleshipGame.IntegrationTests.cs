@@ -27,7 +27,7 @@ namespace Battleship.Services.IntegrationTests
         }
 
         [Test]
-        public void Play_ShouldShowUntouchedGrid_OnFirstRound()
+        public void Show_ShouldShowUntouchedGrid_OnFirstRound()
         {
             // arrange
             var expectedFirstScreen =
