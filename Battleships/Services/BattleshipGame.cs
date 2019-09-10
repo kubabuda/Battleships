@@ -59,10 +59,10 @@ namespace Battleships.Services
         }
 
         public int GetLine(string guess) {
-            throw new NotImplementedException();
+            return Convert.ToInt32(guess[0]) - _ASCI_A;
         }
         public int GetColumn(string guess) {
-            throw new NotImplementedException();
+            return int.Parse(guess.Substring(1, 1)) - 1;
         }
 
         public class BattleshipGameState {

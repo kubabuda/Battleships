@@ -32,7 +32,7 @@ namespace Battleship.Services.UnitTests
         }
 
         [TestCase("A1", 0)]
-        [TestCase("C3", 3)]
+        [TestCase("C3", 2)]
         public void GetLine_ShouldReturnExpectedCoulumn_GivenGuess(string guess, int expected)
         {
             // arrange
@@ -46,7 +46,7 @@ namespace Battleship.Services.UnitTests
 
 
         [TestCase("A1", 0)]
-        [TestCase("C3", 3)]
+        [TestCase("C3", 2)]
         public void GetColumn_ShouldReturnExpectedCoulumn_GivenGuess(string guess, int expected)
         {
             // arrange
@@ -55,6 +55,7 @@ namespace Battleship.Services.UnitTests
             var result = _game.GetColumn(guess);
 
             // assert
+
             Assert.AreEqual(expected, result);
         }
     }
