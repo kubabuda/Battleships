@@ -51,6 +51,7 @@ namespace Battleship.Services.IntegrationTests
             Assert.AreEqual(expectedFirstScreen, consoleOut);
         }
 
+        [Test]
         public void Show_ShouldShowGridWithSingleMiss_OnSingleShotMissed()
         {
             // arrange
