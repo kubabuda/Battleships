@@ -1,11 +1,11 @@
 using Battleships.Interfaces;
+using Battleships.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleships.Services
 {
-
     public class BattleshipGame: IBattleshipGame {
         private const int _gridSize = 10;
         private IConsole _console { get; }
@@ -23,7 +23,6 @@ namespace Battleships.Services
         {
             return new BattleshipGameState
             {
-                GridSize = _gridSize,
                 Grid = new List<List<char>>(Enumerable.Range(0, _gridSize)
                     .Select(_ => new List<char>(
                         Enumerable.Range(0, _gridSize).Select(__ => ' ').ToList())
@@ -50,14 +49,23 @@ namespace Battleships.Services
 
         public void Play(string guess)
         {
-            var lineNo = _charSvc.GetLine(guess);
-            var colNo = _charSvc.GetColumn(guess);
-            _gameState.Grid[lineNo][colNo] = 'x';
+            _gameState = GetNewState(_gameState, guess);
+
+            Show(_gameState);
         }
 
-        public class BattleshipGameState {
-            public int GridSize { get; set; }
-            public List<List<char>> Grid { get; set; }
+        private BattleshipGameState GetNewState(BattleshipGameState prevState, string guess)
+        {
+            var lineNo = _charSvc.GetLine(guess);
+            var colNo = _charSvc.GetColumn(guess);
+
+            var newState = new BattleshipGameState 
+            {
+                Grid = prevState.Grid   // shallow copy
+            };
+            newState.Grid[lineNo][colNo] = 'x'; // apply changes
+
+            return newState;
         }
     }
 }

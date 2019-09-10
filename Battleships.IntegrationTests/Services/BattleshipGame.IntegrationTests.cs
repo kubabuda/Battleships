@@ -53,7 +53,7 @@ namespace Battleship.Services.IntegrationTests
         }
 
         [Test]
-        public void Show_ShouldShowGridWithSingleMiss_OnSingleShotMissed()
+        public void Play_ShouldShowGridWithSingleMiss_OnSingleShotMissed()
         {
             // arrange
             var expected =
@@ -72,7 +72,6 @@ namespace Battleship.Services.IntegrationTests
             
             // act
             _game.Play("A3");
-            _game.Show();
 
             // assert
             Assert.AreEqual(expected, consoleOut);
