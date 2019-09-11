@@ -129,5 +129,22 @@ namespace Battleship.Services.IntegrationTests
             // assert
             Assert.AreEqual(expected, consoleOut);
         }
+
+        [TestCase(BattleshipGridCell.Miss)]
+        [TestCase(BattleshipGridCell.ShipHit)]
+        public void Play_ShouldShowWarning_OnTouchingSameFieldAgain(BattleshipGridCell cellState)
+        {
+            // arrange
+            var prevState = stateBuilder.Build();
+            prevState.Grid[1][4] = cellState;
+            _game = new BattleshipGame(charSvc, config, console, stateBuilder, prevState);
+            var expected = "You already haad shoot there, try something else\r\n";
+
+            // act
+            _game.Play("B5");
+
+            // assert
+            Assert.AreEqual(expected, consoleOut);
+        }
     }
 }
