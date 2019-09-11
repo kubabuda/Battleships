@@ -78,5 +78,30 @@ namespace Battleship.Services.IntegrationTests
             // assert
             Assert.AreEqual(expected, consoleOut);
         }
+
+        [Test]
+        public void Play_ShouldShowHit_OnHit()
+        {
+            // arrange
+            var expected =
+            "  1 2 3 4 5 6 7 8 9 10\r\n" +
+            "A                     |\r\n" +
+            "B         *           |\r\n" +
+            "C                     |\r\n" +
+            "D                     |\r\n" +
+            "E                     |\r\n" +
+            "F                     |\r\n" +
+            "G                     |\r\n" +
+            "H                     |\r\n" +
+            "I                     |\r\n" +
+            "J                     |\r\n" +
+            "  - - - - - - - - - - \r\n";
+            
+            // act
+            _game.Play("B5");
+
+            // assert
+            Assert.AreEqual(expected, consoleOut);
+        }
     }
 }

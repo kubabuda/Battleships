@@ -58,6 +58,7 @@ namespace Battleships.Services
                 { BattleshipGridCell.Empty, _configuration.EmptyGridDie },
                 { BattleshipGridCell.Miss, _configuration.MissMarker }
             };
+            
             return mappings[die];
         }
     }
