@@ -1,5 +1,6 @@
 using Battleships.Interfaces;
 using Battleships.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleships.Services
@@ -37,7 +38,8 @@ namespace Battleships.Services
             int i = 0;
             foreach (var line in state.Grid)
             {
-                _console.WriteLine($"{_charSvc.GetLetter(i++)} {string.Join(' ', line)} |");
+                var lineToDisplay = string.Join(' ', line.Select(l => GetDieDisplayValue(l)));
+                _console.WriteLine($"{_charSvc.GetLetter(i++)} {lineToDisplay} |");
             }
             _console.WriteLine($"  {string.Join(' ', Enumerable.Range(0, _configuration.GridSize).Select(_ => "-")) } ");
         }
@@ -47,6 +49,16 @@ namespace Battleships.Services
             _gameState = _stateBuilder.Build(_gameState, guess);
 
             Show(_gameState);
+        }
+
+        private char GetDieDisplayValue(BattleshipGameDie die)
+        {
+            var mappings = new Dictionary<BattleshipGameDie, char> 
+            {
+                { BattleshipGameDie.Empty, _configuration.EmptyGridDie },
+                { BattleshipGameDie.Miss, _configuration.MissMarker }
+            };
+            return mappings[die];
         }
     }
 }

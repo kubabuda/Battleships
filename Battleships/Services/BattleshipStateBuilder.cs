@@ -37,7 +37,10 @@ namespace Battleships.Services
             {
                 Grid = prevState.Grid   // shallow copy
             };
-            newState.Grid[lineNo][colNo] = BattleshipGameDie.Miss; // apply changes
+            newState.Grid[lineNo][colNo] = 
+                newState.Grid[lineNo][colNo] == BattleshipGameDie.ShipUntouched ?
+                    BattleshipGameDie.ShipHit :
+                    BattleshipGameDie.Miss;
 
             return newState;
         }

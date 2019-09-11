@@ -14,9 +14,6 @@ namespace Battleship.Services.UnitTests
         private IBattleshipStateBuilder _servceUnderTest;
 
         private int gridSize = 10;
-        private char empty = ' ';
-        private char miss = 'x';
-        private char hit = '*';
 
         [SetUp]
         public void SetUp()
@@ -24,8 +21,6 @@ namespace Battleship.Services.UnitTests
             _charSvc = Substitute.For<IConvertCharService>();
             var config = Substitute.For<IConfiguration>();
             config.GridSize.Returns(gridSize);
-            config.EmptyGridDie.Returns(empty);
-            config.MissMarker.Returns(miss);
             _servceUnderTest = new BattleshipStateBuilder(_charSvc, config);
         }
 
@@ -78,15 +73,15 @@ namespace Battleship.Services.UnitTests
             {
                 Grid = GetEmptyGrid()
             };
+            prev.Grid[2][1] = BattleshipGameDie.ShipUntouched;
             var guess = "C2";
-            _charSvc.GetLine(guess).Returns(1);
+            _charSvc.GetLine(guess).Returns(2);
             _charSvc.GetColumn(guess).Returns(1);
-            var grid = GetEmptyGrid();
-            grid[2][1] = BattleshipGameDie.ShipHit;
             var expected = new BattleshipGameState
             {
-                Grid = grid
+                Grid = GetEmptyGrid()
             };
+            expected.Grid[2][1] = BattleshipGameDie.ShipHit;
 
             // act 
             var result = _servceUnderTest.Build(prev, guess);
