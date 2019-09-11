@@ -11,6 +11,17 @@ namespace Battleships.Services
         private IConfiguration _configuration { get; }
         private IConsole _console { get; }
         private IBattleshipStateBuilder _stateBuilder { get; }
+
+        private string _invalidInputWarning
+        {
+            get {
+
+                char maxLetter = _charSvc.GetLetter(_configuration.GridSize - 1);
+                int maxNumber = _configuration.GridSize;
+                
+                return $"Invalid cell, A-{maxLetter} and 1-{maxNumber} are allowed";
+            }   
+        } 
         private BattleshipGameState _gameState;
 
         public BattleshipGame(
@@ -60,7 +71,7 @@ namespace Battleships.Services
                 Show(_gameState);
             }
             catch(System.ArgumentOutOfRangeException) {
-                _console.WriteLine("Invalid cell, A-J and 1-10 are allowed");
+                _console.WriteLine(_invalidInputWarning);
             }
         }
 

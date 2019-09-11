@@ -3,7 +3,6 @@ using System;
 
 namespace Battleships.Services
 {
-
     public class ConvertCharService: IConvertCharService {
         private const int _ASCI_A = 65;
         

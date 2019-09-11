@@ -115,7 +115,7 @@ namespace Battleship.Services.IntegrationTests
         [TestCase("A11")]
         [TestCase("K1")]
         [TestCase("K11")]
-        public void Play_ShouldShowWarning_OnInvalidInput(string guess)
+        public void Play_ShouldShowWarning_OnInputOutOfRange(string guess)
         {
             // arrange
             _game = new BattleshipGame(charSvc, config, console, stateBuilder);
