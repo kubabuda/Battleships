@@ -12,6 +12,8 @@ namespace Battleship.Services.UnitTests
         private IConvertCharService _charSvc;
         private IBattleshipStateBuilder _servceUnderTest;
 
+        private char missMark = 'x';
+
         [SetUp]
         public void SetUp()
         {
@@ -23,9 +25,50 @@ namespace Battleship.Services.UnitTests
         }
 
         [Test]
-        public void InitialState_ShouldReturnEmptyBoard_WithoutParameters(){
+        public void InitialState_ShouldReturnEmptyBoard_WithoutParameters()
+        {
             // arrange
-            var expectedGrid = new List<List<char>> {
+            var expected = new BattleshipGameState
+            {
+                Grid = GetEmptyGrid()
+            };
+            // act 
+            var result = _servceUnderTest.InitialState();
+
+            // assert
+            Assert.AreEqual(expected.Grid, result.Grid);
+        }
+
+
+        [Test]
+        public void NextState_ShouldReturnMissMark_WhenShotMissed()
+        {
+            // arrange
+            var prev = new BattleshipGameState
+            {
+                Grid = GetEmptyGrid()
+            };
+            var guess = "B2";
+            _charSvc.GetLine(guess).Returns(1);
+            _charSvc.GetColumn(guess).Returns(1);
+            var grid = GetEmptyGrid();
+            grid[1][1] = missMark;
+            var expected = new BattleshipGameState
+            {
+                Grid = grid
+            };
+
+            // act 
+            var result = _servceUnderTest.NextState(prev, guess);
+
+            // assert
+            Assert.AreEqual(expected.Grid, result.Grid);
+        }
+
+
+        private List<List<char>> GetEmptyGrid()
+        {
+            return new List<List<char>> {
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
@@ -37,16 +80,6 @@ namespace Battleship.Services.UnitTests
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
             };
-            var expected = new BattleshipGameState 
-            {
-                Grid = expectedGrid
-            };
-            
-            // act 
-            var result = _servceUnderTest.InitialState();
-
-            // assert
-            Assert.AreEqual(expected.Grid, result.Grid);
         }
     }
 }
