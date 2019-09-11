@@ -5,6 +5,7 @@ namespace Battleships.Models
         public int GridSize => 10;
         public char EmptyGridDie => ' ';
 
+        public char MissMarker => 'x';
     }
 
 }

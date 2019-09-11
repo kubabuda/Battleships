@@ -37,7 +37,7 @@ namespace Battleships.Services
             {
                 Grid = prevState.Grid   // shallow copy
             };
-            newState.Grid[lineNo][colNo] = 'x'; // apply changes
+            newState.Grid[lineNo][colNo] = _configuration.MissMarker; // apply changes
 
             return newState;
         }

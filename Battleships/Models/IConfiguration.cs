@@ -4,6 +4,7 @@ namespace Battleships.Models
     {
         int GridSize { get; }
         char EmptyGridDie { get; }
+        char MissMarker { get; }
     }
 
 }

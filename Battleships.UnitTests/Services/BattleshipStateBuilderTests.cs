@@ -21,6 +21,7 @@ namespace Battleship.Services.UnitTests
             var config = Substitute.For<IConfiguration>();
             config.GridSize.Returns(10);
             config.EmptyGridDie.Returns(' ');
+            config.MissMarker.Returns(missMark);
             _servceUnderTest = new BattleshipStateBuilder(_charSvc, config);
         }
 
