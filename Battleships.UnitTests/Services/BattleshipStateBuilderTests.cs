@@ -39,7 +39,6 @@ namespace Battleship.Services.UnitTests
             Assert.AreEqual(expected.Grid, result.Grid);
         }
 
-
         [Test]
         public void Build_ShouldReturnMissMark_WhenShotMissed()
         {
@@ -89,7 +88,6 @@ namespace Battleship.Services.UnitTests
             // assert
             Assert.AreEqual(expected.Grid, result.Grid);
         }
-
 
         private List<List<BattleshipGridCell>> GetEmptyGrid()
         {

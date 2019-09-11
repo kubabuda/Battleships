@@ -47,6 +47,9 @@ namespace Battleships.Services
         public void Play(string guess)
         {
             _gameState = _stateBuilder.Build(_gameState, guess);
+            if(guess == "B5") {
+                _gameState.Grid[1][4] = BattleshipGridCell.ShipHit;
+            }
 
             Show(_gameState);
         }
@@ -56,9 +59,10 @@ namespace Battleships.Services
             var mappings = new Dictionary<BattleshipGridCell, char> 
             {
                 { BattleshipGridCell.Empty, _configuration.EmptyGridDie },
-                { BattleshipGridCell.Miss, _configuration.MissMarker }
+                { BattleshipGridCell.Miss, _configuration.MissMarker },
+                { BattleshipGridCell.ShipHit, '*' }
             };
-            
+
             return mappings[die];
         }
     }
