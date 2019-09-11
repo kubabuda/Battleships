@@ -16,7 +16,10 @@ namespace Battleship.Services.UnitTests
         public void SetUp()
         {
             _charSvc = Substitute.For<IConvertCharService>();
-            _servceUnderTest = new BattleshipStateBuilder(_charSvc);
+            var config = Substitute.For<IConfiguration>();
+            config.GridSize.Returns(10);
+            config.EmptyGridDie.Returns(' ');
+            _servceUnderTest = new BattleshipStateBuilder(_charSvc, config);
         }
 
         [Test]

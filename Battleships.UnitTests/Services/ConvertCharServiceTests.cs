@@ -1,15 +1,12 @@
-﻿using Battleships.Interfaces;
-using Battleships.Services;
+﻿using Battleships.Services;
 using NUnit.Framework;
 
 namespace Battleship.Services.UnitTests
 {
     public class ConvertCharServiceTests
     {
-        private IConsole _console;
         private ConvertCharService _serviceUnderTests;
-        private string consoleOut;
-
+        
         [SetUp]
         public void SetUp()
         {
