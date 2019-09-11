@@ -51,12 +51,12 @@ namespace Battleships.Services
             Show(_gameState);
         }
 
-        private char GetDieDisplayValue(BattleshipGameDie die)
+        private char GetDieDisplayValue(BattleshipGridCell die)
         {
-            var mappings = new Dictionary<BattleshipGameDie, char> 
+            var mappings = new Dictionary<BattleshipGridCell, char> 
             {
-                { BattleshipGameDie.Empty, _configuration.EmptyGridDie },
-                { BattleshipGameDie.Miss, _configuration.MissMarker }
+                { BattleshipGridCell.Empty, _configuration.EmptyGridDie },
+                { BattleshipGridCell.Miss, _configuration.MissMarker }
             };
             return mappings[die];
         }

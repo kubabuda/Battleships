@@ -52,7 +52,7 @@ namespace Battleship.Services.UnitTests
             _charSvc.GetLine(guess).Returns(1);
             _charSvc.GetColumn(guess).Returns(1);
             var grid = GetEmptyGrid();
-            grid[1][1] = BattleshipGameDie.Miss;
+            grid[1][1] = BattleshipGridCell.Miss;
             var expected = new BattleshipGameState
             {
                 Grid = grid
@@ -73,7 +73,7 @@ namespace Battleship.Services.UnitTests
             {
                 Grid = GetEmptyGrid()
             };
-            prev.Grid[2][1] = BattleshipGameDie.ShipUntouched;
+            prev.Grid[2][1] = BattleshipGridCell.ShipUntouched;
             var guess = "C2";
             _charSvc.GetLine(guess).Returns(2);
             _charSvc.GetColumn(guess).Returns(1);
@@ -81,7 +81,7 @@ namespace Battleship.Services.UnitTests
             {
                 Grid = GetEmptyGrid()
             };
-            expected.Grid[2][1] = BattleshipGameDie.ShipHit;
+            expected.Grid[2][1] = BattleshipGridCell.ShipHit;
 
             // act 
             var result = _servceUnderTest.Build(prev, guess);
@@ -91,19 +91,19 @@ namespace Battleship.Services.UnitTests
         }
 
 
-        private List<List<BattleshipGameDie>> GetEmptyGrid()
+        private List<List<BattleshipGridCell>> GetEmptyGrid()
         {
-            return new List<List<BattleshipGameDie>> {
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGameDie.Empty).ToList()
+            return new List<List<BattleshipGridCell>> {
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
+                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList()
             };
         }
     }

@@ -4,6 +4,6 @@ namespace Battleships.Models
 {
     public class BattleshipGameState 
     {
-        public List<List<BattleshipGameDie>> Grid { get; set; }
+        public List<List<BattleshipGridCell>> Grid { get; set; }
     }
 }
