@@ -92,5 +92,10 @@ namespace Battleships.Services
 
             return mappings[die];
         }
+
+        public bool IsFinished()
+        {
+            return _gameState.Grid.Any(l => l.Any(cell => cell == BattleshipGridCell.ShipUntouched));
+        }
     }
 }
