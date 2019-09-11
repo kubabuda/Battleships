@@ -4,7 +4,7 @@ namespace Battleships.Interfaces
 {
     public interface IBattleshipStateBuilder
     {
-        BattleshipGameState InitialState();
-        BattleshipGameState NextState(BattleshipGameState prevState, string guess);
+        BattleshipGameState Build();
+        BattleshipGameState Build(BattleshipGameState prevState, string guess);
     }
 }

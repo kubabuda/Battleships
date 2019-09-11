@@ -1,4 +1,5 @@
 using Battleships.Interfaces;
+using Battleships.Models;
 using Battleships.Services;
 using NSubstitute;
 using NUnit.Framework;
@@ -7,17 +8,18 @@ namespace Battleship.Services.UnitTests
 {
     public class BattleshipGameTests
     {
-        private IConsole _console;
         private BattleshipGame _game;
-        private IConvertCharService _charSvc;
-        private string consoleOut;
 
         [SetUp]
         public void SetUp()
         {
-            _console = Substitute.For<IConsole>();
-            _charSvc = Substitute.For<IConvertCharService>();
-            _game = new BattleshipGame(_console, _charSvc);
+            var charService = Substitute.For<IConvertCharService>();
+            var console = Substitute.For<IConsole>();
+            var config = Substitute.For<IConfiguration>();
+            var stateBuilder = Substitute.For<IBattleshipStateBuilder>();
+            
+
+            _game = new BattleshipGame(charService, config, console, stateBuilder);
         }
     }
 }

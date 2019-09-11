@@ -17,7 +17,7 @@ namespace Battleships.Services
             _configuration = config;
         }
 
-        public BattleshipGameState InitialState()
+        public BattleshipGameState Build()
         {
             return new BattleshipGameState
             {
@@ -28,7 +28,7 @@ namespace Battleships.Services
             };
         }
 
-        public BattleshipGameState NextState(BattleshipGameState prevState, string guess)
+        public BattleshipGameState Build(BattleshipGameState prevState, string guess)
         {
             var lineNo = _charSvc.GetLine(guess);
             var colNo = _charSvc.GetColumn(guess);

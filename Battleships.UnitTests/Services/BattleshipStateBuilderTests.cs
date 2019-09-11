@@ -34,7 +34,7 @@ namespace Battleship.Services.UnitTests
                 Grid = GetEmptyGrid()
             };
             // act 
-            var result = _servceUnderTest.InitialState();
+            var result = _servceUnderTest.Build();
 
             // assert
             Assert.AreEqual(expected.Grid, result.Grid);
@@ -60,7 +60,7 @@ namespace Battleship.Services.UnitTests
             };
 
             // act 
-            var result = _servceUnderTest.NextState(prev, guess);
+            var result = _servceUnderTest.Build(prev, guess);
 
             // assert
             Assert.AreEqual(expected.Grid, result.Grid);
