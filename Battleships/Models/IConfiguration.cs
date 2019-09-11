@@ -3,8 +3,9 @@ namespace Battleships.Models
     public interface IConfiguration
     {
         int GridSize { get; }
-        char EmptyGridDie { get; }
-        char MissMarker { get; }
+        char Empty { get; }
+        char Miss { get; }
+        char Hit { get; }
     }
 
 }

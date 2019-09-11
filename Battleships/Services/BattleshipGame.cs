@@ -18,14 +18,21 @@ namespace Battleships.Services
             IConfiguration configuration,
             IConsole console,
             IBattleshipStateBuilder stateBuilder)
-        {
+        :this(charSvc, configuration, console, stateBuilder, stateBuilder.Build()) { }
+
+        public BattleshipGame(
+            IConvertCharService charSvc,
+            IConfiguration configuration,
+            IConsole console,
+            IBattleshipStateBuilder stateBuilder, 
+            BattleshipGameState gameState
+        ) {
             _charSvc = charSvc;
             _configuration = configuration;
             _console = console;
             _stateBuilder = stateBuilder;
-            _gameState = _stateBuilder.Build();
+            _gameState = gameState;
         }
-
 
         public void Show()
         {
@@ -38,7 +45,7 @@ namespace Battleships.Services
             int i = 0;
             foreach (var line in state.Grid)
             {
-                var lineToDisplay = string.Join(' ', line.Select(l => GetDieDisplayValue(l)));
+                var lineToDisplay = string.Join(' ', line.Select(l => GetCellValueToDisplay(l)));
                 _console.WriteLine($"{_charSvc.GetLetter(i++)} {lineToDisplay} |");
             }
             _console.WriteLine($"  {string.Join(' ', Enumerable.Range(0, _configuration.GridSize).Select(_ => "-")) } ");
@@ -47,20 +54,17 @@ namespace Battleships.Services
         public void Play(string guess)
         {
             _gameState = _stateBuilder.Build(_gameState, guess);
-            if(guess == "B5") {
-                _gameState.Grid[1][4] = BattleshipGridCell.ShipHit;
-            }
-
+            
             Show(_gameState);
         }
 
-        private char GetDieDisplayValue(BattleshipGridCell die)
+        private char GetCellValueToDisplay(BattleshipGridCell die)
         {
-            var mappings = new Dictionary<BattleshipGridCell, char> 
+            var mappings = new Dictionary<BattleshipGridCell, char>
             {
-                { BattleshipGridCell.Empty, _configuration.EmptyGridDie },
-                { BattleshipGridCell.Miss, _configuration.MissMarker },
-                { BattleshipGridCell.ShipHit, '*' }
+                { BattleshipGridCell.Empty, _configuration.Empty },
+                { BattleshipGridCell.Miss, _configuration.Miss },
+                { BattleshipGridCell.ShipHit, _configuration.Hit }
             };
 
             return mappings[die];

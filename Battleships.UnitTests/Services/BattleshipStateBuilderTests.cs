@@ -91,7 +91,8 @@ namespace Battleship.Services.UnitTests
 
         private List<List<BattleshipGridCell>> GetEmptyGrid()
         {
-            return new List<List<BattleshipGridCell>> {
+            return new List<List<BattleshipGridCell>>
+            {
                 Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
                 Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
                 Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),

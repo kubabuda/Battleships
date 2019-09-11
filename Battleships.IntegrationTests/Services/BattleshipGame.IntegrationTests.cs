@@ -8,23 +8,28 @@ namespace Battleship.Services.IntegrationTests
 {
     public class BattleshipGameTests
     {
+        IConvertCharService charSvc;
+        IConfiguration config;
+        IConsole console;
+        IBattleshipStateBuilder stateBuilder;
+
         private IBattleshipGame _game;
         private string consoleOut;
 
         [SetUp]
         public void SetUp()
         {
-            var config = new Configuration();
+            config = new Configuration();
             consoleOut = "";
-            var console = Substitute.For<IConsole>();
+            console = Substitute.For<IConsole>();
             console
                 .When(c => c.WriteLine(Arg.Any<string>()))
                 .Do(callinfo => { 
                     var line = callinfo.ArgAt<string>(0);
                     consoleOut = $"{consoleOut}{line}\r\n";
                 });
-            var charSvc = new ConvertCharService();
-            var stateBuilder = new BattleshipStateBuilder(charSvc, config);
+            charSvc = new ConvertCharService();
+            stateBuilder = new BattleshipStateBuilder(charSvc, config);
 
             _game = new BattleshipGame(charSvc, config, console, stateBuilder);
         }
@@ -83,6 +88,9 @@ namespace Battleship.Services.IntegrationTests
         public void Play_ShouldShowHit_OnHit()
         {
             // arrange
+            _game = new BattleshipGame(charSvc, config, console, stateBuilder);
+            var prevState = stateBuilder.Build();
+            prevState.Grid[1][4] = BattleshipGridCell.ShipUntouched;
             var expected =
             "  1 2 3 4 5 6 7 8 9 10\r\n" +
             "A                     |\r\n" +
@@ -96,7 +104,7 @@ namespace Battleship.Services.IntegrationTests
             "I                     |\r\n" +
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
-            
+
             // act
             _game.Play("B5");
 
