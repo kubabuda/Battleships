@@ -4,5 +4,6 @@ namespace Battleships.Interfaces
     {
         void Show();
         void Play(string guess);
+        bool IsFinished();
     }
 }

@@ -146,5 +146,24 @@ namespace Battleship.Services.IntegrationTests
             // assert
             Assert.AreEqual(expected, consoleOut);
         }
+
+
+        [TestCase(BattleshipGridCell.Empty, true)]
+        [TestCase(BattleshipGridCell.Miss, true)]
+        [TestCase(BattleshipGridCell.ShipHit, true)]
+        [TestCase(BattleshipGridCell.ShipUntouched, false)]
+        public void IsFinished_ShouldReturnTrueIfShipsLeft_GivenGameState(BattleshipGridCell cellState, bool expected)
+        {
+            // arrange
+            var prevState = stateBuilder.Build();
+            prevState.Grid[1][4] = cellState;
+            _game = new BattleshipGame(charSvc, config, console, stateBuilder, prevState);
+
+            // act
+            var result = _game.IsFinished();
+
+            // assert
+            Assert.AreEqual(expected, result);
+        }
     }
 }
