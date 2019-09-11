@@ -1,6 +1,5 @@
 using Battleships.Interfaces;
 using Battleships.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,10 +15,10 @@ namespace Battleships.Services
         {
             _charSvc = charSvc;
             _console = console;
-            _gameState = NewGame();
+            _gameState = InitialState();
         }
 
-        public BattleshipGameState NewGame()
+        public BattleshipGameState InitialState()
         {
             return new BattleshipGameState
             {
@@ -49,12 +48,12 @@ namespace Battleships.Services
 
         public void Play(string guess)
         {
-            _gameState = GetNewState(_gameState, guess);
+            _gameState = NextState(_gameState, guess);
 
             Show(_gameState);
         }
 
-        private BattleshipGameState GetNewState(BattleshipGameState prevState, string guess)
+        public BattleshipGameState NextState(BattleshipGameState prevState, string guess)
         {
             var lineNo = _charSvc.GetLine(guess);
             var colNo = _charSvc.GetColumn(guess);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Battleships.Interfaces;
+using Battleships.Models;
 using Battleships.Services;
 using NSubstitute;
 using NUnit.Framework;
@@ -15,13 +16,13 @@ namespace Battleship.Services.UnitTests
         public void SetUp()
         {
             _charSvc = Substitute.For<IConvertCharService>();
-            // _servceUnderTest = new BattleshipGame(_console, _charSvc);
+            _servceUnderTest = new BattleshipStateBuilder(_charSvc);
         }
 
         [Test]
         public void InitialState_ShouldReturnEmptyBoard_WithoutParameters(){
             // arrange
-            var expected = new List<List<char>> {
+            var expectedGrid = new List<List<char>> {
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
@@ -33,12 +34,16 @@ namespace Battleship.Services.UnitTests
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
                 new List<char> { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
             };
+            var expected = new BattleshipGameState 
+            {
+                Grid = expectedGrid
+            };
             
             // act 
             var result = _servceUnderTest.InitialState();
 
             // assert
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expected.Grid, result.Grid);
         }
     }
 }
