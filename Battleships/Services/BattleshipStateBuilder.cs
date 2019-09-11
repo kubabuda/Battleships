@@ -44,6 +44,9 @@ namespace Battleships.Services
 
         public BattleshipGridCell NewCellState(BattleshipGridCell prevDieState)
         {
+            if (prevDieState == BattleshipGridCell.Miss ||prevDieState == BattleshipGridCell.ShipHit) {
+                throw new InvalidOperationException();
+            }
             var mappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
             {
                 { BattleshipGridCell.Empty, BattleshipGridCell.Miss },

@@ -1,5 +1,6 @@
 using Battleships.Interfaces;
 using Battleships.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -70,8 +71,13 @@ namespace Battleships.Services
             
                 Show(_gameState);
             }
-            catch(System.ArgumentOutOfRangeException) {
+            catch (ArgumentOutOfRangeException)
+            {
                 _console.WriteLine(_invalidInputWarning);
+            }
+            catch (InvalidOperationException)
+            {
+                _console.WriteLine("You already haad shoot there, try something else");
             }
         }
 
