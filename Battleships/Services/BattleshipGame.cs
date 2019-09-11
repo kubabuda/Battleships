@@ -77,7 +77,7 @@ namespace Battleships.Services
             }
             catch (InvalidOperationException)
             {
-                _console.WriteLine("You already haad shoot there, try something else");
+                _console.WriteLine("You already had shoot there, try something else");
             }
         }
 

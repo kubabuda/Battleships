@@ -138,7 +138,7 @@ namespace Battleship.Services.IntegrationTests
             var prevState = stateBuilder.Build();
             prevState.Grid[1][4] = cellState;
             _game = new BattleshipGame(charSvc, config, console, stateBuilder, prevState);
-            var expected = "You already haad shoot there, try something else\r\n";
+            var expected = "You already had shoot there, try something else\r\n";
 
             // act
             _game.Play("B5");

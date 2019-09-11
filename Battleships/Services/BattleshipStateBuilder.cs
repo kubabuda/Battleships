@@ -10,11 +10,13 @@ namespace Battleships.Services
     {
         private IConfiguration _configuration;
         private IConvertCharService _charSvc { get; }
+        private BattleshipGridCell[] _usedCellStates;
         
         public BattleshipStateBuilder(IConvertCharService charSvc, IConfiguration config)
         {
             _charSvc = charSvc;
             _configuration = config;
+            _usedCellStates = new[] { BattleshipGridCell.Miss, BattleshipGridCell.ShipHit };
         }
 
         public BattleshipGameState Build()
@@ -44,7 +46,8 @@ namespace Battleships.Services
 
         public BattleshipGridCell NewCellState(BattleshipGridCell prevDieState)
         {
-            if (prevDieState == BattleshipGridCell.Miss ||prevDieState == BattleshipGridCell.ShipHit) {
+            if (_usedCellStates.Contains(prevDieState))
+            {
                 throw new InvalidOperationException();
             }
             var mappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
