@@ -95,7 +95,14 @@ namespace Battleships.Services
 
         public bool IsFinished()
         {
-            return _gameState.Grid.Any(l => l.Any(cell => cell == BattleshipGridCell.ShipUntouched));
+            return IsFinished(_gameState);
+        }
+
+        private bool IsFinished(BattleshipGameState gameState)
+        {
+            return !gameState.Grid.Any(
+                line => line.Any(
+                    cell => cell == BattleshipGridCell.ShipUntouched));
         }
     }
 }
