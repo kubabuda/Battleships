@@ -1,10 +1,23 @@
-## Battleships
+# Battleships
+
+### Prerequisites
+ - .NET Core 2.2
+ - optional Visual Studio Code or Visual Studio for development and debugging
+
+### Running console app
+```dotnet run --project Battleships/Battleships.csproj`
+
+### Running tests
+```dotnet test`
+
+
+## Guidelines
 
 Many thanks for your application, we like what we've seen and would love for you to show us what you can do! So you've heard of the game Battleships I'm sure? We have a challenge for and we'd love to get your take on it;
 
 Do read our blog post that is aimed at junior candidates but gives good insight into what we value in the code test: https://medium.com/guestline-labs/hints-for-our-interview-process-and-code-test-ae647325f400
 
-# The Challenge: 
+## The Challenge: 
 
 The challenge is to program a simple version of the game Battleships. Create an application to allow a single human player to play a one-sided game of Battleships against ships placed by the computer.
 

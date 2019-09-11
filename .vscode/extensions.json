@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "ms-vscode.csharp",
+        "josefpihrt-vscode.roslynator",
+        "formulahendry.dotnet-test-explorer"
+    ]
+}

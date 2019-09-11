@@ -1,6 +1,5 @@
 using Battleships.Interfaces;
 using Battleships.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleships.Services
@@ -42,7 +41,6 @@ namespace Battleships.Services
             }
             _console.WriteLine($"  {string.Join(' ', Enumerable.Range(0, _configuration.GridSize).Select(_ => "-")) } ");
         }
-
 
         public void Play(string guess)
         {

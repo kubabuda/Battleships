@@ -21,9 +21,9 @@ namespace Battleships.Services
         {
             return new BattleshipGameState
             {
-                Grid = new List<List<char>>(Enumerable.Range(0, _configuration.GridSize)
-                    .Select(_ => new List<char>(
-                        Enumerable.Range(0,  _configuration.GridSize).Select(__ => _configuration.EmptyGridDie).ToList())
+                Grid = new List<List<BattleshipGameDie>>(Enumerable.Range(0, _configuration.GridSize)
+                    .Select(_ => new List<BattleshipGameDie>(
+                        Enumerable.Range(0,  _configuration.GridSize).Select(__ => BattleshipGameDie.Empty).ToList())
                     ).ToList())
             };
         }
@@ -37,7 +37,7 @@ namespace Battleships.Services
             {
                 Grid = prevState.Grid   // shallow copy
             };
-            newState.Grid[lineNo][colNo] = _configuration.MissMarker; // apply changes
+            newState.Grid[lineNo][colNo] = BattleshipGameDie.Miss; // apply changes
 
             return newState;
         }
