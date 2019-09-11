@@ -30,7 +30,16 @@ namespace Battleships.Services
 
         public BattleshipGameState NextState(BattleshipGameState prevState, string guess)
         {
-            throw new NotImplementedException();
+            var lineNo = _charSvc.GetLine(guess);
+            var colNo = _charSvc.GetColumn(guess);
+
+            var newState = new BattleshipGameState 
+            {
+                Grid = prevState.Grid   // shallow copy
+            };
+            newState.Grid[lineNo][colNo] = 'x'; // apply changes
+
+            return newState;
         }
     }
 }
