@@ -44,9 +44,13 @@ namespace Battleships.Services
 
         public BattleshipGridCell NewCellState(BattleshipGridCell prevDieState)
         {
-            return prevDieState == BattleshipGridCell.ShipUntouched ?
-                    BattleshipGridCell.ShipHit :
-                    BattleshipGridCell.Miss;
+            var mappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
+            {
+                { BattleshipGridCell.Empty, BattleshipGridCell.Miss },
+                { BattleshipGridCell.ShipUntouched, BattleshipGridCell.ShipHit },
+            };
+
+            return mappings[prevDieState];
         }
     }
 }

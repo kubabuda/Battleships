@@ -88,9 +88,9 @@ namespace Battleship.Services.IntegrationTests
         public void Play_ShouldShowHit_OnHit()
         {
             // arrange
-            _game = new BattleshipGame(charSvc, config, console, stateBuilder);
             var prevState = stateBuilder.Build();
             prevState.Grid[1][4] = BattleshipGridCell.ShipUntouched;
+            _game = new BattleshipGame(charSvc, config, console, stateBuilder, prevState);
             var expected =
             "  1 2 3 4 5 6 7 8 9 10\r\n" +
             "A                     |\r\n" +
@@ -107,6 +107,24 @@ namespace Battleship.Services.IntegrationTests
 
             // act
             _game.Play("B5");
+
+            // assert
+            Assert.AreEqual(expected, consoleOut);
+        }
+
+        [TestCase("A11")]
+        [TestCase("K1")]
+        [TestCase("K11")]
+        public void Play_ShouldShowWarning_OnInvalidInput(string guess)
+        {
+            // arrange
+            _game = new BattleshipGame(charSvc, config, console, stateBuilder);
+            var prevState = stateBuilder.Build();
+            prevState.Grid[1][4] = BattleshipGridCell.ShipUntouched;
+            var expected = "Invalid cell, A-J and 1-10 are allowed\r\n";
+
+            // act
+            _game.Play(guess);
 
             // assert
             Assert.AreEqual(expected, consoleOut);
