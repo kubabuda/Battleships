@@ -53,9 +53,15 @@ namespace Battleships.Services
 
         public void Play(string guess)
         {
-            _gameState = _stateBuilder.Build(_gameState, guess);
             
-            Show(_gameState);
+            try {
+                _gameState = _stateBuilder.Build(_gameState, guess);
+            
+                Show(_gameState);
+            }
+            catch(System.ArgumentOutOfRangeException) {
+                _console.WriteLine("Invalid cell, A-J and 1-10 are allowed");
+            }
         }
 
         private char GetCellValueToDisplay(BattleshipGridCell die)

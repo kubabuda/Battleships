@@ -43,6 +43,7 @@ namespace Battleship.Services.UnitTests
         [TestCase("A1", 0)]
         [TestCase("C3", 2)]
         [TestCase("B5", 4)]
+        [TestCase("B10", 9)]
         public void GetColumn_ShouldReturnExpectedCoulumn_GivenGuess(string guess, int expected)
         {
             // arrange

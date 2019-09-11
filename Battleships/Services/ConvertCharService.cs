@@ -17,7 +17,7 @@ namespace Battleships.Services
         }
 
         public int GetColumn(string guess) {
-            return int.Parse(guess.Substring(1, 1)) - 1;
+            return int.Parse(guess.Substring(1)) - 1;
         }
     }
 }
