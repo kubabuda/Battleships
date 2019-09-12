@@ -1,18 +1,19 @@
-using System.Collections.Generic;
+using Autofac;
+using Battleships;
 using Battleships.Interfaces;
 using Battleships.Models;
 using Battleships.Services;
 using NSubstitute;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Battleship.Services.IntegrationTests
 {
     public class BattleshipGameTests
     {
-        IConvertCharService _charSvc;
         IConfiguration _config;
-        IConsole _console;
-        IRandom _random;
+        private IContainer _container;
+
         IBattleshipStateBuilder _stateBuilder;
 
         private IBattleshipGame _game;
@@ -21,23 +22,28 @@ namespace Battleship.Services.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            // TODO make DI part of integration tests
+            // setup mocked components
             var config = new Configuration();
             config.Ships = new List<int>();
             _config = config;
             _consoleOut = "";
-            _console = Substitute.For<IConsole>();
-            _console
+            var console = Substitute.For<IConsole>();
+            console
                 .When(c => c.WriteLine(Arg.Any<string>()))
                 .Do(callinfo => { 
                     var line = callinfo.ArgAt<string>(0);
                     _consoleOut = $"{_consoleOut}{line}\r\n";
                 });
-            _charSvc = new ConvertCharService();
-            _random = new RandomService(_config);
-            _stateBuilder = new BattleshipStateBuilder(_charSvc, _config, _random);
-
-            _game = new BattleshipGame(_charSvc, _config, _console, _stateBuilder);
+            // use DI setup for rest
+            var builder = Bootstrapper.GetContainerBuilder();
+            // register mocks
+            builder.RegisterInstance<IConsole>(console);
+            builder.RegisterInstance<IConfiguration>(_config);
+            
+            _container = builder.Build();
+            // get tested class instance
+            _stateBuilder = _container.Resolve<IBattleshipStateBuilder>();
+            _game = _container.Resolve<IBattleshipGame>();
         }
 
         [Test]
@@ -96,7 +102,7 @@ namespace Battleship.Services.IntegrationTests
             // arrange
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = BattleshipGridCell.ShipUntouched;
-            _game = new BattleshipGame(_charSvc, _config, _console, _stateBuilder, prevState);
+            _game = GameFromPrevState(prevState);
             var expected =
             "  1 2 3 4 5 6 7 8 9 10\r\n" +
             "A                     |\r\n" +
@@ -124,7 +130,7 @@ namespace Battleship.Services.IntegrationTests
         public void Play_ShouldShowWarning_OnInputOutOfRange(string guess)
         {
             // arrange
-            _game = new BattleshipGame(_charSvc, _config, _console, _stateBuilder);
+            // _game = _container.Resolve<BattleshipGame>();
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = BattleshipGridCell.ShipUntouched;
             var expected = "Invalid cell, A-J and 1-10 are allowed\r\n";
@@ -143,7 +149,7 @@ namespace Battleship.Services.IntegrationTests
             // arrange
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = cellState;
-            _game = new BattleshipGame(_charSvc, _config, _console, _stateBuilder, prevState);
+            _game = GameFromPrevState(prevState);
             var expected = "You already had shoot there, try something else\r\n";
 
             // act
@@ -151,6 +157,16 @@ namespace Battleship.Services.IntegrationTests
 
             // assert
             Assert.AreEqual(expected, _consoleOut);
+        }
+
+        private IBattleshipGame GameFromPrevState(BattleshipGameState prevState)
+        {
+            return new BattleshipGame(
+                _container.Resolve<IConvertCharService>(),
+                _container.Resolve<IConfiguration>(),
+                _container.Resolve<IConsole>(),
+                _container.Resolve<IBattleshipStateBuilder>(),
+                prevState);
         }
 
         [TestCase(BattleshipGridCell.Empty, true)]
@@ -162,7 +178,7 @@ namespace Battleship.Services.IntegrationTests
             // arrange
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = cellState;
-            _game = new BattleshipGame(_charSvc, _config, _console, _stateBuilder, prevState);
+            _game = GameFromPrevState(prevState);
 
             // act
             var result = _game.IsFinished();
