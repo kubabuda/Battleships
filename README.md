@@ -11,10 +11,14 @@
 ```dotnet test`
 
 ### TODOs
-- place ships on board from the biggest to the smallest
+- make sure lowercase guesses are working
+- display welcome message with instructions
 - play game as long as non finished = rename play(guess) to playRound, create new play()
+- display congratulations message on win
+- display bye message on break
+- cheat mode
 - make sure all works in system console
-- CI with testing
+- CI with testing [optional]
 
 
 ## Guidelines

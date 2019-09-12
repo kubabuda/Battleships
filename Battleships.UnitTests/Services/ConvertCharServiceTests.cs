@@ -39,6 +39,19 @@ namespace Battleship.Services.UnitTests
             Assert.AreEqual(expected, result);
         }
 
+        [TestCase("a1", 0)]
+        [TestCase("c3", 2)]
+        public void GetLine_ShouldReturnExpectedCoulumn_GivenLowercaseGuess(string guess, int expected)
+        {
+            // arrange
+
+            // act
+            var result = _serviceUnderTests.GetLine(guess);
+
+            // assert
+            Assert.AreEqual(expected, result);
+        }
+
 
         [TestCase("A1", 0)]
         [TestCase("C3", 2)]
