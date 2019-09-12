@@ -6,6 +6,12 @@ using System.Linq;
 
 namespace Battleships.Services
 {
+    public class BattleShip
+    {
+        public int length { get; set; }
+        public bool isVertical { get; set; }
+    }
+
     public class BattleshipStateBuilder: IBattleshipStateBuilder
     {
         private IConfiguration _configuration;
@@ -39,7 +45,7 @@ namespace Battleships.Services
             foreach(var shipLength in _configuration.Ships)
             {
                 var isVertical = _random.IsNextVertical();
-                var ship = (shipLength: shipLength, isVertical: isVertical);
+                var ship = new BattleShip { length = shipLength, isVertical = isVertical };
                 var firstCell = GetShipStart(grid, ship);
 
                 BuildShip(grid, ship, firstCell);
@@ -48,18 +54,23 @@ namespace Battleships.Services
             return grid;
         }
 
-        public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, (int length, bool isVertical) ship)
+        public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, BattleShip ship)
         {
-            var guess = _random.NextCell();
-            while(IsGuessCollidingWithShips(grid, ship, guess))
+            var guess = GetRandomGridCell();
+            while (IsGuessCollidingWithShips(grid, ship, guess))
             {
-                guess = _random.NextCell();
+                guess = GetRandomGridCell();
             }
 
             return guess;
         }
 
-        public bool IsGuessCollidingWithShips(List<List<BattleshipGridCell>> grid, (int length, bool isVertical) ship, (int x, int y) firstCell)
+        private (int x, int y) GetRandomGridCell()
+        {
+            return _random.NextCell();
+        }
+
+        public bool IsGuessCollidingWithShips(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
         {
             for (int i = 0; i < ship.length; ++i)
             {
@@ -75,7 +86,7 @@ namespace Battleships.Services
             return true;
         }
 
-        private void BuildShip(List<List<BattleshipGridCell>> grid, (int length, bool isVertical) ship, (int x, int y) firstCell)
+        private void BuildShip(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
         {
 
             for (int i = 0; i < ship.length; ++i)

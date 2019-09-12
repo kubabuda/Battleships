@@ -94,7 +94,7 @@ namespace Battleship.Services.UnitTests
             var firstShipStart = (x: 1, y: 2);
             grid[firstShipStart.x][firstShipStart.y] = BattleshipGridCell.ShipUntouched;    // place ship on grid
             grid[firstShipStart.x + 1][firstShipStart.y] = BattleshipGridCell.ShipUntouched;
-            var nextShip = (length: 2, isVertical: true);
+            var nextShip = new BattleShip() { length = 2, isVertical = true };
             var expected = (x: 2, y: 3);
             _randomService.NextCell()
                 .Returns(firstShipStart,    // we randomly got space that is 
