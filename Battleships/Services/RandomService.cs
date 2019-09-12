@@ -17,7 +17,7 @@ namespace Battleships.Services
 
         public bool IsNextVertical()
         {
-            throw new NotImplementedException();
+            return _random.Next() % 2 == 0;
         }
 
         public (int x, int y) NextCell()
