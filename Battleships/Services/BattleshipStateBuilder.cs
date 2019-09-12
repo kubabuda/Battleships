@@ -39,7 +39,15 @@ namespace Battleships.Services
             foreach(var ship in _configuration.Ships)
             {
                 var firstCell = _random.NextCell();
-                grid[firstCell.x][firstCell.y] = BattleshipGridCell.ShipUntouched;
+                var isVertical = _random.IsNextVertical();
+
+                for (int i = 0; i < ship; ++ i)
+                {
+                    var nextX = isVertical ? firstCell.x + i : firstCell.x;
+                    var nextY = isVertical ? firstCell.y : firstCell.y + i;
+                    
+                    grid[nextX][nextY] = BattleshipGridCell.ShipUntouched;
+                }
             }
 
             return grid;

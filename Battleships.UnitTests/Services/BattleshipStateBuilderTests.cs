@@ -76,7 +76,7 @@ namespace Battleship.Services.UnitTests
             _randomService.IsNextVertical().Returns(isVertical);
             var expected = GetEmptyGrid();
             expected[x][y] = BattleshipGridCell.ShipUntouched;
-            expected[isVertical? x + 1 : x][isVertical? x : x + 1] = BattleshipGridCell.ShipUntouched;
+            expected[isVertical? x + 1 : x][isVertical? y : y + 1] = BattleshipGridCell.ShipUntouched;
 
             // act 
             var result = _servceUnderTest.Build();
