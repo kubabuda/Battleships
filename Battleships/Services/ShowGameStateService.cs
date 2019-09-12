@@ -20,6 +20,10 @@ namespace Battleships.Services
             _configuration = configuration;
         }
 
+        public void DisplayInputWarning()
+        {
+            throw new System.NotImplementedException();
+        }
 
         public void Show(BattleshipGameState state)
         {

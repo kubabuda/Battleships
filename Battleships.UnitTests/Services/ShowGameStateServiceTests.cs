@@ -98,5 +98,18 @@ namespace Battleship.Services.UnitTests
             // assert
             Assert.AreEqual(expectedFirstScreen, _consoleOut);
         }
+
+        [Test]
+        public void DisplayInputWarning_DisplaysExpectedWarning_WithoutParameters()
+        {
+            // arrange
+            var expected = "Invalid cell, A-J and 1-10 are allowed\r\n";
+
+            // act
+            _showGameService.DisplayInputWarning();
+
+            // assert
+            Assert.AreEqual(expected, _consoleOut);
+        }
     }
 }
