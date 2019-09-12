@@ -11,11 +11,7 @@
 ```dotnet test`
 
 ### TODOs
-- play game as long as non finished = rename play(guess) to playRound, create new play()
-- make sure all works in system console
-- display welcome message with instructions
-- display congratulations message on win
-- display bye message on break
+- configuration read from file
 - cheat mode (display grid cells with ships) for easier debugging
 - CI with testing [optional]
 

@@ -35,8 +35,7 @@ namespace Battleships.Services
         {
             Show();
 
-            int i = 1000;
-            while(!IsFinished() && i-- > 0)
+            while(!IsFinished())
             {
                 string guess = _console.ReadLine();
                 Play(guess);

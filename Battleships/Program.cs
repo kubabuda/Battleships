@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Battleships.Interfaces;
 
 namespace Battleships
@@ -9,18 +10,31 @@ namespace Battleships
 
         static void Main(string[] args)
         {
+            System.Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
             Container = Bootstrapper.GetContainer();
 
             using (var scope = Container.BeginLifetimeScope())
             {
-                var console = scope.Resolve<IConsole>();
-                console.WriteLine("Welcome to Battleships game!");
+                Console.WriteLine("Welcome to Battleships game!");
                 
-                var game = scope.Resolve<IBattleshipGame>();
-                game.Play();
+                do 
+                {
+                    var game = scope.Resolve<IBattleshipGame>();
+                    game.Play();
 
-                console.WriteLine("You won. Congratulations!");
+                    Console.WriteLine("You won. Congratulations!");
+                    Console.WriteLine("Play again? (Y/N)");
+                }
+                while(Console.ReadLine().ToLower() == "y");
+
+                Console.WriteLine("OK. Bye!");
             }
+            System.Console.CancelKeyPress -= new ConsoleCancelEventHandler(Console_CancelKeyPress);
+        }
+
+        private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
+            System.Console.WriteLine("Understandable. Have a nice day!");
         }
     }
 }
