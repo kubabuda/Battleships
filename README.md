@@ -11,7 +11,6 @@
 ```dotnet test`
 
 ### TODOs
-- prepare initial state of game with parametrized number of ships
 - place ships on board from the biggest to the smallest
 - play game as long as non finished = rename play(guess) to playRound, create new play()
 - make sure all works in system console
