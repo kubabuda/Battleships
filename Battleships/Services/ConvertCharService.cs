@@ -12,7 +12,7 @@ namespace Battleships.Services
         }
 
         public int GetLine(string guess) {
-            return Convert.ToInt32(guess[0]) - _ASCI_A;
+            return Convert.ToInt32(guess.ToUpper()[0]) - _ASCI_A;
         }
 
         public int GetColumn(string guess) {
