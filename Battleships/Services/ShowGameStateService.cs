@@ -1,6 +1,5 @@
 using Battleships.Interfaces;
 using Battleships.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,6 +38,8 @@ namespace Battleships.Services
             var mappings = new Dictionary<BattleshipGridCell, char>
             {
                 { BattleshipGridCell.Empty, _configuration.Empty },
+                { BattleshipGridCell.Miss, _configuration.Miss },
+                { BattleshipGridCell.ShipHit, _configuration.Hit }
             };
 
             return mappings[die];

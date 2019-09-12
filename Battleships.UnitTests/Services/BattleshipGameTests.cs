@@ -38,6 +38,8 @@ namespace Battleship.Services.UnitTests
             var config = Substitute.For<IConfiguration>();
             config.GridSize.Returns(gridSize);
             config.Empty.Returns(' ');
+            config.Hit.Returns('*');
+            config.Miss.Returns('x');
             _showGameService = new ShowGameStateService(charService, console, config);
         }
 
