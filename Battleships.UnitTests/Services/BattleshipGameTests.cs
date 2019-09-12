@@ -67,5 +67,34 @@ namespace Battleship.Services.UnitTests
             // assert
             Assert.AreEqual(expectedFirstScreen, _consoleOut);
         }
+
+        [Test]
+        public void Show_ShouldShowHitMissMarkers_GivenUsedGrid()
+        {
+            // arrange
+            var expectedFirstScreen =
+            "  1 2 3 4 5 6 7 8 9 10\r\n" +
+            "A *                 x |\r\n" +
+            "B                     |\r\n" +
+            "C                     |\r\n" +
+            "D                     |\r\n" +
+            "E                     |\r\n" +
+            "F                     |\r\n" +
+            "G                     |\r\n" +
+            "H                     |\r\n" +
+            "I                     |\r\n" +
+            "J                     |\r\n" +
+            "  - - - - - - - - - - \r\n";
+            var grid = BattleshipStateBuilderTests.GetEmptyGrid(10);
+            grid[0][0] = BattleshipGridCell.ShipHit;
+            grid[0][9] = BattleshipGridCell.Miss;
+            var state = new BattleshipGameState { Grid = grid };
+            
+            // act
+            _showGameService.Show(state);
+
+            // assert
+            Assert.AreEqual(expectedFirstScreen, _consoleOut);
+        }
     }
 }
