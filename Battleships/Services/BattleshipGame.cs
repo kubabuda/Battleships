@@ -7,33 +7,21 @@ namespace Battleships.Services
 {
     public class BattleshipGame: IBattleshipGame
     {
-        private IConvertCharService _charSvc { get; }
-        private IConfiguration _configuration { get; }
-        private IConsole _console { get; }
         private IBattleshipStateBuilder _stateBuilder { get; }
         private readonly IShowGameState _gameShowService;
 
         private BattleshipGameState _gameState;
 
         public BattleshipGame(
-            IConvertCharService charSvc,
-            IConfiguration configuration,
-            IConsole console,
             IBattleshipStateBuilder stateBuilder,
             IShowGameState gameShowService)
-        :this(charSvc, configuration, console, stateBuilder, gameShowService, stateBuilder.Build()) { }
+        :this(stateBuilder, gameShowService, stateBuilder.Build()) { }
 
         public BattleshipGame(
-            IConvertCharService charSvc,
-            IConfiguration configuration,
-            IConsole console,
             IBattleshipStateBuilder stateBuilder,
             IShowGameState gameShowService,
             BattleshipGameState gameState
         ) {
-            _charSvc = charSvc;
-            _configuration = configuration;
-            _console = console;
             _stateBuilder = stateBuilder;
             _gameShowService = gameShowService;
             _gameState = gameState;
@@ -63,7 +51,7 @@ namespace Battleships.Services
             }
             catch (InvalidOperationException)
             {
-                _console.WriteLine("You already had shoot there, try something else");
+                _gameShowService.DisplayRetryWarning();
             }
         }
 
