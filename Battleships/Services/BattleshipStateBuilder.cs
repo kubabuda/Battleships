@@ -10,13 +10,18 @@ namespace Battleships.Services
     {
         private IConfiguration _configuration;
         private IConvertCharService _charSvc { get; }
-        private BattleshipGridCell[] _usedCellStates;
+        private IRandom _random { get; }
         
-        public BattleshipStateBuilder(IConvertCharService charSvc, IConfiguration config)
+        private BattleshipGridCell[] _cellStatesAfterHit;
+        
+        public BattleshipStateBuilder(IConvertCharService charSvc,
+            IConfiguration config,
+            IRandom randomSvc)
         {
+            _cellStatesAfterHit = new[] { BattleshipGridCell.Miss, BattleshipGridCell.ShipHit };
             _charSvc = charSvc;
             _configuration = config;
-            _usedCellStates = new[] { BattleshipGridCell.Miss, BattleshipGridCell.ShipHit };
+            _random = randomSvc;
         }
 
         public BattleshipGameState Build()
@@ -33,9 +38,10 @@ namespace Battleships.Services
             
             foreach(var ship in _configuration.Ships)
             {
-                grid[2][1] = BattleshipGridCell.ShipUntouched;
+                var nextCell = _random.NextCell();
+                grid[nextCell.x][nextCell.y] = BattleshipGridCell.ShipUntouched;
             }
-            
+
             return grid;
         }
 
@@ -63,7 +69,7 @@ namespace Battleships.Services
 
         public BattleshipGridCell NewCellState(BattleshipGridCell prevDieState)
         {
-            if (_usedCellStates.Contains(prevDieState))
+            if (_cellStatesAfterHit.Contains(prevDieState))
             {
                 throw new InvalidOperationException();
             }

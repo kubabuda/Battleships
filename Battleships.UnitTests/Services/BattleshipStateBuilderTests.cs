@@ -12,6 +12,8 @@ namespace Battleship.Services.UnitTests
     {
         private IConvertCharService _charSvc;
         private IConfiguration _config;
+        private IRandom _randomService;
+
         private IBattleshipStateBuilder _servceUnderTest;
 
         private int gridSize = 10;
@@ -21,8 +23,9 @@ namespace Battleship.Services.UnitTests
         {
             _charSvc = Substitute.For<IConvertCharService>();
             _config = Substitute.For<IConfiguration>();
+            _randomService = Substitute.For<IRandom>();
             _config.GridSize.Returns(gridSize);
-            _servceUnderTest = new BattleshipStateBuilder(_charSvc, _config);
+            _servceUnderTest = new BattleshipStateBuilder(_charSvc, _config, _randomService);
         }
 
         [Test]
@@ -42,15 +45,17 @@ namespace Battleship.Services.UnitTests
         }
 
 
-        [Test]
-        public void Build_ShouldReturnBoardWithSingleShip_WhenSingleShipInConfiguration()
+        [TestCase(1, 2)]
+        [TestCase(4, 9)]
+        [TestCase(0, 0)]
+        [TestCase(9, 9)]
+        public void Build_ShouldReturnBoardWithSingleShip_WhenSingleShipInConfiguration(int x, int y)
         {
             // arrange
-            var x1 = 2;
-            var x2 = 1;
             _config.Ships.Returns(new List<int>{ 1 });
+            _randomService.NextCell().Returns((x:x, y:y));
             var expected = GetEmptyGrid();
-            expected[2][1] = BattleshipGridCell.ShipUntouched;
+            expected[x][y] = BattleshipGridCell.ShipUntouched;
 
             // act 
             var result = _servceUnderTest.Build();

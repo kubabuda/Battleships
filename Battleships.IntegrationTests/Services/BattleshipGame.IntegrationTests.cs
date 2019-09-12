@@ -12,6 +12,7 @@ namespace Battleship.Services.IntegrationTests
         IConvertCharService _charSvc;
         IConfiguration _config;
         IConsole _console;
+        IRandom _random;
         IBattleshipStateBuilder _stateBuilder;
 
         private IBattleshipGame _game;
@@ -20,6 +21,7 @@ namespace Battleship.Services.IntegrationTests
         [SetUp]
         public void SetUp()
         {
+            // TODO make DI part of integration tests
             var config = new Configuration();
             config.Ships = new List<int>();
             _config = config;
@@ -32,7 +34,8 @@ namespace Battleship.Services.IntegrationTests
                     _consoleOut = $"{_consoleOut}{line}\r\n";
                 });
             _charSvc = new ConvertCharService();
-            _stateBuilder = new BattleshipStateBuilder(_charSvc, _config);
+            _random = new RandomService(_config);
+            _stateBuilder = new BattleshipStateBuilder(_charSvc, _config, _random);
 
             _game = new BattleshipGame(_charSvc, _config, _console, _stateBuilder);
         }
