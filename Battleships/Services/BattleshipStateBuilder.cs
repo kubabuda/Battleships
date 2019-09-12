@@ -40,7 +40,7 @@ namespace Battleships.Services
         {
             var grid =  BuildEmptyGrid();
             
-            foreach(var shipLength in _configuration.Ships)
+            foreach(var shipLength in _configuration.Ships.OrderByDescending(s => s))
             {
                 var isVertical = _random.IsNextVertical();
                 var ship = new BattleShip { length = shipLength, isVertical = isVertical };
