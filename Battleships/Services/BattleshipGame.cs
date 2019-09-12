@@ -7,24 +7,40 @@ namespace Battleships.Services
 {
     public class BattleshipGame: IBattleshipGame
     {
+        private readonly IConsole _console;
         private readonly IBattleshipStateBuilder _stateBuilder;
         private readonly IShowGameState _gameShowService;
-
         private BattleshipGameState _gameState;
 
         public BattleshipGame(
+            IConsole console,
             IBattleshipStateBuilder stateBuilder,
             IShowGameState gameShowService)
-        :this(stateBuilder, gameShowService, stateBuilder.Build()) { }
+        :this(console, stateBuilder, gameShowService, stateBuilder.Build())
+        { }
 
         public BattleshipGame(
+            IConsole console,
             IBattleshipStateBuilder stateBuilder,
             IShowGameState gameShowService,
             BattleshipGameState gameState
         ) {
+            _console = console;
             _stateBuilder = stateBuilder;
             _gameShowService = gameShowService;
             _gameState = gameState;
+        }
+
+        public void Play()
+        {
+            Show();
+
+            int i = 1000;
+            while(!IsFinished() && i-- > 0)
+            {
+                string guess = _console.ReadLine();
+                Play(guess);
+            }
         }
 
         public void Show()
@@ -65,11 +81,6 @@ namespace Battleships.Services
             return !gameState.Grid.Any(
                 line => line.Any(
                     cell => cell == BattleshipGridCell.ShipUntouched));
-        }
-
-        public void Play()
-        {
-            throw new NotImplementedException();
         }
     }
 }

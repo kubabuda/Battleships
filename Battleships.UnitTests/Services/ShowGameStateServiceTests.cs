@@ -128,6 +128,7 @@ namespace Battleship.Services.UnitTests
     }
 
     public class BattleshipGameTests {
+        private IConsole _console;
         private IBattleshipStateBuilder _stateBuilder;
         private IShowGameState _gameShowService;
 
@@ -135,17 +136,53 @@ namespace Battleship.Services.UnitTests
 
         private BattleshipGameState initialState;
         int gridSize = 4;
+        private BattleshipGameState state1;
+        private BattleshipGameState state2;
+        private BattleshipGameState state3;
 
         [SetUp]
         public void SetUp()
         {
-            initialState = new BattleshipGameState() { Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) };
-            
+            initialState = new BattleshipGameState() 
+            { 
+                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
+            };
+            initialState.Grid[0][0] = BattleshipGridCell.ShipUntouched;
+            initialState.Grid[0][1] = BattleshipGridCell.ShipUntouched;
+            initialState.Grid[0][2] = BattleshipGridCell.ShipUntouched;
+
+            state1 = new BattleshipGameState() 
+            { 
+                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
+            };
+            state1.Grid[0][0] = BattleshipGridCell.ShipHit;
+            state1.Grid[0][1] = BattleshipGridCell.ShipUntouched;
+            state1.Grid[0][2] = BattleshipGridCell.ShipUntouched;
+
+            state2 = new BattleshipGameState() 
+            { 
+                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
+            };
+            state2.Grid[0][0] = BattleshipGridCell.ShipHit;
+            state2.Grid[0][1] = BattleshipGridCell.ShipHit;
+            state2.Grid[0][2] = BattleshipGridCell.ShipUntouched;
+
+            state3 = new BattleshipGameState() 
+            { 
+                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
+            };
+            state3.Grid[0][0] = BattleshipGridCell.ShipHit;
+            state3.Grid[0][1] = BattleshipGridCell.ShipHit;
+            state3.Grid[0][2] = BattleshipGridCell.ShipHit;
+
+            _console = Substitute.For<IConsole>();
             _stateBuilder = Substitute.For<IBattleshipStateBuilder>();
             _stateBuilder.Build().Returns(initialState);
             _gameShowService = Substitute.For<IShowGameState>();
 
-            _serviceUnderTests = new BattleshipGame(_stateBuilder, _gameShowService);
+            _serviceUnderTests = new BattleshipGame(_console,
+                _stateBuilder,
+                _gameShowService);
         }
 
         [Test]
@@ -167,25 +204,15 @@ namespace Battleship.Services.UnitTests
         public void Play_PlaysUntilAllShipsSank_Parameterless()
         {
             // arrange
-            initialState.Grid[0][0] = BattleshipGridCell.ShipUntouched;
-            initialState.Grid[0][1] = BattleshipGridCell.ShipUntouched;
-            initialState.Grid[0][2] = BattleshipGridCell.ShipUntouched;
-            _stateBuilder.Build().Returns(initialState);
-
             var guess1 = "A1";
-            var state1 = new BattleshipGameState() { Grid = initialState.Grid };
-            initialState.Grid[0][0] = BattleshipGridCell.ShipHit;
             _stateBuilder.Build(initialState, guess1).Returns(state1);
 
             var guess2 = "A2";
-            var state2 = new BattleshipGameState() { Grid = initialState.Grid };
-            initialState.Grid[0][1] = BattleshipGridCell.ShipHit;
-            _stateBuilder.Build(initialState, guess2).Returns(state2);
+            _stateBuilder.Build(state1, guess2).Returns(state2);
 
             var guess3 = "A3";
-            var state3 = new BattleshipGameState() { Grid = initialState.Grid };
-            initialState.Grid[0][2] = BattleshipGridCell.ShipHit;
-            _stateBuilder.Build(initialState, guess3).Returns(state3);
+            _stateBuilder.Build(state2, guess3).Returns(state3);
+            _console.ReadLine().Returns(guess1, guess2, guess3);
 
             // act
             _serviceUnderTests.Play();
@@ -198,25 +225,15 @@ namespace Battleship.Services.UnitTests
         public void Play_ShowsAllGeneratedStates_Parameterless()
         {
             // arrange
-            initialState.Grid[0][0] = BattleshipGridCell.ShipUntouched;
-            initialState.Grid[0][1] = BattleshipGridCell.ShipUntouched;
-            initialState.Grid[0][2] = BattleshipGridCell.ShipUntouched;
-            _stateBuilder.Build().Returns(initialState);
-
             var guess1 = "A1";
-            var state1 = new BattleshipGameState() { Grid = initialState.Grid };
-            initialState.Grid[0][0] = BattleshipGridCell.ShipHit;
             _stateBuilder.Build(initialState, guess1).Returns(state1);
 
             var guess2 = "A2";
-            var state2 = new BattleshipGameState() { Grid = initialState.Grid };
-            initialState.Grid[0][1] = BattleshipGridCell.ShipHit;
-            _stateBuilder.Build(initialState, guess2).Returns(state2);
+            _stateBuilder.Build(state1, guess2).Returns(state2);
 
             var guess3 = "A3";
-            var state3 = new BattleshipGameState() { Grid = initialState.Grid };
-            initialState.Grid[0][2] = BattleshipGridCell.ShipHit;
-            _stateBuilder.Build(initialState, guess3).Returns(state3);
+            _stateBuilder.Build(state2, guess3).Returns(state3);
+            _console.ReadLine().Returns(guess1, guess2, guess3);
 
             // act
             _serviceUnderTests.Play();

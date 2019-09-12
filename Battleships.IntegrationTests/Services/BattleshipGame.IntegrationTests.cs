@@ -179,6 +179,7 @@ namespace Battleship.Services.IntegrationTests
         private IBattleshipGame GameFromPrevState(BattleshipGameState prevState)
         {
             return new BattleshipGame(
+                _container.Resolve<IConsole>(),
                 _container.Resolve<IBattleshipStateBuilder>(),
                 _container.Resolve<IShowGameState>(),
                 prevState);
