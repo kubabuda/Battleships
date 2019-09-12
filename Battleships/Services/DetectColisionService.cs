@@ -2,6 +2,7 @@ using Battleships.Interfaces;
 using Battleships.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Battleships.Services
 {
@@ -32,9 +33,26 @@ namespace Battleships.Services
             return false;
         }
 
-        public bool IsGuessCollidingWithBorders(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) p)
+        public bool IsGuessCollidingWithBorders(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) position)
         {
-            throw new NotImplementedException();
+            var gridSize = grid.Count();
+
+            if(ship.isVertical)
+            {
+                if (position.x + ship.length > gridSize)
+                {
+                    return true;
+                }
+            } 
+            else
+            {
+                if (position.y + ship.length > gridSize)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
