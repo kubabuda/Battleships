@@ -25,6 +25,7 @@ namespace Battleships
             builder.RegisterType<BattleshipStateBuilder>().As<IBattleshipStateBuilder>();
             builder.RegisterType<ConvertCharService>().As<IConvertCharService>();
             builder.RegisterType<RandomService>().As<IRandom>();
+            builder.RegisterType<DetectColisionService>().As<IDetectColisionService>();
             // I/O wrappers
             builder.RegisterType<Battleships.Services.Console>().As<IConsole>();
             return builder;

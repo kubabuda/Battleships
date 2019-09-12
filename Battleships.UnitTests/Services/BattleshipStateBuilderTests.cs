@@ -12,6 +12,7 @@ namespace Battleship.Services.UnitTests
     {
         private IConvertCharService _charSvc;
         private IConfiguration _config;
+        private IDetectColisionService _detectCollisionService;
         private IRandom _randomService;
 
         private BattleshipStateBuilder _servceUnderTest;
@@ -25,7 +26,13 @@ namespace Battleship.Services.UnitTests
             _config = Substitute.For<IConfiguration>();
             _randomService = Substitute.For<IRandom>();
             _config.GridSize.Returns(gridSize);
-            _servceUnderTest = new BattleshipStateBuilder(_charSvc, _config, _randomService);
+            _detectCollisionService = Substitute.For<IDetectColisionService>();
+
+            _servceUnderTest = new BattleshipStateBuilder(
+                _charSvc,
+                 _config,
+                 _detectCollisionService,
+                 _randomService);
         }
 
         // ------------------- Initial state --------------------------- //
@@ -100,28 +107,11 @@ namespace Battleship.Services.UnitTests
                 .Returns(firstShipStart,    // we randomly got space that is 
                     firstShipStart,         // already used by other ships
                     expected);          // until we got proper one
+            _detectCollisionService.IsGuessColliding(grid, nextShip, firstShipStart).Returns(true);
+            _detectCollisionService.IsGuessColliding(grid, nextShip, expected).Returns(false);
             
             // act
             var result = _servceUnderTest.GetShipStart(grid, nextShip);
-
-            // assert
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestCase(1, 2, true, true)]
-        [TestCase(0, 2, true, true)]
-        [TestCase(4, 4, true, false)]
-        [TestCase(1, 1, false, true)]
-        public void IsGuessCollidingWithShips_ReturnsTrue_ForShipsCollision(int x, int y, bool isVertical, bool expected)
-        {
-            // arrange
-            var grid = GetEmptyGrid();
-            grid[1][2] = BattleshipGridCell.ShipUntouched;    // place ship on grid
-            grid[2][2] = BattleshipGridCell.ShipUntouched;
-            var ship = new BattleShip() { length = 2, isVertical = isVertical };
-
-            // act
-            var result = _servceUnderTest.IsGuessCollidingWithShips(grid, ship, (x: x, y: y));
 
             // assert
             Assert.AreEqual(expected, result);
@@ -168,7 +158,7 @@ namespace Battleship.Services.UnitTests
             _charSvc.GetColumn(guess).Returns(1);
             var expected = new BattleshipGameState
             {
-                Grid = GetEmptyGrid()
+                Grid = GetEmptyGrid(gridSize)
             };
             expected.Grid[2][1] = BattleshipGridCell.ShipHit;
 
@@ -180,8 +170,12 @@ namespace Battleship.Services.UnitTests
         }
 
         //  ------------------- Helper methods -------------------- //
-
         private List<List<BattleshipGridCell>> GetEmptyGrid()
+        {
+            return GetEmptyGrid(gridSize);
+        }
+
+        public static List<List<BattleshipGridCell>> GetEmptyGrid(int gridSize)
         {
             return new List<List<BattleshipGridCell>>
             {

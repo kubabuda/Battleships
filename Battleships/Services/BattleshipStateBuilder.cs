@@ -6,21 +6,25 @@ using System.Linq;
 
 namespace Battleships.Services
 {
+
     public class BattleshipStateBuilder: IBattleshipStateBuilder
     {
         private IConfiguration _configuration;
         private IConvertCharService _charSvc { get; }
+        private IDetectColisionService _detectCollisionService;
         private IRandom _random { get; }
         
         private BattleshipGridCell[] _cellStatesAfterHit;
         
         public BattleshipStateBuilder(IConvertCharService charSvc,
             IConfiguration config,
+            IDetectColisionService detectCollisionService,
             IRandom randomSvc)
         {
             _cellStatesAfterHit = new[] { BattleshipGridCell.Miss, BattleshipGridCell.ShipHit };
             _charSvc = charSvc;
             _configuration = config;
+            _detectCollisionService = detectCollisionService;
             _random = randomSvc;
         }
 
@@ -52,7 +56,7 @@ namespace Battleships.Services
         {
             var guess = GetRandomGridCell();
 
-            while (IsGuessCollidingWithShips(grid, ship, guess))
+            while (_detectCollisionService.IsGuessColliding(grid, ship, guess))
             {
                 guess = GetRandomGridCell();
             }
@@ -63,22 +67,6 @@ namespace Battleships.Services
         private (int x, int y) GetRandomGridCell()
         {
             return _random.NextCell();
-        }
-
-        public bool IsGuessCollidingWithShips(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
-        {
-            for (int i = 0; i < ship.length; ++i)
-            {
-                var nextX = ship.isVertical ? firstCell.x + i : firstCell.x;
-                var nextY = ship.isVertical ? firstCell.y : firstCell.y + i;
-
-                if(grid[nextX][nextY] != BattleshipGridCell.Empty)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         private void BuildShip(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
