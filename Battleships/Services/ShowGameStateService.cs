@@ -59,6 +59,7 @@ namespace Battleships.Services
             var mappings = new Dictionary<BattleshipGridCell, char>
             {
                 { BattleshipGridCell.Empty, _configuration.Empty },
+                { BattleshipGridCell.ShipUntouched, _configuration.Empty },
                 { BattleshipGridCell.Miss, _configuration.Miss },
                 { BattleshipGridCell.ShipHit, _configuration.Hit }
             };
