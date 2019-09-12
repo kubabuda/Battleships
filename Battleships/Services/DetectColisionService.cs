@@ -8,14 +8,24 @@ namespace Battleships.Services
 {
     public class DetectColisionService: IDetectColisionService
     {
-        public bool IsGuessColliding(List<List<BattleshipGridCell>> grid, 
+        public bool IsGuessColliding(
+            List<List<BattleshipGridCell>> grid, 
             BattleShip ship, 
             (int x, int y) firstCell)
         {
-            return IsGuessCollidingWithShips(grid, ship, firstCell);
+            try
+            {
+                return IsGuessCollidingWithBorders(grid, ship, firstCell)
+                    | IsGuessCollidingWithShips(grid, ship, firstCell);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return true;
+            }
         }
 
-        public bool IsGuessCollidingWithShips(List<List<BattleshipGridCell>> grid, 
+        public bool IsGuessCollidingWithShips(
+            List<List<BattleshipGridCell>> grid, 
             BattleShip ship, 
             (int x, int y) firstCell)
         {
@@ -33,7 +43,10 @@ namespace Battleships.Services
             return false;
         }
 
-        public bool IsGuessCollidingWithBorders(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) position)
+        public bool IsGuessCollidingWithBorders(
+            List<List<BattleshipGridCell>> grid, 
+            BattleShip ship, 
+            (int x, int y) position)
         {
             var gridSize = grid.Count();
 
