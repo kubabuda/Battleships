@@ -6,5 +6,7 @@ namespace Battleships.Interfaces
     {
         void Show(BattleshipGameState state);
         void DisplayInputWarning();
+        void DisplayRetryWarning();
+
     }
 }

@@ -37,6 +37,11 @@ namespace Battleships.Services
             _console.WriteLine(_invalidInputWarning);
         }
 
+        public void DisplayRetryWarning()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Show(BattleshipGameState state)
         {
             _console.WriteLine($"  {string.Join(' ', Enumerable.Range(1, _configuration.GridSize))}");

@@ -111,5 +111,18 @@ namespace Battleship.Services.UnitTests
             // assert
             Assert.AreEqual(expected, _consoleOut);
         }
+
+        [Test]
+        public void DisplayRetryWarning_DisplaysExpectedWarning_WithoutParameters()
+        {
+            // arrange
+            var expected = "You already had shoot there, try something else\r\n";
+
+            // act
+            _showGameService.DisplayRetryWarning();
+
+            // assert
+            Assert.AreEqual(expected, _consoleOut);
+        }
     }
 }
