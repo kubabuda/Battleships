@@ -117,6 +117,12 @@ namespace Battleship.Services.UnitTests
             Assert.AreEqual(expected, result);
         }
 
+        [Test] // TODO test in integration too
+        public void Build_ShouldPlaceAllShips_FromConfiguration()
+        {
+            
+        }
+
         // ------------------- Next state ------------------------- //
 
         [Test]
