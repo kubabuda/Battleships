@@ -147,7 +147,6 @@ namespace Battleship.Services.IntegrationTests
             Assert.AreEqual(expected, consoleOut);
         }
 
-
         [TestCase(BattleshipGridCell.Empty, true)]
         [TestCase(BattleshipGridCell.Miss, true)]
         [TestCase(BattleshipGridCell.ShipHit, true)]

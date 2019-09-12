@@ -39,6 +39,24 @@ namespace Battleship.Services.UnitTests
             Assert.AreEqual(expected.Grid, result.Grid);
         }
 
+
+        [Test]
+        public void Build_ShouldReturnBoardWithSingleShip_WhenSingleShipInConfiguration()
+        {
+            // arrange
+            var shipsOnStart = new [] { 1 };
+            var x1 = 2;
+            var x2 = 1;
+            var expected = GetEmptyGrid();
+            expected[2][1] = BattleshipGridCell.ShipUntouched;
+
+            // act 
+            var result = _servceUnderTest.Build();
+
+            // assert
+            Assert.AreEqual(expected, result.Grid);
+        }
+
         [Test]
         public void Build_ShouldReturnMissMark_WhenShotMissed()
         {

@@ -10,6 +10,12 @@
 ### Running tests
 ```dotnet test`
 
+### TODOs
+- prepare initial state of game with parametrized number of ships
+- play game as long as non finished = rename play(guess) to playRound, create new play()
+- make sure all works in system console
+- CI with testing
+
 
 ## Guidelines
 
