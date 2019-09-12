@@ -11,7 +11,6 @@
 ```dotnet test`
 
 ### TODOs
-- make sure lowercase guesses are working
 - display welcome message with instructions
 - play game as long as non finished = rename play(guess) to playRound, create new play()
 - display congratulations message on win
