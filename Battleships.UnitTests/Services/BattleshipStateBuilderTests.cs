@@ -3,6 +3,7 @@ using System.Linq;
 using Battleships.Interfaces;
 using Battleships.Models;
 using Battleships.Services;
+using Battleships.UnitTests.TestUtils;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -191,7 +192,7 @@ namespace Battleship.Services.UnitTests
             _charSvc.GetColumn(guess).Returns(1);
             var expected = new BattleshipGameState
             {
-                Grid = GetEmptyGrid(gridSize)
+                Grid = GetEmptyGrid()
             };
             expected.Grid[2][1] = BattleshipGridCell.ShipHit;
 
@@ -205,24 +206,7 @@ namespace Battleship.Services.UnitTests
         //  ------------------- Helper methods -------------------- //
         private List<List<BattleshipGridCell>> GetEmptyGrid()
         {
-            return GetEmptyGrid(gridSize);
-        }
-
-        public static List<List<BattleshipGridCell>> GetEmptyGrid(int gridSize)
-        {
-            return new List<List<BattleshipGridCell>>
-            {
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList(),
-                Enumerable.Range(0, gridSize).Select(_ => BattleshipGridCell.Empty).ToList()
-            };
+            return EmptyGridBuilder.GetEmptyGrid(gridSize);
         }
     }
 }

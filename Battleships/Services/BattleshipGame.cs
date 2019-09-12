@@ -7,7 +7,7 @@ namespace Battleships.Services
 {
     public class BattleshipGame: IBattleshipGame
     {
-        private IBattleshipStateBuilder _stateBuilder { get; }
+        private readonly IBattleshipStateBuilder _stateBuilder;
         private readonly IShowGameState _gameShowService;
 
         private BattleshipGameState _gameState;
@@ -65,6 +65,11 @@ namespace Battleships.Services
             return !gameState.Grid.Any(
                 line => line.Any(
                     cell => cell == BattleshipGridCell.ShipUntouched));
+        }
+
+        public void Play()
+        {
+            throw new NotImplementedException();
         }
     }
 }

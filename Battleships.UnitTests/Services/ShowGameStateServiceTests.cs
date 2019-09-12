@@ -1,6 +1,7 @@
 using Battleships.Interfaces;
 using Battleships.Models;
 using Battleships.Services;
+using Battleships.UnitTests.TestUtils;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -11,7 +12,7 @@ namespace Battleship.Services.UnitTests
         private const int gridSize = 10;
         private string _consoleOut;
         
-        private IShowGameState _showGameService;
+        private IShowGameState _serviceUnderTests;
 
         [SetUp]
         public void SetUp()
@@ -40,7 +41,7 @@ namespace Battleship.Services.UnitTests
             config.Empty.Returns(' ');
             config.Hit.Returns('*');
             config.Miss.Returns('x');
-            _showGameService = new ShowGameStateService(charService, console, config);
+            _serviceUnderTests = new ShowGameStateService(charService, console, config);
         }
 
         [Test]
@@ -60,11 +61,11 @@ namespace Battleship.Services.UnitTests
             "I                     |\r\n" +
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
-            var emptyGrid = BattleshipStateBuilderTests.GetEmptyGrid(10);
+            var emptyGrid = EmptyGridBuilder.GetEmptyGrid(10);
             var empty = new BattleshipGameState { Grid = emptyGrid };
             
             // act
-            _showGameService.Show(empty);
+            _serviceUnderTests.Show(empty);
 
             // assert
             Assert.AreEqual(expectedFirstScreen, _consoleOut);
@@ -87,13 +88,13 @@ namespace Battleship.Services.UnitTests
             "I                     |\r\n" +
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
-            var grid = BattleshipStateBuilderTests.GetEmptyGrid(10);
+            var grid = EmptyGridBuilder.GetEmptyGrid(10);
             grid[0][0] = BattleshipGridCell.ShipHit;
             grid[0][9] = BattleshipGridCell.Miss;
             var state = new BattleshipGameState { Grid = grid };
             
             // act
-            _showGameService.Show(state);
+            _serviceUnderTests.Show(state);
 
             // assert
             Assert.AreEqual(expectedFirstScreen, _consoleOut);
@@ -106,7 +107,7 @@ namespace Battleship.Services.UnitTests
             var expected = "Invalid cell, A-J and 1-10 are allowed\r\n";
 
             // act
-            _showGameService.DisplayInputWarning();
+            _serviceUnderTests.DisplayInputWarning();
 
             // assert
             Assert.AreEqual(expected, _consoleOut);
@@ -119,10 +120,113 @@ namespace Battleship.Services.UnitTests
             var expected = "You already had shoot there, try something else\r\n";
 
             // act
-            _showGameService.DisplayRetryWarning();
+            _serviceUnderTests.DisplayRetryWarning();
 
             // assert
             Assert.AreEqual(expected, _consoleOut);
+        }
+    }
+
+    public class BattleshipGameTests {
+        private IBattleshipStateBuilder _stateBuilder;
+        private IShowGameState _gameShowService;
+
+        private BattleshipGame _serviceUnderTests;
+
+        private BattleshipGameState initialState;
+        int gridSize = 4;
+
+        [SetUp]
+        public void SetUp()
+        {
+            initialState = new BattleshipGameState() { Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) };
+            
+            _stateBuilder = Substitute.For<IBattleshipStateBuilder>();
+            _stateBuilder.Build().Returns(initialState);
+            _gameShowService = Substitute.For<IShowGameState>();
+
+            _serviceUnderTests = new BattleshipGame(_stateBuilder, _gameShowService);
+        }
+
+        [Test]
+        public void Play_ShowsGame_GivenGuess()
+        {
+            // arrange
+            var guess = "A1";
+            var nextState = new BattleshipGameState();
+            _stateBuilder.Build(initialState, guess).Returns(nextState);
+
+            // act
+            _serviceUnderTests.Play(guess);
+
+            // assert
+            _gameShowService.Received().Show(nextState);
+        }
+
+        [Test]
+        public void Play_PlaysUntilAllShipsSank_Parameterless()
+        {
+            // arrange
+            initialState.Grid[0][0] = BattleshipGridCell.ShipUntouched;
+            initialState.Grid[0][1] = BattleshipGridCell.ShipUntouched;
+            initialState.Grid[0][2] = BattleshipGridCell.ShipUntouched;
+            _stateBuilder.Build().Returns(initialState);
+
+            var guess1 = "A1";
+            var state1 = new BattleshipGameState() { Grid = initialState.Grid };
+            initialState.Grid[0][0] = BattleshipGridCell.ShipHit;
+            _stateBuilder.Build(initialState, guess1).Returns(state1);
+
+            var guess2 = "A2";
+            var state2 = new BattleshipGameState() { Grid = initialState.Grid };
+            initialState.Grid[0][1] = BattleshipGridCell.ShipHit;
+            _stateBuilder.Build(initialState, guess2).Returns(state2);
+
+            var guess3 = "A3";
+            var state3 = new BattleshipGameState() { Grid = initialState.Grid };
+            initialState.Grid[0][2] = BattleshipGridCell.ShipHit;
+            _stateBuilder.Build(initialState, guess3).Returns(state3);
+
+            // act
+            _serviceUnderTests.Play();
+
+            // assert
+            Assert.IsTrue(_serviceUnderTests.IsFinished());
+        }
+
+        [Test]
+        public void Play_ShowsAllGeneratedStates_Parameterless()
+        {
+            // arrange
+            initialState.Grid[0][0] = BattleshipGridCell.ShipUntouched;
+            initialState.Grid[0][1] = BattleshipGridCell.ShipUntouched;
+            initialState.Grid[0][2] = BattleshipGridCell.ShipUntouched;
+            _stateBuilder.Build().Returns(initialState);
+
+            var guess1 = "A1";
+            var state1 = new BattleshipGameState() { Grid = initialState.Grid };
+            initialState.Grid[0][0] = BattleshipGridCell.ShipHit;
+            _stateBuilder.Build(initialState, guess1).Returns(state1);
+
+            var guess2 = "A2";
+            var state2 = new BattleshipGameState() { Grid = initialState.Grid };
+            initialState.Grid[0][1] = BattleshipGridCell.ShipHit;
+            _stateBuilder.Build(initialState, guess2).Returns(state2);
+
+            var guess3 = "A3";
+            var state3 = new BattleshipGameState() { Grid = initialState.Grid };
+            initialState.Grid[0][2] = BattleshipGridCell.ShipHit;
+            _stateBuilder.Build(initialState, guess3).Returns(state3);
+
+            // act
+            _serviceUnderTests.Play();
+
+            // assert
+            _gameShowService.Received().Show(initialState);
+            _gameShowService.Received().Show(state1);
+            _gameShowService.Received().Show(state2);
+            _gameShowService.Received().Show(state3);
+
         }
     }
 }
