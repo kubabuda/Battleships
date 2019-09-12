@@ -43,13 +43,18 @@ namespace Battleships.Services
             foreach(var shipLength in _configuration.Ships.OrderByDescending(s => s))
             {
                 var isVertical = _random.IsNextVertical();
-                var ship = new BattleShip { length = shipLength, isVertical = isVertical };
+                var ship = BuildShip(shipLength, isVertical);
                 var firstCell = GetShipStart(grid, ship);
 
-                BuildShip(grid, ship, firstCell);
+                PlaceShipOnGrid(grid, ship, firstCell);
             }
 
             return grid;
+        }
+
+        private static BattleShip BuildShip(int shipLength, bool isVertical)
+        {
+            return new BattleShip { length = shipLength, isVertical = isVertical };
         }
 
         public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, BattleShip ship)
@@ -69,7 +74,7 @@ namespace Battleships.Services
             return _random.NextCell();
         }
 
-        private void BuildShip(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
+        private void PlaceShipOnGrid(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
         {
 
             for (int i = 0; i < ship.length; ++i)
