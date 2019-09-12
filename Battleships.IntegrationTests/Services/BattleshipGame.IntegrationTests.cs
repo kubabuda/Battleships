@@ -130,7 +130,6 @@ namespace Battleship.Services.IntegrationTests
         public void Play_ShouldShowWarning_OnInputOutOfRange(string guess)
         {
             // arrange
-            // _game = _container.Resolve<BattleshipGame>();
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = BattleshipGridCell.ShipUntouched;
             var expected = "Invalid cell, A-J and 1-10 are allowed\r\n";

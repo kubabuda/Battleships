@@ -11,6 +11,7 @@ namespace Battleships.Services
         private IConfiguration _configuration { get; }
         private IConsole _console { get; }
         private IBattleshipStateBuilder _stateBuilder { get; }
+        private readonly IShowGameState _gameShowService;
 
         private string _invalidInputWarning
         {
@@ -23,7 +24,6 @@ namespace Battleships.Services
             }   
         }
 
-        private readonly IShowGameState _gameShowService;
         private BattleshipGameState _gameState;
 
         public BattleshipGame(

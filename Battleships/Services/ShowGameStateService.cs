@@ -20,9 +20,21 @@ namespace Battleships.Services
             _configuration = configuration;
         }
 
+
+        private string _invalidInputWarning
+        {
+            get {
+
+                char maxLetter = _charSvc.GetLetter(_configuration.GridSize - 1);
+                int maxNumber = _configuration.GridSize;
+                
+                return $"Invalid cell, A-{maxLetter} and 1-{maxNumber} are allowed";
+            }   
+        }
+
         public void DisplayInputWarning()
         {
-            throw new System.NotImplementedException();
+            _console.WriteLine(_invalidInputWarning);
         }
 
         public void Show(BattleshipGameState state)
