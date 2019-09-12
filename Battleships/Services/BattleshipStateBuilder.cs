@@ -36,23 +36,30 @@ namespace Battleships.Services
         {
             var grid =  BuildEmptyGrid();
             
-            foreach(var ship in _configuration.Ships)
+            foreach(var shipLength in _configuration.Ships)
             {
-                BuildShip(grid, ship);
+                var isVertical = _random.IsNextVertical();
+                var ship = (shipLength: shipLength, isVertical: isVertical);
+                var firstCell = GetShipStart(grid, ship);
+
+                BuildShip(grid, ship, firstCell);
             }
 
             return grid;
         }
 
-        private void BuildShip(List<List<BattleshipGridCell>> grid, int ship)
+        public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, (int ship, bool isVertical) ship)
         {
-            var firstCell = _random.NextCell();
-            var isVertical = _random.IsNextVertical();
+            return _random.NextCell();
+        }
 
-            for (int i = 0; i < ship; ++i)
+        private void BuildShip(List<List<BattleshipGridCell>> grid, (int length, bool isVertical) ship, (int x, int y) firstCell)
+        {
+
+            for (int i = 0; i < ship.length; ++i)
             {
-                var nextX = isVertical ? firstCell.x + i : firstCell.x;
-                var nextY = isVertical ? firstCell.y : firstCell.y + i;
+                var nextX = ship.isVertical ? firstCell.x + i : firstCell.x;
+                var nextY = ship.isVertical ? firstCell.y : firstCell.y + i;
 
                 grid[nextX][nextY] = BattleshipGridCell.ShipUntouched;
             }

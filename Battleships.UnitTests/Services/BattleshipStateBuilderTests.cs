@@ -28,8 +28,10 @@ namespace Battleship.Services.UnitTests
             _servceUnderTest = new BattleshipStateBuilder(_charSvc, _config, _randomService);
         }
 
+        // ------------------- Initial state -----------------------------
+
         [Test]
-        public void Build_ShouldReturnEmptyBoard_WithoutParameters()
+        public void Build_ShouldReturnEmptyBoard_WhenNoShipsConfigured()
         {
             // arrange
             _config.Ships.Returns(new List<int>());
@@ -84,6 +86,8 @@ namespace Battleship.Services.UnitTests
             // assert
             Assert.AreEqual(expected, result.Grid);
         }
+
+        // ------------------- Next state -----------------------------
 
         [Test]
         public void Build_ShouldReturnMissMark_WhenShotMissed()
