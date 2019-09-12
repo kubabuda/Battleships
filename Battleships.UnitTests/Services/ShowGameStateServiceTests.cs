@@ -91,6 +91,7 @@ namespace Battleship.Services.UnitTests
             var grid = EmptyGridBuilder.GetEmptyGrid(10);
             grid[0][0] = BattleshipGridCell.ShipHit;
             grid[0][9] = BattleshipGridCell.Miss;
+            grid[0][8] = BattleshipGridCell.ShipUntouched;
             var state = new BattleshipGameState { Grid = grid };
             
             // act

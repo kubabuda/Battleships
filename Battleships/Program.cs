@@ -13,9 +13,13 @@ namespace Battleships
 
             using (var scope = Container.BeginLifetimeScope())
             {
-                var game = scope.Resolve<IBattleshipGame>();
                 var console = scope.Resolve<IConsole>();
-                console.WriteLine("Hello");
+                console.WriteLine("Welcome to Battleships game!");
+                
+                var game = scope.Resolve<IBattleshipGame>();
+                game.Play();
+
+                console.WriteLine("You won. Congratulations!");
             }
         }
     }

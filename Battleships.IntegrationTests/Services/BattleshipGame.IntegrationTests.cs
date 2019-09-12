@@ -16,7 +16,7 @@ namespace Battleship.Services.IntegrationTests
 
         IBattleshipStateBuilder _stateBuilder;
 
-        private IBattleshipGame _game;
+        private BattleshipGame _game;
         private string _consoleOut;
 
         [SetUp]
@@ -43,7 +43,7 @@ namespace Battleship.Services.IntegrationTests
             _container = builder.Build();
             // get tested class instance
             _stateBuilder = _container.Resolve<IBattleshipStateBuilder>();
-            _game = _container.Resolve<IBattleshipGame>();
+            _game = _container.Resolve<IBattleshipGame>() as BattleshipGame;
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace Battleship.Services.IntegrationTests
             Assert.AreEqual(expected, result);
         } 
     
-        private IBattleshipGame GameFromPrevState(BattleshipGameState prevState)
+        private BattleshipGame GameFromPrevState(BattleshipGameState prevState)
         {
             return new BattleshipGame(
                 _container.Resolve<IConsole>(),
