@@ -13,17 +13,6 @@ namespace Battleships.Services
         private IBattleshipStateBuilder _stateBuilder { get; }
         private readonly IShowGameState _gameShowService;
 
-        private string _invalidInputWarning
-        {
-            get {
-
-                char maxLetter = _charSvc.GetLetter(_configuration.GridSize - 1);
-                int maxNumber = _configuration.GridSize;
-                
-                return $"Invalid cell, A-{maxLetter} and 1-{maxNumber} are allowed";
-            }   
-        }
-
         private BattleshipGameState _gameState;
 
         public BattleshipGame(
@@ -70,7 +59,7 @@ namespace Battleships.Services
             }
             catch (ArgumentOutOfRangeException)
             {
-                _console.WriteLine(_invalidInputWarning);
+                _gameShowService.DisplayInputWarning();
             }
             catch (InvalidOperationException)
             {
