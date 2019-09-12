@@ -1,5 +1,6 @@
 using Battleships.Interfaces;
 using Battleships.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Battleships.Services
@@ -29,6 +30,11 @@ namespace Battleships.Services
             }
 
             return false;
+        }
+
+        public bool IsGuessCollidingWithBorders(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) p)
+        {
+            throw new NotImplementedException();
         }
     }
 }

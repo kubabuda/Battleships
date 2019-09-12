@@ -32,7 +32,7 @@ namespace Battleship.Services.UnitTests
         [TestCase(0, 2, true, true)]
         [TestCase(4, 4, true, false)]
         [TestCase(1, 1, false, true)]
-        public void IsGuessCollidingWithShips_ReturnsTrue_ForShipsCollision(int x, int y, bool isVertical, bool expected)
+        public void IsCollidingWithShips_ReturnsTrue_ForShipsCollision(int x, int y, bool isVertical, bool expected)
         {
             // arrange
             var grid = BattleshipStateBuilderTests.GetEmptyGrid(gridSize);
@@ -42,6 +42,32 @@ namespace Battleship.Services.UnitTests
 
             // act
             var result = _servceUnderTest.IsGuessCollidingWithShips(grid, ship, (x: x, y: y));
+
+            // assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestCase(0, 0, 2, true, false)]
+        [TestCase(0, 0, 2, false, false)]
+        [TestCase(0, 9, 1, true, false)]
+        [TestCase(0, 9, 1, false, false)]
+        [TestCase(0, 9, 2, true, false)]
+        [TestCase(0, 9, 2, false, true)]
+        [TestCase(9, 0, 1, true, false)]
+        [TestCase(9, 0, 1, false, false)]
+        [TestCase(9, 0, 2, true, true)]
+        [TestCase(9, 0, 2, false, false)]
+        [TestCase(9, 9, 1, true, false)]
+        [TestCase(9, 9, 1, false, false)]
+        [TestCase(9, 9, 2, true, true)]
+        [TestCase(9, 9, 2, false, true)]
+        public void IsCollidingWithBorder_ReturnsTrue_WhenShipWouldExtendOverBorder(int x, int y, int length, bool isVertical, bool expected)
+        {
+            var grid = BattleshipStateBuilderTests.GetEmptyGrid(gridSize);
+            var ship = new BattleShip() { length = length, isVertical = isVertical };
+
+            // act
+            var result = _servceUnderTest.IsGuessCollidingWithBorders(grid, ship, (x: x, y: y));
 
             // assert
             Assert.AreEqual(expected, result);
