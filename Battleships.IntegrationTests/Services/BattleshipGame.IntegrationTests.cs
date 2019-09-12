@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Battleship.Services.IntegrationTests
 {
-    public class BattleshipGameTests
+    partial class BattleshipGameTests
     {
         IConfiguration _config;
         private IContainer _container;
@@ -159,16 +159,6 @@ namespace Battleship.Services.IntegrationTests
             Assert.AreEqual(expected, _consoleOut);
         }
 
-        private IBattleshipGame GameFromPrevState(BattleshipGameState prevState)
-        {
-            return new BattleshipGame(
-                _container.Resolve<IConvertCharService>(),
-                _container.Resolve<IConfiguration>(),
-                _container.Resolve<IConsole>(),
-                _container.Resolve<IBattleshipStateBuilder>(),
-                prevState);
-        }
-
         [TestCase(BattleshipGridCell.Empty, true)]
         [TestCase(BattleshipGridCell.Miss, true)]
         [TestCase(BattleshipGridCell.ShipHit, true)]
@@ -185,6 +175,16 @@ namespace Battleship.Services.IntegrationTests
 
             // assert
             Assert.AreEqual(expected, result);
+        } 
+    
+        private IBattleshipGame GameFromPrevState(BattleshipGameState prevState)
+        {
+            return new BattleshipGame(
+                _container.Resolve<IConvertCharService>(),
+                _container.Resolve<IConfiguration>(),
+                _container.Resolve<IConsole>(),
+                _container.Resolve<IBattleshipStateBuilder>(),
+                prevState);
         }
     }
 }

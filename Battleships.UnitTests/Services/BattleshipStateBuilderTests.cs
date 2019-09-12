@@ -108,16 +108,17 @@ namespace Battleship.Services.UnitTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCase(1, 2, true)]
-        [TestCase(0, 2, true)]
-        [TestCase(4, 4, false)]
-        public void IsGuessCollidingWithShips_ReturnsTrue_ForShipsCollision(int x, int y, bool expected)
+        [TestCase(1, 2, true, true)]
+        [TestCase(0, 2, true, true)]
+        [TestCase(4, 4, true, false)]
+        [TestCase(1, 1, false, true)]
+        public void IsGuessCollidingWithShips_ReturnsTrue_ForShipsCollision(int x, int y, bool isVertical, bool expected)
         {
             // arrange
             var grid = GetEmptyGrid();
             grid[1][2] = BattleshipGridCell.ShipUntouched;    // place ship on grid
             grid[2][2] = BattleshipGridCell.ShipUntouched;
-            var ship = new BattleShip() { length = 2, isVertical = true };
+            var ship = new BattleShip() { length = 2, isVertical = isVertical };
 
             // act
             var result = _servceUnderTest.IsGuessCollidingWithShips(grid, ship, (x: x, y: y));

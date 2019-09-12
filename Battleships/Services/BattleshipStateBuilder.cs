@@ -51,6 +51,7 @@ namespace Battleships.Services
         public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, BattleShip ship)
         {
             var guess = GetRandomGridCell();
+
             while (IsGuessCollidingWithShips(grid, ship, guess))
             {
                 guess = GetRandomGridCell();
@@ -71,13 +72,13 @@ namespace Battleships.Services
                 var nextX = ship.isVertical ? firstCell.x + i : firstCell.x;
                 var nextY = ship.isVertical ? firstCell.y : firstCell.y + i;
 
-                if(grid[nextX][nextY] != BattleshipGridCell.ShipUntouched)
+                if(grid[nextX][nextY] != BattleshipGridCell.Empty)
                 {
-                    return false;
+                    return true;
                 }
             }
 
-            return true;
+            return false;
         }
 
         private void BuildShip(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
