@@ -25,6 +25,7 @@ namespace Battleship.Services.UnitTests
 
     public class ShowGameStateServiceTests
     {
+        private const int gridSize = 10;
         private string _consoleOut;
         
         private IShowGameState _showGameService;
@@ -32,6 +33,17 @@ namespace Battleship.Services.UnitTests
         [SetUp]
         public void SetUp()
         {
+            var charService = Substitute.For<IConvertCharService>();
+            charService.GetLetter(0).Returns('A');
+            charService.GetLetter(1).Returns('B');
+            charService.GetLetter(2).Returns('C');
+            charService.GetLetter(3).Returns('D');
+            charService.GetLetter(4).Returns('E');
+            charService.GetLetter(5).Returns('F');
+            charService.GetLetter(6).Returns('G');
+            charService.GetLetter(7).Returns('H');
+            charService.GetLetter(8).Returns('I');
+            charService.GetLetter(9).Returns('J');
             _consoleOut = "";
             var console = Substitute.For<IConsole>();
             console
@@ -40,11 +52,14 @@ namespace Battleship.Services.UnitTests
                     var line = callinfo.ArgAt<string>(0);
                     _consoleOut = $"{_consoleOut}{line}\r\n";
                 });
-            _showGameService = new ShowGameStateService();
+            var config = Substitute.For<IConfiguration>();
+            config.GridSize.Returns(gridSize);
+            config.Empty.Returns(' ');
+            _showGameService = new ShowGameStateService(charService, console, config);
         }
 
         [Test]
-        public void Show_ShouldShowUntouchedGrid_OnFirstRound()
+        public void Show_ShouldShowEmptyGrid_GivenEmptyGrid()
         {
             // arrange
             var expectedFirstScreen =
