@@ -1,5 +1,6 @@
 using Autofac;
 using Battleships;
+using Battleships.Configurations;
 using Battleships.Interfaces;
 using Battleships.Models;
 using Battleships.Services;

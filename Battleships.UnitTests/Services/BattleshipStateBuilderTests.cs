@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Battleships.Configurations;
 using Battleships.Interfaces;
 using Battleships.Models;
 using Battleships.Services;

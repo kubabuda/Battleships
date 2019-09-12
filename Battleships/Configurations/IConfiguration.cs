@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Battleships.Models
+namespace Battleships.Configurations
 {
     public interface IConfiguration
     {
