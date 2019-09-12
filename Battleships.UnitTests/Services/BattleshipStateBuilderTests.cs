@@ -64,6 +64,27 @@ namespace Battleship.Services.UnitTests
             Assert.AreEqual(expected, result.Grid);
         }
 
+        [TestCase(true, 2)]
+        [TestCase(false, 2)]
+        public void Build_ShouldRotateShip_WhenItsSelectedRandomly(bool isVertical, int shipLength)
+        {
+            // arrange
+            int x = 1;
+            int y = 1;
+            _config.Ships.Returns(new List<int>{ shipLength });
+            _randomService.NextCell().Returns((x:x, y:y));
+            _randomService.IsNextVertical().Returns(isVertical);
+            var expected = GetEmptyGrid();
+            expected[x][y] = BattleshipGridCell.ShipUntouched;
+            expected[isVertical? x + 1 : x][isVertical? x : x + 1] = BattleshipGridCell.ShipUntouched;
+
+            // act 
+            var result = _servceUnderTest.Build();
+
+            // assert
+            Assert.AreEqual(expected, result.Grid);
+        }
+
         [Test]
         public void Build_ShouldReturnMissMark_WhenShotMissed()
         {

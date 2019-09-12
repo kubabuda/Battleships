@@ -15,6 +15,11 @@ namespace Battleships.Services
             _random = new Random();
         }
 
+        public bool IsNextVertical()
+        {
+            throw new NotImplementedException();
+        }
+
         public (int x, int y) NextCell()
         {
             return (x: NextCellIndex(), y: NextCellIndex());

@@ -38,8 +38,8 @@ namespace Battleships.Services
             
             foreach(var ship in _configuration.Ships)
             {
-                var nextCell = _random.NextCell();
-                grid[nextCell.x][nextCell.y] = BattleshipGridCell.ShipUntouched;
+                var firstCell = _random.NextCell();
+                grid[firstCell.x][firstCell.y] = BattleshipGridCell.ShipUntouched;
             }
 
             return grid;
