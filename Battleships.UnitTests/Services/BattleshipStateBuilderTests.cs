@@ -14,7 +14,7 @@ namespace Battleship.Services.UnitTests
         private IConfiguration _config;
         private IRandom _randomService;
 
-        private IBattleshipStateBuilder _servceUnderTest;
+        private BattleshipStateBuilder _servceUnderTest;
 
         private int gridSize = 10;
 
@@ -28,7 +28,7 @@ namespace Battleship.Services.UnitTests
             _servceUnderTest = new BattleshipStateBuilder(_charSvc, _config, _randomService);
         }
 
-        // ------------------- Initial state -----------------------------
+        // ------------------- Initial state --------------------------- //
 
         [Test]
         public void Build_ShouldReturnEmptyBoard_WhenNoShipsConfigured()
@@ -87,7 +87,28 @@ namespace Battleship.Services.UnitTests
             Assert.AreEqual(expected, result.Grid);
         }
 
-        // ------------------- Next state -----------------------------
+        [Test]
+        public void GetShipStart_ShouldPreventCollisionsWithOtherShips_WhenPlacingNextShip() {
+            // arrange
+            var grid = GetEmptyGrid();
+            var firstShipStart = (x: 1, y: 2);
+            grid[firstShipStart.x][firstShipStart.y] = BattleshipGridCell.ShipUntouched;    // place ship on grid
+            grid[firstShipStart.x + 1][firstShipStart.y] = BattleshipGridCell.ShipUntouched;
+            var nextShip = (length: 2, isVertical: true);
+            var expected = (x: 2, y: 3);
+            _randomService.NextCell()
+                .Returns(firstShipStart,    // we randomly got space that is 
+                    firstShipStart,         // already used by other ships
+                    expected);          // until we got proper one
+            
+            // act
+            var result = _servceUnderTest.GetShipStart(grid, nextShip);
+
+            // assert
+            Assert.AreEqual(expected, result);
+        }
+
+        // ------------------- Next state ------------------------- //
 
         [Test]
         public void Build_ShouldReturnMissMark_WhenShotMissed()
@@ -138,6 +159,8 @@ namespace Battleship.Services.UnitTests
             // assert
             Assert.AreEqual(expected.Grid, result.Grid);
         }
+
+        //  ------------------- Helper methods -------------------- //
 
         private List<List<BattleshipGridCell>> GetEmptyGrid()
         {

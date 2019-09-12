@@ -48,7 +48,7 @@ namespace Battleships.Services
             return grid;
         }
 
-        public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, (int ship, bool isVertical) ship)
+        public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, (int length, bool isVertical) ship)
         {
             return _random.NextCell();
         }
