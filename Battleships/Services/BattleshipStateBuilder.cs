@@ -6,12 +6,6 @@ using System.Linq;
 
 namespace Battleships.Services
 {
-    public class BattleShip
-    {
-        public int length { get; set; }
-        public bool isVertical { get; set; }
-    }
-
     public class BattleshipStateBuilder: IBattleshipStateBuilder
     {
         private IConfiguration _configuration;
