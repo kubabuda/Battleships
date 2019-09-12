@@ -120,7 +120,34 @@ namespace Battleship.Services.UnitTests
         [Test] // TODO test in integration too
         public void Build_ShouldPlaceAllShips_FromConfiguration()
         {
-            
+            var grid = GetEmptyGrid();
+            var firstShipStart = (x: 1, y: 2);
+            grid[firstShipStart.x][firstShipStart.y] = BattleshipGridCell.ShipUntouched;    // 1st ship: 2 mast vertical
+            grid[firstShipStart.x + 1][firstShipStart.y] = BattleshipGridCell.ShipUntouched;
+            var secondShipStart = (x: 2, y: 3);
+            grid[secondShipStart.x][secondShipStart.y] = BattleshipGridCell.ShipUntouched;    // 2nd ship: 3 mast vertical
+            grid[secondShipStart.x + 1][secondShipStart.y] = BattleshipGridCell.ShipUntouched;
+            grid[secondShipStart.x + 2][secondShipStart.y] = BattleshipGridCell.ShipUntouched;
+            var thirdShipStart = (x: 8, y: 4);
+            grid[thirdShipStart.x][thirdShipStart.y] = BattleshipGridCell.ShipUntouched;    // 3rd ship: 4 mast horizontal
+            grid[thirdShipStart.x][thirdShipStart.y + 1] = BattleshipGridCell.ShipUntouched;
+            grid[thirdShipStart.x][thirdShipStart.y + 2] = BattleshipGridCell.ShipUntouched;
+            grid[thirdShipStart.x][thirdShipStart.y + 3] = BattleshipGridCell.ShipUntouched;
+            var ships = new [] { 2, 3, 4 };
+            _config.Ships.Returns(ships);
+            _randomService.NextCell().Returns(firstShipStart, secondShipStart, thirdShipStart);
+            _randomService.IsNextVertical().Returns(true, true, false);
+            var starts = new [] { firstShipStart, secondShipStart, thirdShipStart };
+            _detectCollisionService.IsGuessColliding(
+                Arg.Any<List<List<BattleshipGridCell>>>(),
+                Arg.Any<BattleShip>(),
+                Arg.Is<(int, int)>(i => !starts.Contains(i))
+            ).Returns(true);
+            // act
+            var result = _servceUnderTest.Build();
+
+            // assert
+            Assert.AreEqual(grid, result.Grid);
         }
 
         // ------------------- Next state ------------------------- //
