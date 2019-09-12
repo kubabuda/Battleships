@@ -1,7 +1,6 @@
 using Battleships.Interfaces;
 using Battleships.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleships.Services
@@ -22,27 +21,32 @@ namespace Battleships.Services
                 
                 return $"Invalid cell, A-{maxLetter} and 1-{maxNumber} are allowed";
             }   
-        } 
+        }
+
+        private readonly IShowGameState _gameShowService;
         private BattleshipGameState _gameState;
 
         public BattleshipGame(
             IConvertCharService charSvc,
             IConfiguration configuration,
             IConsole console,
-            IBattleshipStateBuilder stateBuilder)
-        :this(charSvc, configuration, console, stateBuilder, stateBuilder.Build()) { }
+            IBattleshipStateBuilder stateBuilder,
+            IShowGameState gameShowService)
+        :this(charSvc, configuration, console, stateBuilder, gameShowService, stateBuilder.Build()) { }
 
         public BattleshipGame(
             IConvertCharService charSvc,
             IConfiguration configuration,
             IConsole console,
-            IBattleshipStateBuilder stateBuilder, 
+            IBattleshipStateBuilder stateBuilder,
+            IShowGameState gameShowService,
             BattleshipGameState gameState
         ) {
             _charSvc = charSvc;
             _configuration = configuration;
             _console = console;
             _stateBuilder = stateBuilder;
+            _gameShowService = gameShowService;
             _gameState = gameState;
         }
 
@@ -53,14 +57,7 @@ namespace Battleships.Services
 
         private void Show(BattleshipGameState state)
         {
-            _console.WriteLine($"  {string.Join(' ', Enumerable.Range(1, _configuration.GridSize))}");
-            int i = 0;
-            foreach (var line in state.Grid)
-            {
-                var lineToDisplay = string.Join(' ', line.Select(l => GetCellValueToDisplay(l)));
-                _console.WriteLine($"{_charSvc.GetLetter(i++)} {lineToDisplay} |");
-            }
-            _console.WriteLine($"  {string.Join(' ', Enumerable.Range(0, _configuration.GridSize).Select(_ => "-")) } ");
+            _gameShowService.Show(state);
         }
 
         public void Play(string guess)
@@ -79,18 +76,6 @@ namespace Battleships.Services
             {
                 _console.WriteLine("You already had shoot there, try something else");
             }
-        }
-
-        private char GetCellValueToDisplay(BattleshipGridCell die)
-        {
-            var mappings = new Dictionary<BattleshipGridCell, char>
-            {
-                { BattleshipGridCell.Empty, _configuration.Empty },
-                { BattleshipGridCell.Miss, _configuration.Miss },
-                { BattleshipGridCell.ShipHit, _configuration.Hit }
-            };
-
-            return mappings[die];
         }
 
         public bool IsFinished()

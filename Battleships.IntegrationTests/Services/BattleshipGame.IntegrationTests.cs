@@ -184,6 +184,7 @@ namespace Battleship.Services.IntegrationTests
                 _container.Resolve<IConfiguration>(),
                 _container.Resolve<IConsole>(),
                 _container.Resolve<IBattleshipStateBuilder>(),
+                _container.Resolve<IShowGameState>(),
                 prevState);
         }
     }
