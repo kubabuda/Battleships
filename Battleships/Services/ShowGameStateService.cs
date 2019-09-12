@@ -39,7 +39,7 @@ namespace Battleships.Services
 
         public void DisplayRetryWarning()
         {
-            throw new System.NotImplementedException();
+            _console.WriteLine("You already had shoot there, try something else");
         }
 
         public void Show(BattleshipGameState state)
