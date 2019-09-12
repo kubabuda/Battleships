@@ -11,6 +11,7 @@ namespace Battleship.Services.UnitTests
     public class BattleshipStateBuilderTests
     {
         private IConvertCharService _charSvc;
+        private IConfiguration _config;
         private IBattleshipStateBuilder _servceUnderTest;
 
         private int gridSize = 10;
@@ -19,15 +20,16 @@ namespace Battleship.Services.UnitTests
         public void SetUp()
         {
             _charSvc = Substitute.For<IConvertCharService>();
-            var config = Substitute.For<IConfiguration>();
-            config.GridSize.Returns(gridSize);
-            _servceUnderTest = new BattleshipStateBuilder(_charSvc, config);
+            _config = Substitute.For<IConfiguration>();
+            _config.GridSize.Returns(gridSize);
+            _servceUnderTest = new BattleshipStateBuilder(_charSvc, _config);
         }
 
         [Test]
         public void Build_ShouldReturnEmptyBoard_WithoutParameters()
         {
             // arrange
+            _config.Ships.Returns(new List<int>());
             var expected = new BattleshipGameState
             {
                 Grid = GetEmptyGrid()
@@ -44,9 +46,9 @@ namespace Battleship.Services.UnitTests
         public void Build_ShouldReturnBoardWithSingleShip_WhenSingleShipInConfiguration()
         {
             // arrange
-            var shipsOnStart = new [] { 1 };
             var x1 = 2;
             var x2 = 1;
+            _config.Ships.Returns(new List<int>{ 1 });
             var expected = GetEmptyGrid();
             expected[2][1] = BattleshipGridCell.ShipUntouched;
 

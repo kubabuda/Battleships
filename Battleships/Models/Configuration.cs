@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Battleships.Models
 {
     public class Configuration : IConfiguration
@@ -6,5 +8,7 @@ namespace Battleships.Models
         public char Empty => ' ';
         public char Miss => 'x';
         public char Hit => '*';
+
+        public IEnumerable<int> Ships { get; set; }
     }
 }

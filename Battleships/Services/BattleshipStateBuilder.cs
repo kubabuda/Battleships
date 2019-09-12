@@ -23,11 +23,28 @@ namespace Battleships.Services
         {
             return new BattleshipGameState
             {
-                Grid = new List<List<BattleshipGridCell>>(Enumerable.Range(0, _configuration.GridSize)
-                    .Select(_ => new List<BattleshipGridCell>(
-                        Enumerable.Range(0,  _configuration.GridSize).Select(__ => BattleshipGridCell.Empty).ToList())
-                    ).ToList())
+                Grid = BuildGrid()
             };
+        }
+
+        private List<List<BattleshipGridCell>> BuildGrid()
+        {
+            var grid =  BuildEmptyGrid();
+            
+            foreach(var ship in _configuration.Ships)
+            {
+                grid[2][1] = BattleshipGridCell.ShipUntouched;
+            }
+            
+            return grid;
+        }
+
+        private List<List<BattleshipGridCell>> BuildEmptyGrid()
+        {
+            return Enumerable.Range(0, _configuration.GridSize)
+                .Select(_ => Enumerable.Range(0, _configuration.GridSize)
+                    .Select(__ => BattleshipGridCell.Empty).ToList())
+                .ToList();
         }
 
         public BattleshipGameState Build(BattleshipGameState prevState, string guess)
