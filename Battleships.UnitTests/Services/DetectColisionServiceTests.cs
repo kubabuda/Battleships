@@ -1,6 +1,5 @@
 using Battleships.Models;
 using Battleships.Services;
-using Battleships.UnitTests.TestUtils;
 using NUnit.Framework;
 
 namespace Battleship.Services.UnitTests
@@ -17,7 +16,7 @@ namespace Battleship.Services.UnitTests
         public void IsGuessColliding_ReturnsTrue_ForShipsCollision(int x, int y, bool isVertical, bool expected)
         {
             // arrange
-            var grid = EmptyGridBuilder.GetEmptyGrid(gridSize);
+            var grid = BattleshipGameState.Empty(gridSize).Grid;
             grid[1][2] = BattleshipGridCell.Ship;    // place ship on grid
             grid[2][2] = BattleshipGridCell.Ship;
             var ship = new BattleShip(2, isVertical);
@@ -45,7 +44,7 @@ namespace Battleship.Services.UnitTests
         [TestCase(9, 9, 2, false, true)]
         public void IsGuessColliding_ReturnsTrue_WhenShipWouldExtendOverBorder(int x, int y, int length, bool isVertical, bool expected)
         {
-            var grid = EmptyGridBuilder.GetEmptyGrid(gridSize);
+            var grid = BattleshipGameState.Empty(gridSize).Grid;
             var ship = new BattleShip(length, isVertical);
 
             // act

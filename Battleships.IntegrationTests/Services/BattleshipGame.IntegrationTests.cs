@@ -49,10 +49,11 @@ namespace Battleship.Services.IntegrationTests
         }
 
         [Test]
-        public void Show_ShouldShowUntouchedGrid_OnFirstRound()
+        public void Show_ShouldShowEmptyGrid_OnFirstRound()
         {
             // arrange
-            var expectedFirstScreen =
+            _game = _container.Resolve<IBattleshipGame>() as BattleshipGame;
+            var expected =
             "  1 2 3 4 5 6 7 8 9 10\r\n" +
             "A                     |\r\n" +
             "B                     |\r\n" +
@@ -67,10 +68,10 @@ namespace Battleship.Services.IntegrationTests
             "  - - - - - - - - - - \r\n";
 
             // act
-            _game.Show();
+            _game.Play();
 
             // assert
-            Assert.AreEqual(expectedFirstScreen, _consoleOut);
+            Assert.AreEqual(expected, _consoleOut, "First empty screen");
         }
 
         [Test]
@@ -92,7 +93,7 @@ namespace Battleship.Services.IntegrationTests
             "  - - - - - - - - - - \r\n";
 
             // act
-            _game.Play("A3");
+            _game.PlayRound("A3");
 
             // assert
             Assert.AreEqual(expected, _consoleOut);
@@ -120,7 +121,7 @@ namespace Battleship.Services.IntegrationTests
             "  - - - - - - - - - - \r\n";
 
             // act
-            _game.Play("B5");
+            _game.PlayRound("B5");
 
             // assert
             Assert.AreEqual(expected, _consoleOut);
@@ -137,7 +138,7 @@ namespace Battleship.Services.IntegrationTests
             var expected = "Invalid cell, A-J and 1-10 are allowed\r\n";
 
             // act
-            _game.Play(guess);
+            _game.PlayRound(guess);
 
             // assert
             Assert.AreEqual(expected, _consoleOut);
@@ -151,10 +152,10 @@ namespace Battleship.Services.IntegrationTests
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = cellState;
             _game = GameFromPrevState(prevState);
-            var expected = "You already had shoot there, try something else\r\n";
+            var expected = "You already have shoot there, try something else\r\n";
 
             // act
-            _game.Play("B5");
+            _game.PlayRound("B5");
 
             // assert
             Assert.AreEqual(expected, _consoleOut);

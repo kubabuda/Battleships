@@ -39,14 +39,8 @@ namespace Battleships.Services
             while (!IsFinished())
             {
                 string guess = _console.ReadLine();
-                Play(guess);
+                PlayRound(guess);
             }
-        }
-
-        // todo method to remove
-        public void Show()
-        {
-            Show(_gameState);
         }
 
         private void Show(BattleshipGameState state)
@@ -54,7 +48,7 @@ namespace Battleships.Services
             _gameShowService.Show(state);
         }
 
-        public void Play(string guess)
+        public void PlayRound(string guess)
         {
             try
             {

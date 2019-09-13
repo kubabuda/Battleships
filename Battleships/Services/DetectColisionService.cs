@@ -31,8 +31,8 @@ namespace Battleships.Services
         {
             for (int i = 0; i < ship.Length; ++i)
             {
-                var nextLine = ship.IsVertical ? firstCell.line + i : firstCell.line;
-                var nextColumn = ship.IsVertical ? firstCell.column : firstCell.column + i;
+                var nextLine = ship.IsVertical ? firstCell.Line + i : firstCell.Line;
+                var nextColumn = ship.IsVertical ? firstCell.Column : firstCell.Column + i;
 
                 if (grid[nextLine][nextColumn] != BattleshipGridCell.Empty)
                 {
@@ -52,14 +52,14 @@ namespace Battleships.Services
 
             if (ship.IsVertical)
             {
-                if (position.line + ship.Length > gridSize)
+                if (position.Line + ship.Length > gridSize)
                 {
                     return true;
                 }
             }
             else
             {
-                if (position.column + ship.Length > gridSize)
+                if (position.Column + ship.Length > gridSize)
                 {
                     return true;
                 }

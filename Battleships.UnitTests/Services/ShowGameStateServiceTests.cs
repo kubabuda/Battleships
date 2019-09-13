@@ -2,7 +2,6 @@ using Battleships.Configurations;
 using Battleships.Interfaces;
 using Battleships.Models;
 using Battleships.Services;
-using Battleships.UnitTests.TestUtils;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -63,7 +62,7 @@ namespace Battleship.Services.UnitTests
             "I                     |\r\n" +
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
-            var emptyGrid = EmptyGridBuilder.GetEmptyGrid(10);
+            var emptyGrid = BattleshipGameState.Empty(10).Grid;
             var empty = new BattleshipGameState { Grid = emptyGrid };
 
             // act
@@ -90,7 +89,7 @@ namespace Battleship.Services.UnitTests
             "I                     |\r\n" +
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
-            var grid = EmptyGridBuilder.GetEmptyGrid(10);
+            var grid = BattleshipGameState.Empty(10).Grid;
             grid[0][0] = BattleshipGridCell.Hit;
             grid[0][9] = BattleshipGridCell.Miss;
             grid[0][8] = BattleshipGridCell.Ship;
@@ -120,7 +119,7 @@ namespace Battleship.Services.UnitTests
         public void DisplayRetryWarning_DisplaysExpectedWarning_WithoutParameters()
         {
             // arrange
-            var expected = "You already had shoot there, try something else\r\n";
+            var expected = "You already have shoot there, try something else\r\n";
 
             // act
             _serviceUnderTests.DisplayRetryWarning();

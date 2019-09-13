@@ -44,8 +44,8 @@ namespace Battleship.Services.IntegrationTests
             var result = _serviceUnderTest.GetCordinates(guess);
 
             // assert
-            Assert.AreEqual(line, result.line);
-            Assert.AreEqual(column, result.column);
+            Assert.AreEqual(line, result.Line);
+            Assert.AreEqual(column, result.Column);
         }
 
 

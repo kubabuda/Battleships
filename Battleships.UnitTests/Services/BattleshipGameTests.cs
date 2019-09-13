@@ -1,7 +1,6 @@
 using Battleships.Interfaces;
 using Battleships.Models;
 using Battleships.Services;
-using Battleships.UnitTests.TestUtils;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -24,34 +23,22 @@ namespace Battleship.Services.UnitTests
         [SetUp]
         public void SetUp()
         {
-            initialState = new BattleshipGameState()
-            {
-                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize)
-            };
+            initialState = BattleshipGameState.Empty(gridSize);
             initialState.Grid[0][0] = BattleshipGridCell.Ship;
             initialState.Grid[0][1] = BattleshipGridCell.Ship;
             initialState.Grid[0][2] = BattleshipGridCell.Ship;
 
-            state1 = new BattleshipGameState()
-            {
-                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize)
-            };
+            state1 = BattleshipGameState.Empty(gridSize);
             state1.Grid[0][0] = BattleshipGridCell.Hit;
             state1.Grid[0][1] = BattleshipGridCell.Ship;
             state1.Grid[0][2] = BattleshipGridCell.Ship;
 
-            state2 = new BattleshipGameState()
-            {
-                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize)
-            };
+            state2 = BattleshipGameState.Empty(gridSize);
             state2.Grid[0][0] = BattleshipGridCell.Hit;
             state2.Grid[0][1] = BattleshipGridCell.Hit;
             state2.Grid[0][2] = BattleshipGridCell.Ship;
 
-            state3 = new BattleshipGameState()
-            {
-                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize)
-            };
+            state3 = BattleshipGameState.Empty(gridSize);
             state3.Grid[0][0] = BattleshipGridCell.Hit;
             state3.Grid[0][1] = BattleshipGridCell.Hit;
             state3.Grid[0][2] = BattleshipGridCell.Hit;
@@ -67,7 +54,7 @@ namespace Battleship.Services.UnitTests
         }
 
         [Test]
-        public void Play_ShowsGame_GivenGuess()
+        public void PlayRound_ShowsGame_GivenGuess()
         {
             // arrange
             var guess = "A1";
@@ -75,7 +62,7 @@ namespace Battleship.Services.UnitTests
             _stateBuilder.Build(initialState, guess).Returns(nextState);
 
             // act
-            _serviceUnderTests.Play(guess);
+            _serviceUnderTests.PlayRound(guess);
 
             // assert
             _gameShowService.Received().Show(nextState);

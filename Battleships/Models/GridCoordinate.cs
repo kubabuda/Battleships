@@ -2,14 +2,13 @@ namespace Battleships.Models
 {
     public class GridCoordinate
     {
-        // TODO naming convention
-        public int line { get; set; }
-        public int column { get; set; }
+        public int Line { get; set; }
+        public int Column { get; set; }
 
-        public GridCoordinate(int l, int col)
+        public GridCoordinate(int line, int column)
         {
-            line = l;
-            column = col;
+            Line = line;
+            Column = column;
         }
     }
 }

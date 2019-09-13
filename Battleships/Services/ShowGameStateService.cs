@@ -8,7 +8,7 @@ namespace Battleships.Services
 {
     public class ShowGameStateService : IShowGameState
     {
-        private readonly IConvertCharService _charService; // todo Service or service
+        private readonly IConvertCharService _charService;
         private readonly IConfiguration _configuration;
         private readonly IConsole _console;
         Dictionary<BattleshipGridCell, char> _mappings;
@@ -29,8 +29,6 @@ namespace Battleships.Services
                 { BattleshipGridCell.Hit, _configuration.Hit }
             };
         }
-
-        
 
         private string _invalidInputWarning
         {
@@ -70,6 +68,5 @@ namespace Battleships.Services
         {
             return _mappings[die];
         }
-
     }
 }
