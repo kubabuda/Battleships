@@ -12,7 +12,7 @@ namespace Battleship.Services.UnitTests
 {
     public class BattleshipStateBuilderTests
     {
-        private IConvertCharService _charSvc;
+        private IReadUserGuess _guessSvc;
         private IConfiguration _config;
         private IDetectColisionService _detectCollisionService;
         private IRandom _randomService;
@@ -24,14 +24,14 @@ namespace Battleship.Services.UnitTests
         [SetUp]
         public void SetUp()
         {
-            _charSvc = Substitute.For<IConvertCharService>();
+            _guessSvc = Substitute.For<IReadUserGuess>();
             _config = Substitute.For<IConfiguration>();
             _randomService = Substitute.For<IRandom>();
             _config.GridSize.Returns(gridSize);
             _detectCollisionService = Substitute.For<IDetectColisionService>();
 
             _servceUnderTest = new BattleshipStateBuilder(
-                _charSvc,
+                _guessSvc,
                  _config,
                  _detectCollisionService,
                  _randomService);
@@ -163,8 +163,7 @@ namespace Battleship.Services.UnitTests
                 Grid = GetEmptyGrid()
             };
             var guess = "B2";
-            _charSvc.GetLine(guess).Returns(1);
-            _charSvc.GetColumn(guess).Returns(1);
+            _guessSvc.GetCordinates(guess).Returns((1, 1));
             var grid = GetEmptyGrid();
             grid[1][1] = BattleshipGridCell.Miss;
             var expected = new BattleshipGameState
@@ -189,8 +188,7 @@ namespace Battleship.Services.UnitTests
             };
             prev.Grid[2][1] = BattleshipGridCell.ShipUntouched;
             var guess = "C2";
-            _charSvc.GetLine(guess).Returns(2);
-            _charSvc.GetColumn(guess).Returns(1);
+            _guessSvc.GetCordinates(guess).Returns((2, 1));
             var expected = new BattleshipGameState
             {
                 Grid = GetEmptyGrid()

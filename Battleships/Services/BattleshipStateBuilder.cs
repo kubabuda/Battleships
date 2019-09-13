@@ -7,23 +7,22 @@ using System.Linq;
 
 namespace Battleships.Services
 {
-
     public class BattleshipStateBuilder: IBattleshipStateBuilder
     {
         private IConfiguration _configuration;
-        private IConvertCharService _charSvc { get; }
+        private IReadUserGuess _guessReader;
         private IDetectColisionService _detectCollisionService;
-        private IRandom _random { get; }
+        private IRandom _random;
         
         private BattleshipGridCell[] _cellStatesAfterHit;
         
-        public BattleshipStateBuilder(IConvertCharService charSvc,
+        public BattleshipStateBuilder(IReadUserGuess guessReadSvc,
             IConfiguration config,
             IDetectColisionService detectCollisionService,
             IRandom randomSvc)
         {
             _cellStatesAfterHit = new[] { BattleshipGridCell.Miss, BattleshipGridCell.ShipHit };
-            _charSvc = charSvc;
+            _guessReader = guessReadSvc;
             _configuration = config;
             _detectCollisionService = detectCollisionService;
             _random = randomSvc;
@@ -97,7 +96,7 @@ namespace Battleships.Services
 
         public BattleshipGameState Build(BattleshipGameState prevState, string guess)
         {
-            var g = GetCordinates(guess);
+            var g = _guessReader.GetCordinates(guess);
 
             var newState = new BattleshipGameState
             {
@@ -108,29 +107,6 @@ namespace Battleships.Services
             return newState;
         }
 
-        public (int line, int column) GetCordinates(string guess) 
-        {
-            try 
-            {
-                var line = _charSvc.GetLine(guess);
-                var column = _charSvc.GetColumn(guess);
-                
-                if (line >= _configuration.GridSize)
-                {
-                    throw new InvalidInputException();
-                }
-                if (column >= _configuration.GridSize)
-                {
-                    throw new InvalidInputException();
-                }
-
-                return (line: line, column: column);
-            }
-            catch(Exception)
-            {
-                throw new InvalidInputException();
-            }
-        }
 
         public BattleshipGridCell NewCellState(BattleshipGridCell prevDieState)
         {

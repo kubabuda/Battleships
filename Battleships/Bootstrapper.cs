@@ -27,6 +27,7 @@ namespace Battleships
             builder.RegisterType<RandomService>().As<IRandom>();
             builder.RegisterType<DetectColisionService>().As<IDetectColisionService>();
             builder.RegisterType<ShowGameStateService>().As<IShowGameState>();
+            builder.RegisterType<ReadUserGuessService>().As<IReadUserGuess>();
             // I/O wrappers
             builder.RegisterType<Battleships.Services.Console>().As<IConsole>();
             return builder;
