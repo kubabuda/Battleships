@@ -38,7 +38,8 @@ namespace Battleships.Services
 
         private void ValidateCoordinate(int line)
         {
-            if (line >= _configuration.GridSize)
+            if (line < 0
+                | line >= _configuration.GridSize)
             {
                 throw new InvalidInputException();
             }
