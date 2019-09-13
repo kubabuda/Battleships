@@ -233,6 +233,10 @@ namespace Battleship.Services.IntegrationTests
         [TestCase("ASAP10")]
         [TestCase("K1")]
         [TestCase("FOO")]
+        [TestCase("A0")]
+        [TestCase("J0")]
+        [TestCase("A-1")]
+        [TestCase("J-2")]
         public void GetCoordinates_ShouldThrowException_GivenInvalidGuess(string guess)
         {
             // arrange
