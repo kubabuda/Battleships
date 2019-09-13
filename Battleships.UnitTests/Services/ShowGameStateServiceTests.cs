@@ -12,7 +12,7 @@ namespace Battleship.Services.UnitTests
     {
         private const int gridSize = 10;
         private string _consoleOut;
-        
+
         private IShowGameState _serviceUnderTests;
 
         [SetUp]
@@ -33,7 +33,8 @@ namespace Battleship.Services.UnitTests
             var console = Substitute.For<IConsole>();
             console
                 .When(c => c.WriteLine(Arg.Any<string>()))
-                .Do(callinfo => { 
+                .Do(callinfo =>
+                {
                     var line = callinfo.ArgAt<string>(0);
                     _consoleOut = $"{_consoleOut}{line}\r\n";
                 });
@@ -64,7 +65,7 @@ namespace Battleship.Services.UnitTests
             "  - - - - - - - - - - \r\n";
             var emptyGrid = EmptyGridBuilder.GetEmptyGrid(10);
             var empty = new BattleshipGameState { Grid = emptyGrid };
-            
+
             // act
             _serviceUnderTests.Show(empty);
 
@@ -94,7 +95,7 @@ namespace Battleship.Services.UnitTests
             grid[0][9] = BattleshipGridCell.Miss;
             grid[0][8] = BattleshipGridCell.Ship;
             var state = new BattleshipGameState { Grid = grid };
-            
+
             // act
             _serviceUnderTests.Show(state);
 

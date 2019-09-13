@@ -6,7 +6,7 @@ namespace Battleship.Services.UnitTests
     public class ConvertCharServiceTests
     {
         private ConvertCharService _serviceUnderTests;
-        
+
         [SetUp]
         public void SetUp()
         {

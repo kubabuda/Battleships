@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Battleship.Services.UnitTests
 {
-    public class DetectColisionServiceTests 
+    public class DetectColisionServiceTests
     {
         private DetectColisionService _servceUnderTest = new DetectColisionService();
         private const int gridSize = 10;

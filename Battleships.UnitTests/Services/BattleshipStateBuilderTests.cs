@@ -63,8 +63,8 @@ namespace Battleship.Services.UnitTests
         public void Build_ShouldReturnBoardWithSingleShip_WhenSingleShipInConfiguration(int x, int y)
         {
             // arrange
-            _config.Ships.Returns(new List<int>{ 1 });
-            _randomService.NextCell().Returns((x:x, y:y));
+            _config.Ships.Returns(new List<int> { 1 });
+            _randomService.NextCell().Returns((x: x, y: y));
             var expected = GetEmptyGrid();
             expected[x][y] = BattleshipGridCell.Ship;
 
@@ -82,12 +82,12 @@ namespace Battleship.Services.UnitTests
             // arrange
             int x = 1;
             int y = 1;
-            _config.Ships.Returns(new List<int>{ shipLength });
-            _randomService.NextCell().Returns((x:x, y:y));
+            _config.Ships.Returns(new List<int> { shipLength });
+            _randomService.NextCell().Returns((x: x, y: y));
             _randomService.IsNextVertical().Returns(isVertical);
             var expected = GetEmptyGrid();
             expected[x][y] = BattleshipGridCell.Ship;
-            expected[isVertical? x + 1 : x][isVertical? y : y + 1] = BattleshipGridCell.Ship;
+            expected[isVertical ? x + 1 : x][isVertical ? y : y + 1] = BattleshipGridCell.Ship;
 
             // act 
             var result = _servceUnderTest.Build();
@@ -97,7 +97,8 @@ namespace Battleship.Services.UnitTests
         }
 
         [Test]
-        public void GetShipStart_ShouldPreventCollisionsWithOtherShips_WhenPlacingNextShip() {
+        public void GetShipStart_ShouldPreventCollisionsWithOtherShips_WhenPlacingNextShip()
+        {
             // arrange
             var grid = GetEmptyGrid();
             var firstShipStart = (x: 1, y: 2);
@@ -111,7 +112,7 @@ namespace Battleship.Services.UnitTests
                     expected);          // until we got proper one
             _detectCollisionService.IsNextShipColliding(grid, nextShip, firstShipStart).Returns(true);
             _detectCollisionService.IsNextShipColliding(grid, nextShip, expected).Returns(false);
-            
+
             // act
             var result = _servceUnderTest.GetShipStart(grid, nextShip);
 
@@ -135,9 +136,9 @@ namespace Battleship.Services.UnitTests
             var thirdShipStart = (x: 1, y: 2);
             grid[thirdShipStart.x][thirdShipStart.y] = BattleshipGridCell.Ship;    // 1st ship: 2 mast vertical
             grid[thirdShipStart.x + 1][thirdShipStart.y] = BattleshipGridCell.Ship;
-            var ships = new [] { 2, 3, 4 };
+            var ships = new[] { 2, 3, 4 };
             _config.Ships.Returns(ships);
-            var starts = new [] { firstShipStart, secondShipStart, thirdShipStart };
+            var starts = new[] { firstShipStart, secondShipStart, thirdShipStart };
             _randomService.NextCell().Returns(firstShipStart, secondShipStart, thirdShipStart);
             _randomService.IsNextVertical().Returns(false, true, true);
             _detectCollisionService.IsNextShipColliding(

@@ -8,7 +8,7 @@ namespace Battleships.Services
 {
     public class ShowGameStateService : IShowGameState
     {
-        private readonly IConvertCharService _charSvc;
+        private readonly IConvertCharService _charSvc; // todo svc or service
         private readonly IConfiguration _configuration;
         private readonly IConsole _console;
 
@@ -24,13 +24,13 @@ namespace Battleships.Services
 
         private string _invalidInputWarning
         {
-            get {
-
+            get
+            {
                 char maxLetter = _charSvc.GetLetter(_configuration.GridSize - 1);
                 int maxNumber = _configuration.GridSize;
-                
+
                 return $"Invalid cell, A-{maxLetter} and 1-{maxNumber} are allowed";
-            }   
+            }
         }
 
         public void DisplayInputWarning()
@@ -40,7 +40,7 @@ namespace Battleships.Services
 
         public void DisplayRetryWarning()
         {
-            _console.WriteLine("You already had shoot there, try something else");
+            _console.WriteLine("You already had shoot there, try something else"); // todo english motherfucker, do you speak it?
         }
 
         public void Show(BattleshipGameState state)
@@ -55,8 +55,10 @@ namespace Battleships.Services
             _console.WriteLine($"  {string.Join(' ', Enumerable.Range(0, _configuration.GridSize).Select(_ => "-")) } ");
         }
 
+// todo i think it can't be extracted to separated class
         private char GetCellValueToDisplay(BattleshipGridCell die)
         {
+            // todo can be static
             var mappings = new Dictionary<BattleshipGridCell, char>
             {
                 { BattleshipGridCell.Empty, _configuration.Empty },

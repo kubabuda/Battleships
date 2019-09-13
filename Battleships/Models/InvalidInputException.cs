@@ -2,5 +2,5 @@ using System;
 
 namespace Battleships.Models
 {
-    public class InvalidInputException: Exception { }
+    public class InvalidInputException : Exception { }
 }

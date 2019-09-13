@@ -27,14 +27,14 @@ namespace Battleship.Services.IntegrationTests
             // register mocks
             builder.RegisterInstance<IConsole>(console);
             builder.RegisterInstance<IConfiguration>(_config);
-            
+
             var container = builder.Build();
             // get tested class instance
             _stateBuilder = container.Resolve<IBattleshipStateBuilder>();
         }
 
-        [TestCase(new [] { 2, 3, 4 })]
-        [TestCase(new [] { 4, 3, 3 })]
+        [TestCase(new[] { 2, 3, 4 })]
+        [TestCase(new[] { 4, 3, 3 })]
         public void Build_ShouldPlaceAllTheShips_FromConfiguration(IEnumerable<int> ships)
         {
             // arrange
@@ -46,6 +46,7 @@ namespace Battleship.Services.IntegrationTests
             var result = _stateBuilder.Build();
 
             // assert
+            // todo extract private method CountShipsOnBoard(Grid, CellType)
             int shipsOnBoard = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.Ship).Count());
             Assert.AreEqual(expectedShips, shipsOnBoard);
             int emptyCells = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.Empty).Count());

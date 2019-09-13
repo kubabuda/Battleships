@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Battleships.Services
 {
-    public class BattleshipGame: IBattleshipGame
+    public class BattleshipGame : IBattleshipGame
     {
         private readonly IConsole _console;
         private readonly IBattleshipStateBuilder _stateBuilder;
@@ -16,7 +16,7 @@ namespace Battleships.Services
             IConsole console,
             IBattleshipStateBuilder stateBuilder,
             IShowGameState gameShowService)
-        :this(console, stateBuilder, gameShowService, stateBuilder.Build())
+        : this(console, stateBuilder, gameShowService, stateBuilder.Build())
         { }
 
         public BattleshipGame(
@@ -24,7 +24,8 @@ namespace Battleships.Services
             IBattleshipStateBuilder stateBuilder,
             IShowGameState gameShowService,
             BattleshipGameState gameState
-        ) {
+        )
+        {
             _console = console;
             _stateBuilder = stateBuilder;
             _gameShowService = gameShowService;
@@ -35,13 +36,14 @@ namespace Battleships.Services
         {
             Show();
 
-            while(!IsFinished())
+            while (!IsFinished())
             {
                 string guess = _console.ReadLine();
                 Play(guess);
             }
         }
 
+        // todo method to remove
         public void Show()
         {
             Show(_gameState);
@@ -54,10 +56,10 @@ namespace Battleships.Services
 
         public void Play(string guess)
         {
-            
-            try {
+            try
+            {
                 _gameState = _stateBuilder.Build(_gameState, guess);
-            
+
                 Show(_gameState);
             }
             catch (InvalidInputException)

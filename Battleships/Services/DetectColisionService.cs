@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Battleships.Services
 {
-    public class DetectColisionService: IDetectColisionService
+    public class DetectColisionService : IDetectColisionService
     {
         public bool IsNextShipColliding(
-            List<List<BattleshipGridCell>> grid, 
-            BattleShip ship, 
+            List<List<BattleshipGridCell>> grid,
+            BattleShip ship,
             (int x, int y) firstCell)
         {
             try
@@ -24,9 +24,9 @@ namespace Battleships.Services
             }
         }
 
-        public bool IsGuessCollidingWithShips(
-            List<List<BattleshipGridCell>> grid, 
-            BattleShip ship, 
+        private bool IsGuessCollidingWithShips(
+            List<List<BattleshipGridCell>> grid,
+            BattleShip ship,
             (int x, int y) firstCell)
         {
             for (int i = 0; i < ship.Length; ++i)
@@ -34,7 +34,7 @@ namespace Battleships.Services
                 var nextX = ship.IsVertical ? firstCell.x + i : firstCell.x;
                 var nextY = ship.IsVertical ? firstCell.y : firstCell.y + i;
 
-                if(grid[nextX][nextY] != BattleshipGridCell.Empty)
+                if (grid[nextX][nextY] != BattleshipGridCell.Empty)
                 {
                     return true;
                 }
@@ -43,20 +43,20 @@ namespace Battleships.Services
             return false;
         }
 
-        public bool IsGuessCollidingWithBorders(
-            List<List<BattleshipGridCell>> grid, 
-            BattleShip ship, 
+        private bool IsGuessCollidingWithBorders(
+            List<List<BattleshipGridCell>> grid,
+            BattleShip ship,
             (int x, int y) position)
         {
             var gridSize = grid.Count();
 
-            if(ship.IsVertical)
+            if (ship.IsVertical)
             {
                 if (position.x + ship.Length > gridSize)
                 {
                     return true;
                 }
-            } 
+            }
             else
             {
                 if (position.y + ship.Length > gridSize)

@@ -16,13 +16,13 @@ namespace Battleships.Services
         
         private BattleshipGridCell[] _cellStatesAfterHit;
         
-        public BattleshipStateBuilder(IReadUserGuess guessReadSvc,
+        public BattleshipStateBuilder(IReadUserGuess guessReader,
             IConfiguration config,
             IDetectColisionService detectCollisionService,
             IRandom randomSvc)
         {
             _cellStatesAfterHit = new[] { BattleshipGridCell.Miss, BattleshipGridCell.Hit };
-            _guessReader = guessReadSvc;
+            _guessReader = guessReader;
             _configuration = config;
             _detectCollisionService = detectCollisionService;
             _random = randomSvc;
@@ -43,18 +43,14 @@ namespace Battleships.Services
             foreach(var shipLength in _configuration.Ships.OrderByDescending(s => s))
             {
                 var isVertical = _random.IsNextVertical();
-                var ship = BuildShip(shipLength, isVertical);
+                // todo add constructor to battleship
+                var ship = new BattleShip { Length = shipLength, IsVertical = isVertical };
                 var firstCell = GetShipStart(grid, ship);
 
                 PlaceShipOnGrid(grid, ship, firstCell);
             }
 
             return grid;
-        }
-
-        private static BattleShip BuildShip(int shipLength, bool isVertical)
-        {
-            return new BattleShip { Length = shipLength, IsVertical = isVertical };
         }
 
         public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, BattleShip ship)
@@ -76,7 +72,6 @@ namespace Battleships.Services
 
         private void PlaceShipOnGrid(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
         {
-
             for (int i = 0; i < ship.Length; ++i)
             {
                 var nextX = ship.IsVertical ? firstCell.x + i : firstCell.x;
@@ -96,24 +91,28 @@ namespace Battleships.Services
 
         public BattleshipGameState Build(BattleshipGameState prevState, string guess)
         {
+            // todo rename g
             var g = _guessReader.GetCordinates(guess);
 
             var newState = new BattleshipGameState
             {
-                Grid = prevState.Grid   // shallow copy
+                // todo write that it might be a problem with parallel computing and you know it
+                Grid = prevState.Grid // shallow copy
             };
             newState.Grid[g.line][g.column] = NewCellState(newState.Grid[g.line][g.column]);
 
             return newState;
         }
 
-
+// todo it might be not builder responsability
+// todo pls don't die        
         public BattleshipGridCell NewCellState(BattleshipGridCell prevDieState)
         {
             if (_cellStatesAfterHit.Contains(prevDieState))
             {
                 throw new CellRepetitionException();
             }
+            // todo mapping can be static
             var mappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
             {
                 { BattleshipGridCell.Empty, BattleshipGridCell.Miss },

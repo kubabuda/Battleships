@@ -8,17 +8,17 @@ namespace Battleships.Services
     public class ReadUserGuessService: IReadUserGuess
     {
         private IConfiguration _configuration;
-        private IConvertCharService _charSvc;
+        private IConvertCharService _charSvc; // todo use either service or svc
 
         public ReadUserGuessService(IConfiguration config,
             IConvertCharService charSvc
         )
         {   
             _charSvc = charSvc;
-            _configuration = config;
+            _configuration = config; // todo rename either config or configuration
         }
 
-        public (int line, int column) GetCordinates(string guess) 
+        public (int line, int column) GetCordinates(string guess) // todo get coordinates
         {
             try
             {

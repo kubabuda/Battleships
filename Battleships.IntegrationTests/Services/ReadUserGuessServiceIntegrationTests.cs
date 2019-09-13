@@ -25,7 +25,7 @@ namespace Battleship.Services.IntegrationTests
             var builder = Bootstrapper.GetContainerBuilder();
             // register mocks
             builder.RegisterInstance<IConfiguration>(_config);
-            
+
             var container = builder.Build();
             // get tested class instance
             _serviceUnderTest = container.Resolve<IReadUserGuess>();

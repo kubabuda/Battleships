@@ -2,12 +2,8 @@ using Battleships.Interfaces;
 
 namespace Battleships.Services
 {
-    public class Console: IConsole {
-        public Console()
-        {
-            
-        }
-
+    public class Console : IConsole
+    {
         public string ReadLine()
         {
             return System.Console.ReadLine();

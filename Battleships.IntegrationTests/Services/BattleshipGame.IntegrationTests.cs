@@ -31,7 +31,8 @@ namespace Battleship.Services.IntegrationTests
             var console = Substitute.For<IConsole>();
             console
                 .When(c => c.WriteLine(Arg.Any<string>()))
-                .Do(callinfo => { 
+                .Do(callinfo =>
+                {
                     var line = callinfo.ArgAt<string>(0);
                     _consoleOut = $"{_consoleOut}{line}\r\n";
                 });
@@ -40,7 +41,7 @@ namespace Battleship.Services.IntegrationTests
             // register mocks
             builder.RegisterInstance<IConsole>(console);
             builder.RegisterInstance<IConfiguration>(_config);
-            
+
             _container = builder.Build();
             // get tested class instance
             _stateBuilder = _container.Resolve<IBattleshipStateBuilder>();
@@ -64,7 +65,7 @@ namespace Battleship.Services.IntegrationTests
             "I                     |\r\n" +
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
-            
+
             // act
             _game.Show();
 
@@ -89,7 +90,7 @@ namespace Battleship.Services.IntegrationTests
             "I                     |\r\n" +
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
-            
+
             // act
             _game.Play("A3");
 
@@ -175,8 +176,8 @@ namespace Battleship.Services.IntegrationTests
 
             // assert
             Assert.AreEqual(expected, result);
-        } 
-    
+        }
+
         private BattleshipGame GameFromPrevState(BattleshipGameState prevState)
         {
             return new BattleshipGame(

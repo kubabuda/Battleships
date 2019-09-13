@@ -7,7 +7,8 @@ using NUnit.Framework;
 
 namespace Battleship.Services.UnitTests
 {
-    public class BattleshipGameTests {
+    public class BattleshipGameTests
+    {
         private IConsole _console;
         private IBattleshipStateBuilder _stateBuilder;
         private IShowGameState _gameShowService;
@@ -23,33 +24,33 @@ namespace Battleship.Services.UnitTests
         [SetUp]
         public void SetUp()
         {
-            initialState = new BattleshipGameState() 
-            { 
-                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
+            initialState = new BattleshipGameState()
+            {
+                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize)
             };
             initialState.Grid[0][0] = BattleshipGridCell.Ship;
             initialState.Grid[0][1] = BattleshipGridCell.Ship;
             initialState.Grid[0][2] = BattleshipGridCell.Ship;
 
-            state1 = new BattleshipGameState() 
-            { 
-                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
+            state1 = new BattleshipGameState()
+            {
+                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize)
             };
             state1.Grid[0][0] = BattleshipGridCell.Hit;
             state1.Grid[0][1] = BattleshipGridCell.Ship;
             state1.Grid[0][2] = BattleshipGridCell.Ship;
 
-            state2 = new BattleshipGameState() 
-            { 
-                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
+            state2 = new BattleshipGameState()
+            {
+                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize)
             };
             state2.Grid[0][0] = BattleshipGridCell.Hit;
             state2.Grid[0][1] = BattleshipGridCell.Hit;
             state2.Grid[0][2] = BattleshipGridCell.Ship;
 
-            state3 = new BattleshipGameState() 
-            { 
-                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
+            state3 = new BattleshipGameState()
+            {
+                Grid = EmptyGridBuilder.GetEmptyGrid(gridSize)
             };
             state3.Grid[0][0] = BattleshipGridCell.Hit;
             state3.Grid[0][1] = BattleshipGridCell.Hit;
@@ -123,7 +124,6 @@ namespace Battleship.Services.UnitTests
             _gameShowService.Received().Show(state1);
             _gameShowService.Received().Show(state2);
             _gameShowService.Received().Show(state3);
-
         }
     }
 }

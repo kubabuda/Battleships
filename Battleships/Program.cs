@@ -16,8 +16,8 @@ namespace Battleships
             using (var scope = Container.BeginLifetimeScope())
             {
                 Console.WriteLine("Welcome to Battleships game!");
-                
-                do 
+
+                do
                 {
                     var game = scope.Resolve<IBattleshipGame>();
                     game.Play();
@@ -25,7 +25,7 @@ namespace Battleships
                     Console.WriteLine("You won. Congratulations!");
                     Console.WriteLine("Play again? (Y/N)");
                 }
-                while(Console.ReadLine().ToLower() == "y");
+                while (Console.ReadLine().ToLower() == "y");
 
                 Console.WriteLine("OK. Bye!");
             }

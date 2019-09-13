@@ -30,6 +30,7 @@ namespace Battleships
             builder.RegisterType<ReadUserGuessService>().As<IReadUserGuess>();
             // I/O wrappers
             builder.RegisterType<Battleships.Services.Console>().As<IConsole>();
+
             return builder;
         }
     }
