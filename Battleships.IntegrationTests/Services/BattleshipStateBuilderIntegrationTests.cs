@@ -5,6 +5,7 @@ using Battleships.Interfaces;
 using Battleships.Models;
 using NSubstitute;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,6 +51,36 @@ namespace Battleship.Services.IntegrationTests
             Assert.AreEqual(expectedShips, shipsOnBoard);
             int emptyCells = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.Empty).Count());
             Assert.AreEqual(expectedEmptyCells, emptyCells);
+        }
+
+        public class CellRepetitionException: Exception { }
+        public class InvalidInputException: Exception { }
+
+        [Test]
+        public void Build_ShouldThrowCellRepetitionException_WhenUserSelecstUsedCell()
+        {
+            // arrange
+            var state = _stateBuilder.Build();
+            state.Grid[0][0] = BattleshipGridCell.Miss;
+
+            // act
+            // assert
+            Assert.Throws<CellRepetitionException>(() => _stateBuilder.Build(state, "A1"));
+        }
+
+        [TestCase("A11")]
+        [TestCase("AA1")]
+        [TestCase("M1")]
+        [TestCase("MAAAA1")]
+        [TestCase("FooBar")]
+        public void Build_ShouldThrowInvalidInputException_WhenGuessIsInvalid(string invalidGuess)
+        {
+            // arrange
+            var state = _stateBuilder.Build();
+
+            // act
+            // assert
+            Assert.Throws<InvalidInputException>(() => _stateBuilder.Build(state, invalidGuess));
         }
     }
 }
