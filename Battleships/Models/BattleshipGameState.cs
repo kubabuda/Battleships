@@ -6,4 +6,6 @@ namespace Battleships.Models
     {
         public List<List<BattleshipGridCell>> Grid { get; set; }
     }
+
+    // todo add factory method
 }

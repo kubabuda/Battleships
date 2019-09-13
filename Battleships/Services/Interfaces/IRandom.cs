@@ -1,8 +1,10 @@
+using Battleships.Models;
+
 namespace Battleships.Interfaces
 {
     public interface IRandom
     {
-        (int x, int y) NextCell();
+        GridCoordinate NextCell();
         bool IsNextVertical();
     }
 }

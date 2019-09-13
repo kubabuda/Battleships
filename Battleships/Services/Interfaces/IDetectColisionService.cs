@@ -7,6 +7,6 @@ namespace Battleships.Interfaces
     {
         bool IsNextShipColliding(List<List<BattleshipGridCell>> grid,
             BattleShip nextShip,
-            (int x, int y) nextShipStartCell);
+            GridCoordinate nextShipStartCell);
     }
 }

@@ -11,7 +11,7 @@ namespace Battleships.Services
         public bool IsNextShipColliding(
             List<List<BattleshipGridCell>> grid,
             BattleShip ship,
-            (int x, int y) firstCell)
+            GridCoordinate firstCell)
         {
             try
             {
@@ -27,14 +27,14 @@ namespace Battleships.Services
         private bool IsGuessCollidingWithShips(
             List<List<BattleshipGridCell>> grid,
             BattleShip ship,
-            (int x, int y) firstCell)
+            GridCoordinate firstCell)
         {
             for (int i = 0; i < ship.Length; ++i)
             {
-                var nextX = ship.IsVertical ? firstCell.x + i : firstCell.x;
-                var nextY = ship.IsVertical ? firstCell.y : firstCell.y + i;
+                var nextLine = ship.IsVertical ? firstCell.line + i : firstCell.line;
+                var nextColumn = ship.IsVertical ? firstCell.column : firstCell.column + i;
 
-                if (grid[nextX][nextY] != BattleshipGridCell.Empty)
+                if (grid[nextLine][nextColumn] != BattleshipGridCell.Empty)
                 {
                     return true;
                 }
@@ -46,20 +46,20 @@ namespace Battleships.Services
         private bool IsGuessCollidingWithBorders(
             List<List<BattleshipGridCell>> grid,
             BattleShip ship,
-            (int x, int y) position)
+            GridCoordinate position)
         {
             var gridSize = grid.Count();
 
             if (ship.IsVertical)
             {
-                if (position.x + ship.Length > gridSize)
+                if (position.line + ship.Length > gridSize)
                 {
                     return true;
                 }
             }
             else
             {
-                if (position.y + ship.Length > gridSize)
+                if (position.column + ship.Length > gridSize)
                 {
                     return true;
                 }

@@ -64,7 +64,8 @@ namespace Battleship.Services.UnitTests
         {
             // arrange
             _config.Ships.Returns(new List<int> { 1 });
-            _randomService.NextCell().Returns((x: x, y: y));
+            var coord = new GridCoordinate(x, y);
+            _randomService.NextCell().Returns(coord);
             var expected = GetEmptyGrid();
             expected[x][y] = BattleshipGridCell.Ship;
 
@@ -83,7 +84,8 @@ namespace Battleship.Services.UnitTests
             int x = 1;
             int y = 1;
             _config.Ships.Returns(new List<int> { shipLength });
-            _randomService.NextCell().Returns((x: x, y: y));
+            var coord = new GridCoordinate(x, y);
+            _randomService.NextCell().Returns(coord);
             _randomService.IsNextVertical().Returns(isVertical);
             var expected = GetEmptyGrid();
             expected[x][y] = BattleshipGridCell.Ship;
@@ -101,11 +103,11 @@ namespace Battleship.Services.UnitTests
         {
             // arrange
             var grid = GetEmptyGrid();
-            var firstShipStart = (x: 1, y: 2);
-            grid[firstShipStart.x][firstShipStart.y] = BattleshipGridCell.Ship;    // place ship on grid
-            grid[firstShipStart.x + 1][firstShipStart.y] = BattleshipGridCell.Ship;
-            var nextShip = new BattleShip() { Length = 2, IsVertical = true };
-            var expected = (x: 2, y: 3);
+            var firstShipStart = new GridCoordinate(1, 2);
+            grid[firstShipStart.line][firstShipStart.column] = BattleshipGridCell.Ship;    // place ship on grid
+            grid[firstShipStart.line + 1][firstShipStart.column] = BattleshipGridCell.Ship;
+            var nextShip = new BattleShip(2, true);
+            var expected = new GridCoordinate(2, 3);
             _randomService.NextCell()
                 .Returns(firstShipStart,    // we randomly got space that is 
                     firstShipStart,         // already used by other ships
@@ -120,22 +122,22 @@ namespace Battleship.Services.UnitTests
             Assert.AreEqual(expected, result);
         }
 
-        [Test] // TODO test in integration too
+        [Test]
         public void Build_ShouldPlaceAllShips_FromLongestToSmallestInConfiguration()
         {
             var grid = GetEmptyGrid();
-            var firstShipStart = (x: 8, y: 4);
-            grid[firstShipStart.x][firstShipStart.y] = BattleshipGridCell.Ship;    // 1st ship: 4 mast horizontal
-            grid[firstShipStart.x][firstShipStart.y + 1] = BattleshipGridCell.Ship;
-            grid[firstShipStart.x][firstShipStart.y + 2] = BattleshipGridCell.Ship;
-            grid[firstShipStart.x][firstShipStart.y + 3] = BattleshipGridCell.Ship;
-            var secondShipStart = (x: 2, y: 3);
-            grid[secondShipStart.x][secondShipStart.y] = BattleshipGridCell.Ship;    // 2nd ship: 3 mast vertical
-            grid[secondShipStart.x + 1][secondShipStart.y] = BattleshipGridCell.Ship;
-            grid[secondShipStart.x + 2][secondShipStart.y] = BattleshipGridCell.Ship;
-            var thirdShipStart = (x: 1, y: 2);
-            grid[thirdShipStart.x][thirdShipStart.y] = BattleshipGridCell.Ship;    // 1st ship: 2 mast vertical
-            grid[thirdShipStart.x + 1][thirdShipStart.y] = BattleshipGridCell.Ship;
+            var firstShipStart = new GridCoordinate(8, 4);
+            grid[firstShipStart.line][firstShipStart.column] = BattleshipGridCell.Ship;    // 1st ship: 4 mast horizontal
+            grid[firstShipStart.line][firstShipStart.column + 1] = BattleshipGridCell.Ship;
+            grid[firstShipStart.line][firstShipStart.column + 2] = BattleshipGridCell.Ship;
+            grid[firstShipStart.line][firstShipStart.column + 3] = BattleshipGridCell.Ship;
+            var secondShipStart = new GridCoordinate(2, 3);
+            grid[secondShipStart.line][secondShipStart.column] = BattleshipGridCell.Ship;    // 2nd ship: 3 mast vertical
+            grid[secondShipStart.line + 1][secondShipStart.column] = BattleshipGridCell.Ship;
+            grid[secondShipStart.line + 2][secondShipStart.column] = BattleshipGridCell.Ship;
+            var thirdShipStart = new GridCoordinate(1, 2);
+            grid[thirdShipStart.line][thirdShipStart.column] = BattleshipGridCell.Ship;    // 1st ship: 2 mast vertical
+            grid[thirdShipStart.line + 1][thirdShipStart.column] = BattleshipGridCell.Ship;
             var ships = new[] { 2, 3, 4 };
             _config.Ships.Returns(ships);
             var starts = new[] { firstShipStart, secondShipStart, thirdShipStart };
@@ -144,7 +146,7 @@ namespace Battleship.Services.UnitTests
             _detectCollisionService.IsNextShipColliding(
                 Arg.Any<List<List<BattleshipGridCell>>>(),
                 Arg.Any<BattleShip>(),
-                Arg.Is<(int, int)>(i => !starts.Contains(i))
+                Arg.Is<GridCoordinate>(i => !starts.Contains(i))
             ).Returns(true);
             // act
             var result = _servceUnderTest.Build();
@@ -164,7 +166,8 @@ namespace Battleship.Services.UnitTests
                 Grid = GetEmptyGrid()
             };
             var guess = "B2";
-            _guessSvc.GetCordinates(guess).Returns((1, 1));
+            var coord = new GridCoordinate(1,1);
+            _guessSvc.GetCordinates(guess).Returns(coord);
             var grid = GetEmptyGrid();
             grid[1][1] = BattleshipGridCell.Miss;
             var expected = new BattleshipGameState
@@ -189,7 +192,8 @@ namespace Battleship.Services.UnitTests
             };
             prev.Grid[2][1] = BattleshipGridCell.Ship;
             var guess = "C2";
-            _guessSvc.GetCordinates(guess).Returns((2, 1));
+            var coord = new GridCoordinate(2,1);
+            _guessSvc.GetCordinates(guess).Returns(coord);
             var expected = new BattleshipGameState
             {
                 Grid = GetEmptyGrid()
@@ -204,6 +208,7 @@ namespace Battleship.Services.UnitTests
         }
 
         //  ------------------- Helper methods -------------------- //
+        // TODO use game state builder
         private List<List<BattleshipGridCell>> GetEmptyGrid()
         {
             return EmptyGridBuilder.GetEmptyGrid(gridSize);

@@ -34,7 +34,7 @@ namespace Battleships.Services
 
         public void Play()
         {
-            Show();
+            Show(_gameState);
 
             while (!IsFinished())
             {

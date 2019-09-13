@@ -43,8 +43,7 @@ namespace Battleships.Services
             foreach(var shipLength in _configuration.Ships.OrderByDescending(s => s))
             {
                 var isVertical = _random.IsNextVertical();
-                // todo add constructor to battleship
-                var ship = new BattleShip { Length = shipLength, IsVertical = isVertical };
+                var ship = new BattleShip(shipLength, isVertical);
                 var firstCell = GetShipStart(grid, ship);
 
                 PlaceShipOnGrid(grid, ship, firstCell);
@@ -53,7 +52,7 @@ namespace Battleships.Services
             return grid;
         }
 
-        public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, BattleShip ship)
+        public GridCoordinate GetShipStart(List<List<BattleshipGridCell>> grid, BattleShip ship)
         {
             var nextShipStart = GetRandomGridCell();
 
@@ -65,17 +64,17 @@ namespace Battleships.Services
             return nextShipStart;
         }
 
-        private (int x, int y) GetRandomGridCell()
+        private GridCoordinate GetRandomGridCell()
         {
             return _random.NextCell();
         }
 
-        private void PlaceShipOnGrid(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
+        private void PlaceShipOnGrid(List<List<BattleshipGridCell>> grid, BattleShip ship, GridCoordinate firstCell)
         {
             for (int i = 0; i < ship.Length; ++i)
             {
-                var nextX = ship.IsVertical ? firstCell.x + i : firstCell.x;
-                var nextY = ship.IsVertical ? firstCell.y : firstCell.y + i;
+                var nextX = ship.IsVertical ? firstCell.line + i : firstCell.line;
+                var nextY = ship.IsVertical ? firstCell.line : firstCell.column + i;
 
                 grid[nextX][nextY] = BattleshipGridCell.Ship;
             }
@@ -91,35 +90,34 @@ namespace Battleships.Services
 
         public BattleshipGameState Build(BattleshipGameState prevState, string guess)
         {
-            // todo rename g
-            var g = _guessReader.GetCordinates(guess);
+            var guessCell = _guessReader.GetCordinates(guess);
 
+            // state shallow copy
+            // that it might be a problem with multiple threads but its easier to implement and has less overhead
             var newState = new BattleshipGameState
             {
-                // todo write that it might be a problem with parallel computing and you know it
-                Grid = prevState.Grid // shallow copy
+                Grid = prevState.Grid
             };
-            newState.Grid[g.line][g.column] = NewCellState(newState.Grid[g.line][g.column]);
+            newState.Grid[guessCell.line][guessCell.column] = NewCellState(newState.Grid[guessCell.line][guessCell.column]);
 
             return newState;
         }
 
-// todo it might be not builder responsability
-// todo pls don't die        
-        public BattleshipGridCell NewCellState(BattleshipGridCell prevDieState)
+        private static Dictionary<BattleshipGridCell, BattleshipGridCell> _nextStateMappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
         {
-            if (_cellStatesAfterHit.Contains(prevDieState))
+            { BattleshipGridCell.Empty, BattleshipGridCell.Miss },
+            { BattleshipGridCell.Ship, BattleshipGridCell.Hit },
+        };
+        
+// todo it might be not builder responsability
+        public BattleshipGridCell NewCellState(BattleshipGridCell prevCellState)
+        {
+            if (_cellStatesAfterHit.Contains(prevCellState))
             {
                 throw new CellRepetitionException();
             }
-            // todo mapping can be static
-            var mappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
-            {
-                { BattleshipGridCell.Empty, BattleshipGridCell.Miss },
-                { BattleshipGridCell.Ship, BattleshipGridCell.Hit },
-            };
 
-            return mappings[prevDieState];
+            return _nextStateMappings[prevCellState];
         }
     }
 }

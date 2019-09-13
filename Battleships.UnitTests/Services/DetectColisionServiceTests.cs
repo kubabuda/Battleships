@@ -20,10 +20,10 @@ namespace Battleship.Services.UnitTests
             var grid = EmptyGridBuilder.GetEmptyGrid(gridSize);
             grid[1][2] = BattleshipGridCell.Ship;    // place ship on grid
             grid[2][2] = BattleshipGridCell.Ship;
-            var ship = new BattleShip() { Length = 2, IsVertical = isVertical };
+            var ship = new BattleShip(2, isVertical);
 
             // act
-            var result = _servceUnderTest.IsNextShipColliding(grid, ship, (x: x, y: y));
+            var result = _servceUnderTest.IsNextShipColliding(grid, ship, new GridCoordinate(x, y));
 
             // assert
             Assert.AreEqual(expected, result);
@@ -46,10 +46,10 @@ namespace Battleship.Services.UnitTests
         public void IsGuessColliding_ReturnsTrue_WhenShipWouldExtendOverBorder(int x, int y, int length, bool isVertical, bool expected)
         {
             var grid = EmptyGridBuilder.GetEmptyGrid(gridSize);
-            var ship = new BattleShip() { Length = length, IsVertical = isVertical };
+            var ship = new BattleShip(length, isVertical);
 
             // act
-            var result = _servceUnderTest.IsNextShipColliding(grid, ship, (x: x, y: y));
+            var result = _servceUnderTest.IsNextShipColliding(grid, ship, new GridCoordinate(x, y));
 
             // assert
             Assert.AreEqual(expected, result);

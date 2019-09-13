@@ -1,5 +1,6 @@
 using Battleships.Configurations;
 using Battleships.Interfaces;
+using Battleships.Models;
 using System;
 
 namespace Battleships.Services
@@ -20,9 +21,9 @@ namespace Battleships.Services
             return _random.Next() % 2 == 0;
         }
 
-        public (int x, int y) NextCell()
+        public GridCoordinate NextCell()
         {
-            return (x: NextCellIndex(), y: NextCellIndex());
+            return new GridCoordinate(NextCellIndex(), NextCellIndex());
         }
 
         private int NextCellIndex()

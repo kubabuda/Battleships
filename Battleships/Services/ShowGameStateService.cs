@@ -8,25 +8,35 @@ namespace Battleships.Services
 {
     public class ShowGameStateService : IShowGameState
     {
-        private readonly IConvertCharService _charSvc; // todo svc or service
+        private readonly IConvertCharService _charService; // todo Service or service
         private readonly IConfiguration _configuration;
         private readonly IConsole _console;
+        Dictionary<BattleshipGridCell, char> _mappings;
 
-        public ShowGameStateService(IConvertCharService charSvc,
+        public ShowGameStateService(IConvertCharService charService,
             IConsole console,
             IConfiguration configuration)
         {
-            _charSvc = charSvc;
+            _charService = charService;
             _console = console;
             _configuration = configuration;
+            // cannot be static, configuration is injectable
+            _mappings = new Dictionary<BattleshipGridCell, char>
+            {
+                { BattleshipGridCell.Empty, _configuration.Empty },
+                { BattleshipGridCell.Ship, _configuration.Empty },
+                { BattleshipGridCell.Miss, _configuration.Miss },
+                { BattleshipGridCell.Hit, _configuration.Hit }
+            };
         }
 
+        
 
         private string _invalidInputWarning
         {
             get
             {
-                char maxLetter = _charSvc.GetLetter(_configuration.GridSize - 1);
+                char maxLetter = _charService.GetLetter(_configuration.GridSize - 1);
                 int maxNumber = _configuration.GridSize;
 
                 return $"Invalid cell, A-{maxLetter} and 1-{maxNumber} are allowed";
@@ -40,7 +50,7 @@ namespace Battleships.Services
 
         public void DisplayRetryWarning()
         {
-            _console.WriteLine("You already had shoot there, try something else"); // todo english motherfucker, do you speak it?
+            _console.WriteLine("You already have shoot there, try something else");
         }
 
         public void Show(BattleshipGameState state)
@@ -50,24 +60,15 @@ namespace Battleships.Services
             foreach (var line in state.Grid)
             {
                 var lineToDisplay = string.Join(' ', line.Select(l => GetCellValueToDisplay(l)));
-                _console.WriteLine($"{_charSvc.GetLetter(i++)} {lineToDisplay} |");
+                _console.WriteLine($"{_charService.GetLetter(i++)} {lineToDisplay} |");
             }
             _console.WriteLine($"  {string.Join(' ', Enumerable.Range(0, _configuration.GridSize).Select(_ => "-")) } ");
         }
 
-// todo i think it can't be extracted to separated class
+        // todo i think it can't be extracted to separated class
         private char GetCellValueToDisplay(BattleshipGridCell die)
         {
-            // todo can be static
-            var mappings = new Dictionary<BattleshipGridCell, char>
-            {
-                { BattleshipGridCell.Empty, _configuration.Empty },
-                { BattleshipGridCell.Ship, _configuration.Empty },
-                { BattleshipGridCell.Miss, _configuration.Miss },
-                { BattleshipGridCell.Hit, _configuration.Hit }
-            };
-
-            return mappings[die];
+            return _mappings[die];
         }
 
     }

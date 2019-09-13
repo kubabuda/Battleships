@@ -46,10 +46,9 @@ namespace Battleship.Services.IntegrationTests
             var result = _stateBuilder.Build();
 
             // assert
-            // todo extract private method CountShipsOnBoard(Grid, CellType)
-            int shipsOnBoard = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.Ship).Count());
+            int shipsOnBoard = CountShips(result, BattleshipGridCell.Ship);
             Assert.AreEqual(expectedShips, shipsOnBoard);
-            int emptyCells = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.Empty).Count());
+            int emptyCells =  CountShips(result, BattleshipGridCell.Empty);
             Assert.AreEqual(expectedEmptyCells, emptyCells);
         }
 
@@ -78,6 +77,11 @@ namespace Battleship.Services.IntegrationTests
             // act
             // assert
             Assert.Throws<InvalidInputException>(() => _stateBuilder.Build(state, invalidGuess));
+        }
+
+        private int CountShips(BattleshipGameState result, BattleshipGridCell cellState)
+        {
+            return result.Grid.Sum(line => line.Where(c => c == cellState).Count());
         }
     }
 }
