@@ -5,7 +5,6 @@ using Battleships.Interfaces;
 using Battleships.Models;
 using NSubstitute;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -52,9 +51,6 @@ namespace Battleship.Services.IntegrationTests
             int emptyCells = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.Empty).Count());
             Assert.AreEqual(expectedEmptyCells, emptyCells);
         }
-
-        public class CellRepetitionException: Exception { }
-        public class InvalidInputException: Exception { }
 
         [Test]
         public void Build_ShouldThrowCellRepetitionException_WhenUserSelecstUsedCell()

@@ -60,11 +60,11 @@ namespace Battleships.Services
             
                 Show(_gameState);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (InvalidInputException)
             {
                 _gameShowService.DisplayInputWarning();
             }
-            catch (InvalidOperationException)
+            catch (CellRepetitionException)
             {
                 _gameShowService.DisplayRetryWarning();
             }

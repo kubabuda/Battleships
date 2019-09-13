@@ -97,23 +97,46 @@ namespace Battleships.Services
 
         public BattleshipGameState Build(BattleshipGameState prevState, string guess)
         {
-            var lineNo = _charSvc.GetLine(guess);
-            var colNo = _charSvc.GetColumn(guess);
+            var g = GetCordinates(guess);
 
             var newState = new BattleshipGameState
             {
                 Grid = prevState.Grid   // shallow copy
             };
-            newState.Grid[lineNo][colNo] = NewCellState(newState.Grid[lineNo][colNo]);
+            newState.Grid[g.line][g.column] = NewCellState(newState.Grid[g.line][g.column]);
 
             return newState;
+        }
+
+        public (int line, int column) GetCordinates(string guess) 
+        {
+            try 
+            {
+                var line = _charSvc.GetLine(guess);
+                var column = _charSvc.GetColumn(guess);
+                
+                if (line >= _configuration.GridSize)
+                {
+                    throw new InvalidInputException();
+                }
+                if (column >= _configuration.GridSize)
+                {
+                    throw new InvalidInputException();
+                }
+
+                return (line: line, column: column);
+            }
+            catch(Exception)
+            {
+                throw new InvalidInputException();
+            }
         }
 
         public BattleshipGridCell NewCellState(BattleshipGridCell prevDieState)
         {
             if (_cellStatesAfterHit.Contains(prevDieState))
             {
-                throw new InvalidOperationException();
+                throw new CellRepetitionException();
             }
             var mappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
             {
