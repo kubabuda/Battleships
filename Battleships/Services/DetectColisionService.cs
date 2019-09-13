@@ -8,7 +8,7 @@ namespace Battleships.Services
 {
     public class DetectColisionService: IDetectColisionService
     {
-        public bool IsGuessColliding(
+        public bool IsNextShipColliding(
             List<List<BattleshipGridCell>> grid, 
             BattleShip ship, 
             (int x, int y) firstCell)
@@ -29,10 +29,10 @@ namespace Battleships.Services
             BattleShip ship, 
             (int x, int y) firstCell)
         {
-            for (int i = 0; i < ship.length; ++i)
+            for (int i = 0; i < ship.Length; ++i)
             {
-                var nextX = ship.isVertical ? firstCell.x + i : firstCell.x;
-                var nextY = ship.isVertical ? firstCell.y : firstCell.y + i;
+                var nextX = ship.IsVertical ? firstCell.x + i : firstCell.x;
+                var nextY = ship.IsVertical ? firstCell.y : firstCell.y + i;
 
                 if(grid[nextX][nextY] != BattleshipGridCell.Empty)
                 {
@@ -50,16 +50,16 @@ namespace Battleships.Services
         {
             var gridSize = grid.Count();
 
-            if(ship.isVertical)
+            if(ship.IsVertical)
             {
-                if (position.x + ship.length > gridSize)
+                if (position.x + ship.Length > gridSize)
                 {
                     return true;
                 }
             } 
             else
             {
-                if (position.y + ship.length > gridSize)
+                if (position.y + ship.Length > gridSize)
                 {
                     return true;
                 }

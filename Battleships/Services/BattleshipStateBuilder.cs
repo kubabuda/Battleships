@@ -21,7 +21,7 @@ namespace Battleships.Services
             IDetectColisionService detectCollisionService,
             IRandom randomSvc)
         {
-            _cellStatesAfterHit = new[] { BattleshipGridCell.Miss, BattleshipGridCell.ShipHit };
+            _cellStatesAfterHit = new[] { BattleshipGridCell.Miss, BattleshipGridCell.Hit };
             _guessReader = guessReadSvc;
             _configuration = config;
             _detectCollisionService = detectCollisionService;
@@ -54,19 +54,19 @@ namespace Battleships.Services
 
         private static BattleShip BuildShip(int shipLength, bool isVertical)
         {
-            return new BattleShip { length = shipLength, isVertical = isVertical };
+            return new BattleShip { Length = shipLength, IsVertical = isVertical };
         }
 
         public (int x, int y) GetShipStart(List<List<BattleshipGridCell>> grid, BattleShip ship)
         {
-            var guess = GetRandomGridCell();
+            var nextShipStart = GetRandomGridCell();
 
-            while (_detectCollisionService.IsGuessColliding(grid, ship, guess))
+            while (_detectCollisionService.IsNextShipColliding(grid, ship, nextShipStart))
             {
-                guess = GetRandomGridCell();
+                nextShipStart = GetRandomGridCell();
             }
 
-            return guess;
+            return nextShipStart;
         }
 
         private (int x, int y) GetRandomGridCell()
@@ -77,12 +77,12 @@ namespace Battleships.Services
         private void PlaceShipOnGrid(List<List<BattleshipGridCell>> grid, BattleShip ship, (int x, int y) firstCell)
         {
 
-            for (int i = 0; i < ship.length; ++i)
+            for (int i = 0; i < ship.Length; ++i)
             {
-                var nextX = ship.isVertical ? firstCell.x + i : firstCell.x;
-                var nextY = ship.isVertical ? firstCell.y : firstCell.y + i;
+                var nextX = ship.IsVertical ? firstCell.x + i : firstCell.x;
+                var nextY = ship.IsVertical ? firstCell.y : firstCell.y + i;
 
-                grid[nextX][nextY] = BattleshipGridCell.ShipUntouched;
+                grid[nextX][nextY] = BattleshipGridCell.Ship;
             }
         }
 
@@ -117,7 +117,7 @@ namespace Battleships.Services
             var mappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
             {
                 { BattleshipGridCell.Empty, BattleshipGridCell.Miss },
-                { BattleshipGridCell.ShipUntouched, BattleshipGridCell.ShipHit },
+                { BattleshipGridCell.Ship, BattleshipGridCell.Hit },
             };
 
             return mappings[prevDieState];

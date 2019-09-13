@@ -102,7 +102,7 @@ namespace Battleship.Services.IntegrationTests
         {
             // arrange
             var prevState = _stateBuilder.Build();
-            prevState.Grid[1][4] = BattleshipGridCell.ShipUntouched;
+            prevState.Grid[1][4] = BattleshipGridCell.Ship;
             _game = GameFromPrevState(prevState);
             var expected =
             "  1 2 3 4 5 6 7 8 9 10\r\n" +
@@ -132,7 +132,7 @@ namespace Battleship.Services.IntegrationTests
         {
             // arrange
             var prevState = _stateBuilder.Build();
-            prevState.Grid[1][4] = BattleshipGridCell.ShipUntouched;
+            prevState.Grid[1][4] = BattleshipGridCell.Ship;
             var expected = "Invalid cell, A-J and 1-10 are allowed\r\n";
 
             // act
@@ -143,7 +143,7 @@ namespace Battleship.Services.IntegrationTests
         }
 
         [TestCase(BattleshipGridCell.Miss)]
-        [TestCase(BattleshipGridCell.ShipHit)]
+        [TestCase(BattleshipGridCell.Hit)]
         public void Play_ShouldShowWarning_OnTouchingSameFieldAgain(BattleshipGridCell cellState)
         {
             // arrange
@@ -161,8 +161,8 @@ namespace Battleship.Services.IntegrationTests
 
         [TestCase(BattleshipGridCell.Empty, true)]
         [TestCase(BattleshipGridCell.Miss, true)]
-        [TestCase(BattleshipGridCell.ShipHit, true)]
-        [TestCase(BattleshipGridCell.ShipUntouched, false)]
+        [TestCase(BattleshipGridCell.Hit, true)]
+        [TestCase(BattleshipGridCell.Ship, false)]
         public void IsFinished_ShouldReturnTrueIfShipsLeft_GivenGameState(BattleshipGridCell cellState, bool expected)
         {
             // arrange

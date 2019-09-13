@@ -46,7 +46,7 @@ namespace Battleship.Services.IntegrationTests
             var result = _stateBuilder.Build();
 
             // assert
-            int shipsOnBoard = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.ShipUntouched).Count());
+            int shipsOnBoard = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.Ship).Count());
             Assert.AreEqual(expectedShips, shipsOnBoard);
             int emptyCells = result.Grid.Sum(line => line.Where(c => c == BattleshipGridCell.Empty).Count());
             Assert.AreEqual(expectedEmptyCells, emptyCells);

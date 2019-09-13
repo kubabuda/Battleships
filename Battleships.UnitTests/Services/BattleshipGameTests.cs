@@ -27,33 +27,33 @@ namespace Battleship.Services.UnitTests
             { 
                 Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
             };
-            initialState.Grid[0][0] = BattleshipGridCell.ShipUntouched;
-            initialState.Grid[0][1] = BattleshipGridCell.ShipUntouched;
-            initialState.Grid[0][2] = BattleshipGridCell.ShipUntouched;
+            initialState.Grid[0][0] = BattleshipGridCell.Ship;
+            initialState.Grid[0][1] = BattleshipGridCell.Ship;
+            initialState.Grid[0][2] = BattleshipGridCell.Ship;
 
             state1 = new BattleshipGameState() 
             { 
                 Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
             };
-            state1.Grid[0][0] = BattleshipGridCell.ShipHit;
-            state1.Grid[0][1] = BattleshipGridCell.ShipUntouched;
-            state1.Grid[0][2] = BattleshipGridCell.ShipUntouched;
+            state1.Grid[0][0] = BattleshipGridCell.Hit;
+            state1.Grid[0][1] = BattleshipGridCell.Ship;
+            state1.Grid[0][2] = BattleshipGridCell.Ship;
 
             state2 = new BattleshipGameState() 
             { 
                 Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
             };
-            state2.Grid[0][0] = BattleshipGridCell.ShipHit;
-            state2.Grid[0][1] = BattleshipGridCell.ShipHit;
-            state2.Grid[0][2] = BattleshipGridCell.ShipUntouched;
+            state2.Grid[0][0] = BattleshipGridCell.Hit;
+            state2.Grid[0][1] = BattleshipGridCell.Hit;
+            state2.Grid[0][2] = BattleshipGridCell.Ship;
 
             state3 = new BattleshipGameState() 
             { 
                 Grid = EmptyGridBuilder.GetEmptyGrid(gridSize) 
             };
-            state3.Grid[0][0] = BattleshipGridCell.ShipHit;
-            state3.Grid[0][1] = BattleshipGridCell.ShipHit;
-            state3.Grid[0][2] = BattleshipGridCell.ShipHit;
+            state3.Grid[0][0] = BattleshipGridCell.Hit;
+            state3.Grid[0][1] = BattleshipGridCell.Hit;
+            state3.Grid[0][2] = BattleshipGridCell.Hit;
 
             _console = Substitute.For<IConsole>();
             _stateBuilder = Substitute.For<IBattleshipStateBuilder>();

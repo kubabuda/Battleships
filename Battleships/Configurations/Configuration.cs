@@ -12,7 +12,7 @@ namespace Battleships.Configurations
 
         public Configuration()
         {
-            Ships = new [] { 4, 3, 3};
+            Ships = new [] { 4, 3, 3 };
         }
     }
 

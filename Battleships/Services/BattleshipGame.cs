@@ -79,7 +79,7 @@ namespace Battleships.Services
         {
             return !gameState.Grid.Any(
                 line => line.Any(
-                    cell => cell == BattleshipGridCell.ShipUntouched));
+                    cell => cell == BattleshipGridCell.Ship));
         }
     }
 }

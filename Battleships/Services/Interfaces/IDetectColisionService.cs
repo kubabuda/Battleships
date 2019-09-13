@@ -5,8 +5,8 @@ namespace Battleships.Interfaces
 {
     public interface IDetectColisionService
     {
-        bool IsGuessColliding(List<List<BattleshipGridCell>> grid, 
-            BattleShip ship, 
-            (int x, int y) firstCell);
+        bool IsNextShipColliding(List<List<BattleshipGridCell>> grid, 
+            BattleShip nextShip, 
+            (int x, int y) nextShipStartCell);
     }
 }

@@ -11,5 +11,4 @@ namespace Battleships.Configurations
 
         IEnumerable<int> Ships { get; }
     }
-
 }

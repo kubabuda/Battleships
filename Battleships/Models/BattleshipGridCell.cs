@@ -1,4 +1,4 @@
 namespace Battleships.Models
 {
-    public enum BattleshipGridCell { Empty, ShipUntouched, Miss, ShipHit };
+    public enum BattleshipGridCell { Empty, Ship, Miss, Hit };
 }
