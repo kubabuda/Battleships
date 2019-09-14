@@ -2,6 +2,7 @@
 
 Console single side game of Battleships
 
+![](doc/Screenshot.png)
 
 ## Running
 
