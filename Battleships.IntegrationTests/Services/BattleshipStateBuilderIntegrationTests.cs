@@ -12,21 +12,21 @@ namespace Battleship.Services.IntegrationTests
 {
     public class BattleshipStateBuilderIntegrationTests
     {
-        private Configuration _config;
+        private BattleshipsConfiguration _config;
         private IBattleshipStateBuilder _stateBuilder;
 
         [SetUp]
         public void SetUp()
         {
             // setup mocked components
-            _config = new Configuration();
+            _config = BattleshipsConfiguration.Default;
             _config.Ships = new List<int>();
             var console = Substitute.For<IConsole>();
             // use DI setup for rest
-            var builder = Bootstrapper.GetContainerBuilder();
+            var builder = Bootstrapper.GetContainerBuilder(_config);
             // register mocks
             builder.RegisterInstance<IConsole>(console);
-            builder.RegisterInstance<IConfiguration>(_config);
+            builder.RegisterInstance<IBattleshipsConfiguration>(_config);
 
             var container = builder.Build();
             // get tested class instance

@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Battleships.Configurations;
 using Battleships.Interfaces;
 
 namespace Battleships
@@ -11,7 +12,10 @@ namespace Battleships
         static void Main(string[] args)
         {
             System.Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
-            Container = Bootstrapper.GetContainer();
+
+            var configuration = BattleshipsConfigurationBuilder.FromAppSettings("appsettings.json");
+
+            Container = Bootstrapper.GetContainer(configuration);
 
             using (var scope = Container.BeginLifetimeScope())
             {

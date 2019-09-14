@@ -12,7 +12,7 @@ namespace Battleship.Services.UnitTests
     public class BattleshipStateBuilderTests
     {
         private IReadUserGuess _guessService;
-        private IConfiguration _config;
+        private IBattleshipsConfiguration _config;
         private IDetectColisionService _detectCollisionService;
         private IRandom _randomService;
 
@@ -24,7 +24,7 @@ namespace Battleship.Services.UnitTests
         public void SetUp()
         {
             _guessService = Substitute.For<IReadUserGuess>();
-            _config = Substitute.For<IConfiguration>();
+            _config = Substitute.For<IBattleshipsConfiguration>();
             _randomService = Substitute.For<IRandom>();
             _config.GridSize.Returns(gridSize);
             _detectCollisionService = Substitute.For<IDetectColisionService>();

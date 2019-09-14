@@ -1,7 +1,6 @@
 using Battleships.Configurations;
 using Battleships.Interfaces;
 using Battleships.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleships.Services
@@ -9,13 +8,13 @@ namespace Battleships.Services
     public class ShowGameStateService : IShowGameState
     {
         private readonly IConvertCharService _charService;
-        private readonly IConfiguration _configuration;
+        private readonly IBattleshipsConfiguration _configuration;
         private readonly IConsole _console;
         private readonly ICellMapper _mapper;
         
         public ShowGameStateService(IConvertCharService charService,
             IConsole console,
-            IConfiguration configuration,
+            IBattleshipsConfiguration configuration,
             ICellMapper mapper)
         {
             _charService = charService;

@@ -1,5 +1,10 @@
 # Battleships
 
+Console single side game of Battleships
+
+
+## Running
+
 ### Prerequisites
  - .NET Core 2.2
  - optional Visual Studio Code or Visual Studio for development and debugging
@@ -11,9 +16,8 @@
 ```dotnet test`
 
 ### TODOs
-- configuration read from file
 - cheat mode (display grid cells with ships) for easier debugging
-- CI with testing [optional]
+- CI with testing
 
 
 ## Guidelines

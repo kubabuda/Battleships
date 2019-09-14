@@ -7,10 +7,10 @@ namespace Battleships.Services
 {
     public class ReadUserGuessService: IReadUserGuess
     {
-        private IConfiguration _configuration;
+        private IBattleshipsConfiguration _configuration;
         private IConvertCharService _charService;
 
-        public ReadUserGuessService(IConfiguration configuration,
+        public ReadUserGuessService(IBattleshipsConfiguration configuration,
             IConvertCharService charService
         )
         {   

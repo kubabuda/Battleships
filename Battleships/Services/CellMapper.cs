@@ -9,10 +9,10 @@ namespace Battleships.Services
     public class CellMapper: ICellMapper
     {
         private BattleshipGridCell[] _cellStatesAfterHit;
-        private IConfiguration _configuration;
+        private IBattleshipsConfiguration _configuration;
         Dictionary<BattleshipGridCell, char> _displayMappings;
 
-        public CellMapper(IConfiguration configuration)
+        public CellMapper(IBattleshipsConfiguration configuration)
         {
             _cellStatesAfterHit = new[] { BattleshipGridCell.Miss, BattleshipGridCell.Hit };
             _configuration = configuration;

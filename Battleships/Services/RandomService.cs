@@ -8,9 +8,9 @@ namespace Battleships.Services
     public class RandomService : IRandom
     {
         private Random _random;
-        private IConfiguration _configuration;
+        private IBattleshipsConfiguration _configuration;
 
-        public RandomService(IConfiguration configuration)
+        public RandomService(IBattleshipsConfiguration configuration)
         {
             _configuration = configuration;
             _random = new Random();

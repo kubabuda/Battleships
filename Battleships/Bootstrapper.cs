@@ -7,19 +7,19 @@ namespace Battleships
 {
     public static class Bootstrapper
     {
-        public static IContainer GetContainer()
+        public static IContainer GetContainer(IBattleshipsConfiguration configuration)
         {
-            ContainerBuilder builder = GetContainerBuilder();
+            ContainerBuilder builder = GetContainerBuilder(configuration);
 
             return builder.Build();
         }
 
-        public static ContainerBuilder GetContainerBuilder()
+        public static ContainerBuilder GetContainerBuilder(IBattleshipsConfiguration configuration)
         {
             var builder = new ContainerBuilder();
 
             // configurations
-            builder.RegisterType<Configuration>().As<IConfiguration>();
+            builder.RegisterInstance(configuration).As<IBattleshipsConfiguration>();
             // I/O wrappers
             builder.RegisterType<Battleships.Services.Console>().As<IConsole>();
             // services

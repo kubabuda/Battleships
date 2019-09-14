@@ -11,7 +11,7 @@ namespace Battleship.Services.IntegrationTests
     public class ReadUserGuessServiceIntegrationTests
     {
         private const int grid_size = 10;
-        private IConfiguration _config;
+        private IBattleshipsConfiguration _config;
 
         private IReadUserGuess _serviceUnderTest;
 
@@ -19,12 +19,12 @@ namespace Battleship.Services.IntegrationTests
         public void SetUp()
         {
             // setup mocked components
-            _config = Substitute.For<IConfiguration>();
+            _config = Substitute.For<IBattleshipsConfiguration>();
             _config.GridSize.Returns(grid_size);
             // use DI setup for rest
-            var builder = Bootstrapper.GetContainerBuilder();
+            var builder = Bootstrapper.GetContainerBuilder(_config);
             // register mocks
-            builder.RegisterInstance<IConfiguration>(_config);
+            builder.RegisterInstance<IBattleshipsConfiguration>(_config);
 
             var container = builder.Build();
             // get tested class instance

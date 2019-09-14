@@ -12,7 +12,7 @@ namespace Battleship.Services.IntegrationTests
 {
     public class BattleshipGameIntegrationTests
     {
-        IConfiguration _config;
+        IBattleshipsConfiguration _configuration;
         private IContainer _container;
 
         IBattleshipStateBuilder _stateBuilder;
@@ -24,23 +24,15 @@ namespace Battleship.Services.IntegrationTests
         public void SetUp()
         {
             // setup mocked components
-            var config = new Configuration();
-            config.Ships = new List<int>();
-            _config = config;
-            _consoleOut = "";
-            var console = Substitute.For<IConsole>();
-            console
-                .When(c => c.WriteLine(Arg.Any<string>()))
-                .Do(callinfo =>
-                {
-                    var line = callinfo.ArgAt<string>(0);
-                    _consoleOut = $"{_consoleOut}{line}\r\n";
-                });
+            var configuration = BattleshipsConfiguration.Default;
+            configuration.Ships = new List<int>();
+            _configuration = configuration;
+            IConsole console = SetupConsoleMock();
             // use DI setup for rest
-            var builder = Bootstrapper.GetContainerBuilder();
+            var builder = Bootstrapper.GetContainerBuilder(_configuration);
             // register mocks
             builder.RegisterInstance<IConsole>(console);
-            builder.RegisterInstance<IConfiguration>(_config);
+            builder.RegisterInstance<IBattleshipsConfiguration>(_configuration);
 
             _container = builder.Build();
             // get tested class instance
@@ -177,6 +169,20 @@ namespace Battleship.Services.IntegrationTests
 
             // assert
             Assert.AreEqual(expected, result);
+        }
+
+        private IConsole SetupConsoleMock()
+        {
+            _consoleOut = "";
+            var console = Substitute.For<IConsole>();
+            console
+                .When(c => c.WriteLine(Arg.Any<string>()))
+                .Do(callinfo =>
+                {
+                    var line = callinfo.ArgAt<string>(0);
+                    _consoleOut = $"{_consoleOut}{line}\r\n";
+                });
+            return console;
         }
 
         private BattleshipGame GameFromPrevState(BattleshipGameState prevState)

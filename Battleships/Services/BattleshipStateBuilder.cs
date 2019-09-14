@@ -8,14 +8,14 @@ namespace Battleships.Services
 {
     public class BattleshipStateBuilder: IBattleshipStateBuilder
     {
-        private IConfiguration _configuration;
+        private IBattleshipsConfiguration _configuration;
         private IReadUserGuess _guessReader;
         private IDetectColisionService _detectCollisionService;
         private ICellMapper _mapper;
         private IRandom _random;
         
         public BattleshipStateBuilder(IReadUserGuess guessReader,
-            IConfiguration configuration,
+            IBattleshipsConfiguration configuration,
             IDetectColisionService detectCollisionService,
             ICellMapper mapper,
             IRandom randomService)

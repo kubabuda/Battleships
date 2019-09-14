@@ -37,7 +37,7 @@ namespace Battleship.Services.UnitTests
                     var line = callinfo.ArgAt<string>(0);
                     _consoleOut = $"{_consoleOut}{line}\r\n";
                 });
-            var config = Substitute.For<IConfiguration>();
+            var config = Substitute.For<IBattleshipsConfiguration>();
             config.GridSize.Returns(gridSize);
             config.Empty.Returns(' ');
             config.Hit.Returns('*');

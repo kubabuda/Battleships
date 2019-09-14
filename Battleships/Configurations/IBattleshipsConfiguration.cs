@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Battleships.Configurations
 {
-    public interface IConfiguration
+    public interface IBattleshipsConfiguration
     {
         int GridSize { get; }
         char Empty { get; }
