@@ -20,6 +20,8 @@ namespace Battleships
 
             // configurations
             builder.RegisterType<Configuration>().As<IConfiguration>();
+            // I/O wrappers
+            builder.RegisterType<Battleships.Services.Console>().As<IConsole>();
             // services
             builder.RegisterType<BattleshipGame>().As<IBattleshipGame>();
             builder.RegisterType<BattleshipStateBuilder>().As<IBattleshipStateBuilder>();
@@ -28,8 +30,7 @@ namespace Battleships
             builder.RegisterType<DetectColisionService>().As<IDetectColisionService>();
             builder.RegisterType<ShowGameStateService>().As<IShowGameState>();
             builder.RegisterType<ReadUserGuessService>().As<IReadUserGuess>();
-            // I/O wrappers
-            builder.RegisterType<Battleships.Services.Console>().As<IConsole>();
+            builder.RegisterType<CellMapper>().As<ICellMapper>();
 
             return builder;
         }

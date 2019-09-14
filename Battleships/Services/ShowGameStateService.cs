@@ -11,23 +11,17 @@ namespace Battleships.Services
         private readonly IConvertCharService _charService;
         private readonly IConfiguration _configuration;
         private readonly IConsole _console;
-        Dictionary<BattleshipGridCell, char> _mappings;
-
+        private readonly ICellMapper _mapper;
+        
         public ShowGameStateService(IConvertCharService charService,
             IConsole console,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ICellMapper mapper)
         {
             _charService = charService;
             _console = console;
             _configuration = configuration;
-            // cannot be static, configuration is injectable
-            _mappings = new Dictionary<BattleshipGridCell, char>
-            {
-                { BattleshipGridCell.Empty, _configuration.Empty },
-                { BattleshipGridCell.Ship, _configuration.Empty },
-                { BattleshipGridCell.Miss, _configuration.Miss },
-                { BattleshipGridCell.Hit, _configuration.Hit }
-            };
+            _mapper = mapper;
         }
 
         private string _invalidInputWarning
@@ -57,16 +51,10 @@ namespace Battleships.Services
             int i = 0;
             foreach (var line in state.Grid)
             {
-                var lineToDisplay = string.Join(' ', line.Select(l => GetCellValueToDisplay(l)));
+                var lineToDisplay = string.Join(' ', line.Select(l => _mapper.GetCellValueToDisplay(l)));
                 _console.WriteLine($"{_charService.GetLetter(i++)} {lineToDisplay} |");
             }
             _console.WriteLine($"  {string.Join(' ', Enumerable.Range(0, _configuration.GridSize).Select(_ => "-")) } ");
-        }
-
-        // todo i think it can't be extracted to separated class
-        private char GetCellValueToDisplay(BattleshipGridCell die)
-        {
-            return _mappings[die];
         }
     }
 }

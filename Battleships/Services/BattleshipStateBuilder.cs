@@ -1,7 +1,6 @@
 using Battleships.Configurations;
 using Battleships.Interfaces;
 using Battleships.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,19 +11,19 @@ namespace Battleships.Services
         private IConfiguration _configuration;
         private IReadUserGuess _guessReader;
         private IDetectColisionService _detectCollisionService;
+        private ICellMapper _mapper;
         private IRandom _random;
         
-        private BattleshipGridCell[] _cellStatesAfterHit;
-        
         public BattleshipStateBuilder(IReadUserGuess guessReader,
-            IConfiguration config,
+            IConfiguration configuration,
             IDetectColisionService detectCollisionService,
+            ICellMapper mapper,
             IRandom randomService)
         {
-            _cellStatesAfterHit = new[] { BattleshipGridCell.Miss, BattleshipGridCell.Hit };
             _guessReader = guessReader;
-            _configuration = config;
+            _configuration = configuration;
             _detectCollisionService = detectCollisionService;
+            _mapper = mapper;
             _random = randomService;
         }
 
@@ -82,26 +81,10 @@ namespace Battleships.Services
             {
                 Grid = prevState.Grid
             };
-            newState.Grid[guessCell.Line][guessCell.Column] = NewCellState(newState.Grid[guessCell.Line][guessCell.Column]);
+            var newCellState = _mapper.NewCellState(newState.Grid[guessCell.Line][guessCell.Column]);
+            newState.Grid[guessCell.Line][guessCell.Column] = newCellState;
 
             return newState;
-        }
-
-        private static Dictionary<BattleshipGridCell, BattleshipGridCell> _nextStateMappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
-        {
-            { BattleshipGridCell.Empty, BattleshipGridCell.Miss },
-            { BattleshipGridCell.Ship, BattleshipGridCell.Hit },
-        };
-        
-        // todo it might be not builder responsability
-        public BattleshipGridCell NewCellState(BattleshipGridCell prevCellState)
-        {
-            if (_cellStatesAfterHit.Contains(prevCellState))
-            {
-                throw new CellRepetitionException();
-            }
-
-            return _nextStateMappings[prevCellState];
         }
     }
 }

@@ -28,11 +28,15 @@ namespace Battleship.Services.UnitTests
             _randomService = Substitute.For<IRandom>();
             _config.GridSize.Returns(gridSize);
             _detectCollisionService = Substitute.For<IDetectColisionService>();
+            var mapper = Substitute.For<ICellMapper>();
+            mapper.NewCellState(BattleshipGridCell.Empty).Returns(BattleshipGridCell.Miss);
+            mapper.NewCellState(BattleshipGridCell.Ship).Returns(BattleshipGridCell.Hit);
 
             _servceUnderTest = new BattleshipStateBuilder(
                 _guessService,
                  _config,
                  _detectCollisionService,
+                 mapper,
                  _randomService);
         }
 

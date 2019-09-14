@@ -1,6 +1,5 @@
 using Battleships.Interfaces;
 using Battleships.Models;
-using System;
 using System.Linq;
 
 namespace Battleships.Services

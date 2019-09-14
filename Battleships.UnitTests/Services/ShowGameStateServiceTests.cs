@@ -42,7 +42,12 @@ namespace Battleship.Services.UnitTests
             config.Empty.Returns(' ');
             config.Hit.Returns('*');
             config.Miss.Returns('x');
-            _serviceUnderTests = new ShowGameStateService(charService, console, config);
+            var mapper = Substitute.For<ICellMapper>();
+            mapper.GetCellValueToDisplay(BattleshipGridCell.Empty).Returns(' ');
+            mapper.GetCellValueToDisplay(BattleshipGridCell.Ship).Returns(' ');
+            mapper.GetCellValueToDisplay(BattleshipGridCell.Hit).Returns('*');
+            mapper.GetCellValueToDisplay(BattleshipGridCell.Miss).Returns('x');
+            _serviceUnderTests = new ShowGameStateService(charService, console, config, mapper);
         }
 
         [Test]
