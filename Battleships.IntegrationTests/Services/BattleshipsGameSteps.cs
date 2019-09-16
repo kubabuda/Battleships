@@ -6,7 +6,6 @@ using Battleships.Models;
 using Battleships.Services;
 using NSubstitute;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TechTalk.SpecFlow;
@@ -36,7 +35,12 @@ namespace Battleships.IntegrationTests.Services
                     var line = callinfo.ArgAt<string>(0);
                     _consoleOut = $"{_consoleOut}{line}\r\n";
                 });
-            ContainerBuilder builder = PrepareBuilder();
+            // use DI setup for rest
+            var builder = Bootstrapper.GetContainerBuilder(_configuration);
+            // register mocks
+            builder.RegisterInstance<IConsole>(_console);
+            builder.RegisterInstance<IBattleshipsConfiguration>(_configuration);
+
             _container = builder.Build();
             // get tested class instance
             _game = (BattleshipGame)_container.Resolve<IBattleshipGame>();
@@ -106,14 +110,14 @@ namespace Battleships.IntegrationTests.Services
             Assert.AreEqual(expected, _consoleOut);
         }
 
-        private ContainerBuilder PrepareBuilder()
+        [Then(@"Grid was displayed(.*) times")]
+        public void ThenGridWasDisplayed(int times)
         {
-            // use DI setup for rest
-            var builder = Bootstrapper.GetContainerBuilder(_configuration);
-            // register mocks
-            builder.RegisterInstance<IConsole>(_console);
-            builder.RegisterInstance<IBattleshipsConfiguration>(_configuration);
-            return builder;
+            var gridHeader = "  1 2 3 4 5 6 7 8 9 10\r\n" +
+            "A";
+            var gridHeadersInOutput = _consoleOut.Split(gridHeader).Count() - 1;
+
+            Assert.AreEqual(times, gridHeadersInOutput);
         }
     }
 }

@@ -10,6 +10,7 @@ Scenario: New game without ships on grid
 	When Game play starts
 	Then Game is finished
 	And Empty grid was displayed
+	And Grid was displayed 1 times
 
 
 Scenario: New game with ships on grid
@@ -30,3 +31,4 @@ Scenario: New game with ships on grid
 	| D4     |
 	When Game play starts
 	Then Game is finished
+	And Grid was displayed 6 times

@@ -88,6 +88,8 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("Game is finished", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
  testRunner.And("Empty grid was displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 13
+ testRunner.And("Grid was displayed 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -97,10 +99,10 @@ this.ScenarioInitialize(scenarioInfo);
         public virtual void NewGameWithShipsOnGrid()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("New game with ships on grid", null, ((string[])(null)));
-#line 15
+#line 16
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 16
+#line 17
  testRunner.Given("New Battleships game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -121,7 +123,7 @@ this.ScenarioInitialize(scenarioInfo);
             table1.AddRow(new string[] {
                         "4",
                         "4"});
-#line 17
+#line 18
  testRunner.And("Ships in folowing grid points", ((string)(null)), table1, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -136,12 +138,14 @@ this.ScenarioInitialize(scenarioInfo);
                         "C4"});
             table2.AddRow(new string[] {
                         "D4"});
-#line 24
+#line 25
  testRunner.And("I type grid coordinates", ((string)(null)), table2, "And ");
-#line 31
- testRunner.When("Game play starts", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 32
+ testRunner.When("Game play starts", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 33
  testRunner.Then("Game is finished", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 34
+ testRunner.And("Grid was displayed 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
