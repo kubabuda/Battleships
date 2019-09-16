@@ -40,31 +40,6 @@ namespace Battleship.Services.IntegrationTests
             _game = _container.Resolve<IBattleshipGame>() as BattleshipGame;
         }
 
-        [Test]
-        public void Show_ShouldShowEmptyGrid_OnFirstRound()
-        {
-            // arrange
-            _game = _container.Resolve<IBattleshipGame>() as BattleshipGame;
-            var expected =
-            "  1 2 3 4 5 6 7 8 9 10\r\n" +
-            "A                     |\r\n" +
-            "B                     |\r\n" +
-            "C                     |\r\n" +
-            "D                     |\r\n" +
-            "E                     |\r\n" +
-            "F                     |\r\n" +
-            "G                     |\r\n" +
-            "H                     |\r\n" +
-            "I                     |\r\n" +
-            "J                     |\r\n" +
-            "  - - - - - - - - - - \r\n";
-
-            // act
-            _game.Play();
-
-            // assert
-            Assert.AreEqual(expected, _consoleOut, "First empty screen");
-        }
 
         [Test]
         public void Play_ShouldShowGridWithSingleMiss_OnSingleShotMissed()
@@ -97,7 +72,7 @@ namespace Battleship.Services.IntegrationTests
             // arrange
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = BattleshipGridCell.Ship;
-            _game = GameFromPrevState(prevState);
+            _game = GameFromPrevState(_container, prevState);
             var expected =
             "  1 2 3 4 5 6 7 8 9 10\r\n" +
             "A                     |\r\n" +
@@ -143,7 +118,7 @@ namespace Battleship.Services.IntegrationTests
             // arrange
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = cellState;
-            _game = GameFromPrevState(prevState);
+            _game = GameFromPrevState(_container, prevState);
             var expected = "You already have shoot there, try something else\r\n";
 
             // act
@@ -162,7 +137,7 @@ namespace Battleship.Services.IntegrationTests
             // arrange
             var prevState = _stateBuilder.Build();
             prevState.Grid[1][4] = cellState;
-            _game = GameFromPrevState(prevState);
+            _game = GameFromPrevState(_container, prevState);
 
             // act
             var result = _game.IsFinished();
@@ -171,7 +146,7 @@ namespace Battleship.Services.IntegrationTests
             Assert.AreEqual(expected, result);
         }
 
-        private IConsole SetupConsoleMock()
+        public IConsole SetupConsoleMock()
         {
             _consoleOut = "";
             var console = Substitute.For<IConsole>();
@@ -185,12 +160,12 @@ namespace Battleship.Services.IntegrationTests
             return console;
         }
 
-        private BattleshipGame GameFromPrevState(BattleshipGameState prevState)
+        public BattleshipGame GameFromPrevState(IContainer container, BattleshipGameState prevState)
         {
             return new BattleshipGame(
-                _container.Resolve<IConsole>(),
-                _container.Resolve<IBattleshipStateBuilder>(),
-                _container.Resolve<IShowGameState>(),
+                container.Resolve<IConsole>(),
+                container.Resolve<IBattleshipStateBuilder>(),
+                container.Resolve<IShowGameState>(),
                 prevState);
         }
     }
