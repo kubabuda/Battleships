@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Battleships.Services
 {
-    public class CellMapper: ICellMapper
+    public class CellMapper : ICellMapper
     {
-        private BattleshipGridCell[] _cellStatesAfterHit;
-        private IBattleshipsConfiguration _configuration;
-        Dictionary<BattleshipGridCell, char> _displayMappings;
+        private readonly BattleshipGridCell[] _cellStatesAfterHit;
+        private readonly IBattleshipsConfiguration _configuration;
+        private readonly Dictionary<BattleshipGridCell, char> _displayMappings;
 
         public CellMapper(IBattleshipsConfiguration configuration)
         {
@@ -26,13 +26,13 @@ namespace Battleships.Services
                 { BattleshipGridCell.Hit, _configuration.Hit }
             };
         }
-        
-        private static Dictionary<BattleshipGridCell, BattleshipGridCell> _nextStateMappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
+
+        private static readonly Dictionary<BattleshipGridCell, BattleshipGridCell> _nextStateMappings = new Dictionary<BattleshipGridCell, BattleshipGridCell>
         {
             { BattleshipGridCell.Empty, BattleshipGridCell.Miss },
             { BattleshipGridCell.Ship, BattleshipGridCell.Hit },
         };
-        
+
         public BattleshipGridCell NewCellState(BattleshipGridCell prevCellState)
         {
             if (_cellStatesAfterHit.Contains(prevCellState))

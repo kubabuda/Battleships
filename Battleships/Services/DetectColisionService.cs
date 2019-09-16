@@ -16,7 +16,7 @@ namespace Battleships.Services
             try
             {
                 return IsGuessCollidingWithBorders(grid, ship, firstCell)
-                    | IsGuessCollidingWithShips(grid, ship, firstCell);
+                    || IsGuessCollidingWithShips(grid, ship, firstCell);
             }
             catch (ArgumentOutOfRangeException)
             {

@@ -13,7 +13,7 @@ namespace Battleships.Services
         public ReadUserGuessService(IBattleshipsConfiguration configuration,
             IConvertCharService charService
         )
-        {   
+        {
             _charService = charService;
             _configuration = configuration;
         }

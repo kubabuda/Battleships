@@ -3,11 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleships", "Battleships\Battleships.csproj", "{F6F8E23D-F9D0-49E0-A96F-D5A9CCA4229B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Battleships", "Battleships\Battleships.csproj", "{F6F8E23D-F9D0-49E0-A96F-D5A9CCA4229B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleships.IntegrationTests", "Battleships.IntegrationTests\Battleships.IntegrationTests.csproj", "{E947F60F-3181-4034-BDE6-E1B47BF4F556}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Battleships.IntegrationTests", "Battleships.IntegrationTests\Battleships.IntegrationTests.csproj", "{E947F60F-3181-4034-BDE6-E1B47BF4F556}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleships.UnitTests", "Battleships.UnitTests\Battleships.UnitTests.csproj", "{D5FD1D77-1898-4143-8E37-BFF776056B39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Battleships.UnitTests", "Battleships.UnitTests\Battleships.UnitTests.csproj", "{D5FD1D77-1898-4143-8E37-BFF776056B39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24DDCB78-632D-45BC-8BF6-8479290A21D4}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,9 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F6F8E23D-F9D0-49E0-A96F-D5A9CCA4229B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -58,5 +61,11 @@ Global
 		{D5FD1D77-1898-4143-8E37-BFF776056B39}.Release|x64.Build.0 = Release|Any CPU
 		{D5FD1D77-1898-4143-8E37-BFF776056B39}.Release|x86.ActiveCfg = Release|Any CPU
 		{D5FD1D77-1898-4143-8E37-BFF776056B39}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5045B216-3147-402F-9B14-8DB3736F289D}
 	EndGlobalSection
 EndGlobal

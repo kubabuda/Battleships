@@ -11,7 +11,7 @@ namespace Battleships.Services
         private readonly IBattleshipsConfiguration _configuration;
         private readonly IConsole _console;
         private readonly ICellMapper _mapper;
-        
+
         public ShowGameStateService(IConvertCharService charService,
             IConsole console,
             IBattleshipsConfiguration configuration,

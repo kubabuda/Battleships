@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace Battleships.Configurations
 {
@@ -8,12 +8,11 @@ namespace Battleships.Configurations
         public int GridSize { get; set; }
         public char Empty { get; set; }
         public char Miss { get; set; }
-        public char Hit  { get; set; }
+        public char Hit { get; set; }
         public IEnumerable<int> Ships { get; set; }
 
         private BattleshipsConfiguration(IEnumerable<int> ships)
         {
-
             Ships = ships;
         }
 
@@ -21,7 +20,7 @@ namespace Battleships.Configurations
         {
             get
             {
-                return new BattleshipsConfiguration(new [] { 4, 3, 3 })
+                return new BattleshipsConfiguration(new[] { 4, 3, 3 })
                 {
                     GridSize = 10,
                     Empty = ' ',
@@ -41,12 +40,12 @@ namespace Battleships.Configurations
                 .Build();
 
             var gameConfiguration = BattleshipsConfiguration.Default;
-            
-            if (configFile["GridSize"]!= null) { gameConfiguration.GridSize = int.Parse(configFile["GridSize"]); }
-            if (configFile["Empty"]!= null) { gameConfiguration.Empty = configFile["Empty"][0]; }
-            if (configFile["Miss"]!= null) { gameConfiguration.Miss = configFile["Miss"][0]; }
-            if (configFile["Hit"]!= null) { gameConfiguration.Hit = configFile["Hit"][0]; }
-            if (configFile["Ships"]!= null) { gameConfiguration.Ships = configFile.GetSection("Ships").Get<int[]>(); }
+
+            if (configFile["GridSize"] != null) { gameConfiguration.GridSize = int.Parse(configFile["GridSize"]); }
+            if (configFile["Empty"] != null) { gameConfiguration.Empty = configFile["Empty"][0]; }
+            if (configFile["Miss"] != null) { gameConfiguration.Miss = configFile["Miss"][0]; }
+            if (configFile["Hit"] != null) { gameConfiguration.Hit = configFile["Hit"][0]; }
+            if (configFile["Ships"] != null) { gameConfiguration.Ships = configFile.GetSection("Ships").Get<int[]>(); }
 
             return gameConfiguration;
         }

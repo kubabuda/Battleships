@@ -8,12 +8,12 @@ namespace Battleships.Services
 {
     public class BattleshipStateBuilder: IBattleshipStateBuilder
     {
-        private IBattleshipsConfiguration _configuration;
-        private IReadUserGuess _guessReader;
-        private IDetectColisionService _detectCollisionService;
-        private ICellMapper _mapper;
-        private IRandom _random;
-        
+        private readonly IBattleshipsConfiguration _configuration;
+        private readonly IReadUserGuess _guessReader;
+        private readonly IDetectColisionService _detectCollisionService;
+        private readonly ICellMapper _mapper;
+        private readonly IRandom _random;
+
         public BattleshipStateBuilder(IReadUserGuess guessReader,
             IBattleshipsConfiguration configuration,
             IDetectColisionService detectCollisionService,
@@ -30,7 +30,7 @@ namespace Battleships.Services
         public BattleshipGameState Build()
         {
             var result = BattleshipGameState.Empty(_configuration.GridSize);
-            
+
             foreach(var shipLength in _configuration.Ships.OrderByDescending(s => s))
             {
                 var isVertical = _random.IsNextVertical();

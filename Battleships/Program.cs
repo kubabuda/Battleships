@@ -11,7 +11,7 @@ namespace Battleships
 
         static void Main(string[] args)
         {
-            System.Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
+            System.Console.CancelKeyPress += Console_CancelKeyPress;
 
             var configuration = BattleshipsConfigurationBuilder.FromAppSettings("appsettings.json");
 
@@ -29,11 +29,11 @@ namespace Battleships
                     Console.WriteLine("You won. Congratulations!");
                     Console.WriteLine("Play again? (Y/N)");
                 }
-                while (Console.ReadLine().ToLower() == "y");
+                while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
 
                 Console.WriteLine("OK. Bye!");
             }
-            System.Console.CancelKeyPress -= new ConsoleCancelEventHandler(Console_CancelKeyPress);
+            System.Console.CancelKeyPress -= Console_CancelKeyPress;
         }
 
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
