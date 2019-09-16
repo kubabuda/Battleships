@@ -160,7 +160,7 @@ namespace Battleship.Services.IntegrationTests
             return console;
         }
 
-        public BattleshipGame GameFromPrevState(IContainer container, BattleshipGameState prevState)
+        public static BattleshipGame GameFromPrevState(IContainer container, BattleshipGameState prevState)
         {
             return new BattleshipGame(
                 container.Resolve<IConsole>(),
