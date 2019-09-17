@@ -323,6 +323,46 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Checking if game is unfinised")]
+        [NUnit.Framework.TestCaseAttribute("Hit", null)]
+        [NUnit.Framework.TestCaseAttribute("Miss", null)]
+        [NUnit.Framework.TestCaseAttribute("Empty", null)]
+        public virtual void CheckingIfGameIsUnfinised(string unfinishedCellState, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Checking if game is unfinised", null, exampleTags);
+#line 119
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 120
+ testRunner.Given("New Battleships game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 121
+ testRunner.And(string.Format("\'{0}\' in 1, 1", unfinishedCellState), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 122
+ testRunner.Then("Game is finished", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Checking if game is finised")]
+        [NUnit.Framework.TestCaseAttribute("Ship", null)]
+        public virtual void CheckingIfGameIsFinised(string finishedCellState, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Checking if game is finised", null, exampleTags);
+#line 131
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 132
+ testRunner.Given("New Battleships game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 133
+ testRunner.And(string.Format("\'{0}\' in 1, 1", finishedCellState), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 134
+ testRunner.Then("Game is not finished", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

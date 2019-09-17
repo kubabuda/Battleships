@@ -114,3 +114,25 @@ Scenario: Shooting at invalid coordinates
 	| A2    |
 	When Game play starts
 	Then Game displayed invalid input warning 3 times
+
+
+Scenario Outline: Checking if game is unfinised
+	Given New Battleships game 
+	And '<UnfinishedCellState>' in 1, 1
+	Then Game is finished
+
+	Examples: 
+		| UnfinishedCellState |
+		| Hit				  |
+		| Miss				  |
+		| Empty				  |
+
+
+Scenario Outline: Checking if game is finised
+	Given New Battleships game 
+	And '<FinishedCellState>' in 1, 1
+	Then Game is not finished
+
+	Examples: 
+		| FinishedCellState |
+		| Ship				|

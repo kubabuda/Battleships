@@ -1,11 +1,11 @@
 ﻿using Autofac;
-using Battleship.Services.IntegrationTests;
 using Battleships.Configurations;
 using Battleships.Interfaces;
 using Battleships.Models;
 using Battleships.Services;
 using NSubstitute;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TechTalk.SpecFlow;
@@ -67,9 +67,21 @@ namespace Battleships.IntegrationTests.Services
                 state.Grid[line][column] = BattleshipGridCell.Ship;
             }
             // get tested class instance
-            _game = BattleshipGameIntegrationTests.GameFromPrevState(_container, state);
+            _game = GameFromPrevState(_container, state);
         }
 
+        [Given(@"'(.*)' in (.*), (.*)")]
+        public void GivenCellStateIn(string cellState, int line, int column)
+        {
+            // prepare state for test case
+            var state = BattleshipGameState.Empty(_configuration.GridSize);
+
+            state.Grid[line][column] = GetState(cellState);
+
+            // get tested class instance
+            _game = GameFromPrevState(_container, state);
+        }
+        
         [When(@"Game play starts")]
         public void WhenGamePlaysSingleRound()
         {
@@ -172,6 +184,29 @@ namespace Battleships.IntegrationTests.Services
 
             Assert.AreEqual(expected, timesInOutput);
         }
+
+        public static BattleshipGame GameFromPrevState(IContainer container, BattleshipGameState prevState)
+        {
+            return new BattleshipGame(
+                container.Resolve<IConsole>(),
+                container.Resolve<IBattleshipStateBuilder>(),
+                container.Resolve<IShowGameState>(),
+                prevState);
+        }
+
+        private static Dictionary<string, BattleshipGridCell> _stateMappings = new Dictionary<string, BattleshipGridCell>
+        {
+            { "HIT", BattleshipGridCell.Hit },
+            { "MISS", BattleshipGridCell.Miss },
+            { "SHIP", BattleshipGridCell.Ship },
+            { "EMPTY", BattleshipGridCell.Empty }
+        };
+
+        private BattleshipGridCell GetState(string state)
+        {
+            return _stateMappings[state.ToUpper()];
+        }
+
 
         private int CountInConsoleOut(string gridHeader)
         {
