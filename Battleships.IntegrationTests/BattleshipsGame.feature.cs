@@ -87,22 +87,20 @@ this.ScenarioInitialize(scenarioInfo);
 #line 11
  testRunner.Then("Game is finished", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
- testRunner.And("Empty grid was displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 13
- testRunner.And("Grid was displayed 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Empty grid was displayed 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("New game with ships on grid")]
-        public virtual void NewGameWithShipsOnGrid()
+        [NUnit.Framework.DescriptionAttribute("Playing single round and missing")]
+        public virtual void PlayingSingleRoundAndMissing()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("New game with ships on grid", null, ((string[])(null)));
-#line 16
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Playing single round and missing", null, ((string[])(null)));
+#line 15
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 17
+#line 16
  testRunner.Given("New Battleships game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -111,41 +109,217 @@ this.ScenarioInitialize(scenarioInfo);
             table1.AddRow(new string[] {
                         "1",
                         "1"});
-            table1.AddRow(new string[] {
-                        "1",
-                        "2"});
-            table1.AddRow(new string[] {
-                        "1",
-                        "3"});
-            table1.AddRow(new string[] {
-                        "3",
-                        "4"});
-            table1.AddRow(new string[] {
-                        "4",
-                        "4"});
-#line 18
+#line 17
  testRunner.And("Ships in folowing grid points", ((string)(null)), table1, "And ");
+#line 20
+ testRunner.And("I play round with \'A4\' guess", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 21
+ testRunner.Then("Grid was displayed 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 22
+ testRunner.And("Miss mark was displayed 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 23
+ testRunner.And("Console was displaying", @"  1 2 3 4 5 6 7 8 9 10
+A       x             |
+B                     |
+C                     |
+D                     |
+E                     |
+F                     |
+G                     |
+H                     |
+I                     |
+J                     |
+  - - - - - - - - - - ", ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 38
+ testRunner.And("Game is not finished", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Playing single round and hiting")]
+        public virtual void PlayingSingleRoundAndHiting()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Playing single round and hiting", null, ((string[])(null)));
+#line 41
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 42
+ testRunner.Given("New Battleships game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "line",
+                        "column"});
+            table2.AddRow(new string[] {
+                        "1",
+                        "4"});
+#line 43
+ testRunner.And("Ships in folowing grid points", ((string)(null)), table2, "And ");
+#line 46
+ testRunner.And("I play round with \'A4\' guess", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 47
+ testRunner.Then("Grid was displayed 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 48
+ testRunner.And("Hit mark was displayed 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 49
+ testRunner.And("Console was displaying", @"  1 2 3 4 5 6 7 8 9 10
+A       *             |
+B                     |
+C                     |
+D                     |
+E                     |
+F                     |
+G                     |
+H                     |
+I                     |
+J                     |
+  - - - - - - - - - - ", ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 64
+ testRunner.And("Game is finished", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Playing entire game with ships on grid")]
+        public virtual void PlayingEntireGameWithShipsOnGrid()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Playing entire game with ships on grid", null, ((string[])(null)));
+#line 66
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 67
+ testRunner.Given("New Battleships game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "line",
+                        "column"});
+            table3.AddRow(new string[] {
+                        "1",
+                        "1"});
+            table3.AddRow(new string[] {
+                        "1",
+                        "2"});
+            table3.AddRow(new string[] {
+                        "1",
+                        "3"});
+            table3.AddRow(new string[] {
+                        "3",
+                        "4"});
+            table3.AddRow(new string[] {
+                        "4",
+                        "4"});
+#line 68
+ testRunner.And("Ships in folowing grid points", ((string)(null)), table3, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "value"});
-            table2.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "A1"});
-            table2.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "A2"});
-            table2.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "A3"});
-            table2.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "C4"});
-            table2.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "D4"});
-#line 25
- testRunner.And("I type grid coordinates", ((string)(null)), table2, "And ");
-#line 32
+#line 75
+ testRunner.And("I type grid coordinates", ((string)(null)), table4, "And ");
+#line 82
  testRunner.When("Game play starts", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 33
+#line 83
  testRunner.Then("Game is finished", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 34
+#line 84
  testRunner.And("Grid was displayed 6 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Shooting at same spot twice")]
+        public virtual void ShootingAtSameSpotTwice()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Shooting at same spot twice", null, ((string[])(null)));
+#line 87
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 88
+ testRunner.Given("New Battleships game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "line",
+                        "column"});
+            table5.AddRow(new string[] {
+                        "1",
+                        "1"});
+            table5.AddRow(new string[] {
+                        "1",
+                        "2"});
+#line 89
+ testRunner.And("Ships in folowing grid points", ((string)(null)), table5, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "value"});
+            table6.AddRow(new string[] {
+                        "A1"});
+            table6.AddRow(new string[] {
+                        "A1"});
+            table6.AddRow(new string[] {
+                        "A2"});
+#line 93
+ testRunner.And("I type grid coordinates", ((string)(null)), table6, "And ");
+#line 98
+ testRunner.When("Game play starts", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 99
+ testRunner.Then("Game displayed shot twice warning 1 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Shooting at invalid coordinates")]
+        public virtual void ShootingAtInvalidCoordinates()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Shooting at invalid coordinates", null, ((string[])(null)));
+#line 102
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 103
+ testRunner.Given("New Battleships game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "line",
+                        "column"});
+            table7.AddRow(new string[] {
+                        "1",
+                        "1"});
+            table7.AddRow(new string[] {
+                        "1",
+                        "2"});
+#line 104
+ testRunner.And("Ships in folowing grid points", ((string)(null)), table7, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "value"});
+            table8.AddRow(new string[] {
+                        "A11"});
+            table8.AddRow(new string[] {
+                        "K1"});
+            table8.AddRow(new string[] {
+                        "K11"});
+            table8.AddRow(new string[] {
+                        "A1"});
+            table8.AddRow(new string[] {
+                        "A2"});
+#line 108
+ testRunner.And("I type grid coordinates", ((string)(null)), table8, "And ");
+#line 115
+ testRunner.When("Game play starts", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 116
+ testRunner.Then("Game displayed invalid input warning 3 times", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

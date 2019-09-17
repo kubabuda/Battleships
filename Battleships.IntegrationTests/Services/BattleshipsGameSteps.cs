@@ -76,6 +76,12 @@ namespace Battleships.IntegrationTests.Services
             _game.Play();
         }
 
+        [Given(@"I play round with '(.*)' guess")]
+        public void GivenIPlayRoundWith(string guess)
+        {
+            _game.PlayRound(guess);
+        }
+
         [Given(@"I type grid coordinates")]
         public void GivenITypeGridCoordinates(Table table)
         {
@@ -90,10 +96,16 @@ namespace Battleships.IntegrationTests.Services
             Assert.IsTrue(_game.IsFinished());
         }
 
-        [Then(@"Empty grid was displayed")]
-        public void ThenEmptyGridIsDisplayed()
+        [Then(@"Game is not finished")]
+        public void ThenGameIsNotFinished()
         {
-            var expected =
+            Assert.IsFalse(_game.IsFinished());
+        }
+
+        [Then(@"Empty grid was displayed(.*) times")]
+        public void ThenEmptyGridIsDisplayed(int expected)
+        {
+            var empty =
             "  1 2 3 4 5 6 7 8 9 10\r\n" +
             "A                     |\r\n" +
             "B                     |\r\n" +
@@ -107,7 +119,7 @@ namespace Battleships.IntegrationTests.Services
             "J                     |\r\n" +
             "  - - - - - - - - - - \r\n";
 
-            Assert.AreEqual(expected, _consoleOut);
+            Assert.AreEqual(expected, CountInConsoleOut(empty));
         }
 
         [Then(@"Grid was displayed(.*) times")]
@@ -115,9 +127,55 @@ namespace Battleships.IntegrationTests.Services
         {
             var gridHeader = "  1 2 3 4 5 6 7 8 9 10\r\n" +
             "A";
-            var gridHeadersInOutput = _consoleOut.Split(gridHeader).Count() - 1;
+            var gridHeadersInOutput = CountInConsoleOut(gridHeader);
 
             Assert.AreEqual(times, gridHeadersInOutput);
+        }
+
+        [Then(@"Console was displaying")]
+        public void ThenConsoleWasDisplaying(string multilineText)
+        {
+            Assert.True(_consoleOut.Contains(multilineText.TrimEnd()));
+        }
+
+        [Then(@"Game displayed shot twice warning (.*) times")]
+        public void ThenShotTwiceWarningWasDisplayed(int expected)
+        {
+            var warning = "You already have shoot there, try something else\r\n";
+            var timesInOutput = CountInConsoleOut(warning);
+
+            Assert.AreEqual(expected, timesInOutput);
+        }
+
+        [Then(@"Game displayed invalid input warning (.*) times")]
+        public void ThenInvalidInputWasDisplayed(int expected)
+        {
+            var warning = "Invalid cell, A-J and 1-10 are allowed\r\n";
+            var timesInOutput = CountInConsoleOut(warning);
+
+            Assert.AreEqual(expected, timesInOutput);
+        }
+
+        [Then(@"Miss mark was displayed (.*) times")]
+        public void ThenMissMarkWasDisplayed(int expected)
+        {;
+            var timesInOutput = CountInConsoleOut($"{_configuration.Miss}");
+
+            Assert.AreEqual(expected, timesInOutput);
+        }
+
+        [Then(@"Hit mark was displayed (.*) times")]
+        public void ThenHitMarkWasDisplayed(int expected)
+        {
+            ;
+            var timesInOutput = CountInConsoleOut($"{_configuration.Hit}");
+
+            Assert.AreEqual(expected, timesInOutput);
+        }
+
+        private int CountInConsoleOut(string gridHeader)
+        {
+            return _consoleOut.Split(gridHeader).Count() - 1;
         }
     }
 }
