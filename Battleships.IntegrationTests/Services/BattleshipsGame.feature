@@ -84,7 +84,7 @@ Scenario: Playing entire game with ships on grid
 	And Grid was displayed 6 times
 
 
-Scenario: Shooting at same spot twice
+Scenario: Using the same guess twice
 	Given New Battleships game 
 	And Ships in folowing grid points
 	| line | column |

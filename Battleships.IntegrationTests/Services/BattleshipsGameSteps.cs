@@ -5,7 +5,6 @@ using Battleships.Models;
 using Battleships.Services;
 using NSubstitute;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TechTalk.SpecFlow;
@@ -202,11 +201,10 @@ namespace Battleships.IntegrationTests.Services
             { "EMPTY", BattleshipGridCell.Empty }
         };
 
-        private BattleshipGridCell GetState(string state)
+        public static BattleshipGridCell GetState(string state)
         {
             return _stateMappings[state.ToUpper()];
         }
-
 
         private int CountInConsoleOut(string gridHeader)
         {

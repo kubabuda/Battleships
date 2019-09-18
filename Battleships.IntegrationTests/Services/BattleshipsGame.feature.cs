@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Battleships.IntegrationTests
+namespace Battleships.IntegrationTests.Services
 {
     using TechTalk.SpecFlow;
     
@@ -239,10 +239,10 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Shooting at same spot twice")]
-        public virtual void ShootingAtSameSpotTwice()
+        [NUnit.Framework.DescriptionAttribute("Using the same guess twice")]
+        public virtual void UsingTheSameGuessTwice()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Shooting at same spot twice", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Using the same guess twice", null, ((string[])(null)));
 #line 87
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
